@@ -11,6 +11,11 @@ const routes = [
         redirect: '/login'
     },
     {
+        path: '/index',
+        name: 'index',
+        component: () => import('../views/Index.vue')
+    },
+    {
         path: '/login',
         name: 'login',
         component: () => import('../views/login/Login.vue')
@@ -25,7 +30,8 @@ const routes = [
         name: 'teacher',
         component: () => import('../views/teacher/Teacher.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            role: 'teacher'
         },
         children: [
             {
@@ -39,7 +45,8 @@ const routes = [
         name: 'student',
         component: () => import('../views/student/Student.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            role: 'student'
         }
     }
 ]
@@ -50,7 +57,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('token')) {
+        // token具备 并且 要进入的页面的权限角色跟当前用户的角色一致
+        if (localStorage.getItem('token') && to.matched.some(record => record.meta.role) != this.$store.state.role) {
             alert(localStorage.getItem('token'))
             next();
         }

@@ -25,6 +25,8 @@
 </template>
 
 <script>
+    import * as loginAPI from '@/api/login/api-login.js'
+
     export default {
         data() {
             return {
@@ -39,13 +41,35 @@
             }
         },
         methods: {
+            // 登录
             loginClick() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         // 表单校验正确，准备登录
-                        
+                        loginAPI.login(this.loginForm.userName, this.loginForm.password)
+                            .then(({data : body}) => {
+                                if (body.code == 1) {
+                                    this.$message("登陆成功，正在跳转");
+                                    // setTimeout(() => {
+                                    //     this.$router.push({name: 'index'})
+                                    // }, 1000);
+                                    // 保存token
+                                    localStorage.setItem("token", body.token);                  
+                                    this.routeToUserNav(body.userName);
+                                }
+                                else if (body.code == 0) {
+                                    this.$message("密码错误");
+                                }
+                                else if (body.code == -1) {
+                                    this.$message("用户不存在");
+                                } 
+                            })
                     }
                 })
+            },
+            // 按角色跳转到不同页面
+            routeToUserNav(userName) {
+                
             }
         }
     }

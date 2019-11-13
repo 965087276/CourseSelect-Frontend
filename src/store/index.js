@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    uid: '',
+    userCode: '',
+    userName: '',
+    identity: ''
   },
   mutations: {
   },
