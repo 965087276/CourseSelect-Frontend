@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import global from '../Common.vue'
+import store from '@/store/index'
 // import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
@@ -58,8 +59,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // token具备 并且 要进入的页面的权限角色跟当前用户的角色一致
-        if (localStorage.getItem('token') && to.matched.some(record => record.meta.role) != this.$store.state.role) {
-            alert(localStorage.getItem('token'))
+        if (localStorage.getItem('token') && to.matched.some(record => record.meta.role  == store.state.identity)) {
             next();
         }
         else {

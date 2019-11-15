@@ -8,15 +8,15 @@
             :model="loginForm" 
             label-width="80px"
         >
-            <el-form-item label="账号" prop="userName">
-                <el-input v-model="loginForm.userName"></el-input>
+            <el-form-item label="账号" prop="userCode">
+                <el-input v-model="loginForm.userCode"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input type="password" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="loginClick">登录</el-button>
-                <el-button type="success" @click="registerClick">注册</el-button>
+                <el-button type="success" @click="$router.push('/register')">注册</el-button>
                 <el-button type="success" @click="forgetPasswordClick">忘记密码</el-button>
             </el-form-item>
         </el-form>
@@ -31,45 +31,53 @@
         data() {
             return {
                 loginForm: {
-                    userName: '',
+                    userCode: '',
                     password: ''
                 },
                 rules: {
-                    userName: [{ required: true, message: '用户名不能为空'}],
+                    userCode: [{ required: true, message: '账号不能为空'}],
                     password: [{ required: true, message: '密码不能为空'}]
                 }
             }
         },
         methods: {
+            forgetPasswordClick() {},
             // 登录
             loginClick() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         // 表单校验正确，准备登录
-                        loginAPI.login(this.loginForm.userName, this.loginForm.password)
+                        loginAPI.login(this.loginForm.userCode, this.loginForm.password)
                             .then(({data : body}) => {
-                                if (body.code == 1) {
-                                    this.$message("登陆成功，正在跳转");
-                                    // setTimeout(() => {
-                                    //     this.$router.push({name: 'index'})
-                                    // }, 1000);
-                                    // 保存token
-                                    localStorage.setItem("token", body.token);                  
-                                    this.routeToUserNav(body.userName);
-                                }
-                                else if (body.code == 0) {
-                                    this.$message("密码错误");
-                                }
-                                else if (body.code == -1) {
-                                    this.$message("用户不存在");
-                                } 
+                                // alert('登陆成功，准备跳转')
+                                this.$message("登陆成功，正在跳转");
+                                // 保存token
+                                localStorage.setItem("token", body.token);
+                                this.$store.commit("updateToken", body.token);         
+                                setTimeout(() => {
+                                    this.routeToUserNav(this.loginForm.userCode);
+                                }, 1000);
                             })
                     }
                 })
             },
             // 按角色跳转到不同页面
-            routeToUserNav(userName) {
-                
+            routeToUserNav(userCode) {
+                loginAPI.getUserInfo(userCode)
+                    .then(({data: {body}}) => {
+                        this.$store.commit("setData", body);
+                        switch (this.$store.state.identity) {
+                            case "student":
+                                this.$router.push({ name: 'student'})
+                                break;
+                            case "teacher":
+                                this.$router.push({ name: 'teacher'})
+                                break;
+                            case "admin":
+                                this.$router.push({ name: 'admin'})
+                                break;
+                        }
+                    })
             }
         }
     }
