@@ -8,6 +8,7 @@ import axios from 'axios'
 // 饿了么UI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/style.css'
 
 Vue.config.productionTip = false
 // 将引入的全局设置文件绑定到Vue的COMMON属性上

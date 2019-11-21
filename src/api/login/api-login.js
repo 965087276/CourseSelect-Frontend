@@ -3,9 +3,9 @@ import request from '../axios-config.js'
 // 登录
 export const login = (userCode, password) => {
     return request({
-        method: 'get',
+        method: 'post',
         url   : '/login',
-        params: {
+        data: {
             userCode,
             password
         }

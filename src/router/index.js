@@ -48,7 +48,33 @@ const routes = [
         meta: {
             requiresAuth: true,
             role: 'student'
-        }
+        },
+        children: [
+            {
+                path: '/student/course-list',
+                component: () => import('../views/student/CourseList.vue')
+            },
+            {
+                path: '/student/preselect/my',
+                component: () => import('../views/student/MyPreSelect.vue')
+            },
+            {
+                path: '/student/course-select/select',
+                component: () => import('../views/student/CourseSelect.vue')
+            },
+            {
+                path: '/student/course-select/my',
+                component: () => import('../views/student/MyCourse.vue')
+            },
+            {
+                path: '/student/course-select/stats',
+                component: () => import('../views/student/CourseStats.vue')
+            },
+            {
+                path: '/student/grades',
+                component: () => import('../views/student/CourseGrade.vue')
+            }
+        ]
     }
 ]
 
