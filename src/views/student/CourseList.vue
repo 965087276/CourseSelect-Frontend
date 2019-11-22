@@ -1,6 +1,9 @@
 <template>
     <el-container>
-        <el-header>
+        <!-- <el-header>
+            
+        </el-header> -->
+        <el-main>
             <el-form :inline="true" :model="formInline" label-width="auto" class="demo-form-inline">
                 <el-form-item label="开课学院">
                     <el-select v-model="formInline.college" filterable placeholder="请选择">
@@ -8,7 +11,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="上课时间">
-                    <el-select v-model="formInline.college" filterable placeholder="请选择">
+                    <el-select v-model="formInline.courseTime" filterable placeholder="请选择">
                         <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
@@ -28,11 +31,92 @@
                     <el-button type="primary" icon="el-icon-download"  @click="exportData">导出</el-button>
                 </el-form-item>
             </el-form>
-        </el-header>
-        <el-main>
-            Main
+            <el-table
+                :data="courseList"
+                border
+                stripe
+                style="width: 100%">
+                <el-table-column
+                    prop="colleges"
+                    label="开课学院">
+                </el-table-column>
+                <el-table-column
+                    prop="courseCode"
+                    label="课程编码">
+                </el-table-column>
+                <el-table-column
+                    prop="courseName"
+                    label="课程名称">
+                </el-table-column>
+                <el-table-column
+                    prop="courseType"
+                    label="课程属性">
+                </el-table-column>
+                <el-table-column
+                    prop="colleges"
+                    label="开课学院">
+                </el-table-column>
+                <el-table-column
+                    prop="subject"
+                    label="所属学科/专业">
+                </el-table-column>
+                <el-table-column
+                    prop="colleges"
+                    label="开课学院">
+                </el-table-column>
+                <el-table-column
+                    prop="credit"
+                    label="课时/学分">
+                </el-table-column>
+                <el-table-column
+                    prop="limitNum"
+                    label="限选">
+                </el-table-column>
+                <el-table-column
+                    prop="studentNum"
+                    label="已选">
+                </el-table-column>
+                <el-table-column
+                    prop="weekPeriod"
+                    label="开课周">
+                </el-table-column>
+                <el-table-column
+                    prop="sectionPeriod"
+                    label="节次">
+                </el-table-column>
+                <el-table-column
+                    prop="classroom"
+                    label="教室">
+                </el-table-column>
+                <el-table-column
+                    prop="teachingType"
+                    label="授课方式">
+                </el-table-column>
+                <el-table-column
+                    prop="examType"
+                    label="考核方式">
+                </el-table-column>
+                <el-table-column
+                    prop="courseTeacher"
+                    label="主讲教师">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                        size="small"
+                        @click="addPreCourse(scope.$index, scope.row)">编辑</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination>
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer>
+            
+        </el-footer>
     </el-container>
 </template>
 
@@ -76,7 +160,11 @@
                     courseCode: '',
                     courseName: '',
                     college: '',
-                }
+                    courseTime: ''
+                },
+                courseList: [
+
+                ]
             }
         },
         methods: {
@@ -85,11 +173,20 @@
             },
             exportData() {
 
-            }
+            },
+            addPreCourse(index, row) {
+
+            },
         }
     }
 </script>
 
-<style scoped>
-    
+<style lang="scss" scoped>
+    .el-main {
+        margin-left: 0px
+    }
+    .el-pagination {
+        width: 100%;
+        margin: 0 auto
+    }
 </style>
