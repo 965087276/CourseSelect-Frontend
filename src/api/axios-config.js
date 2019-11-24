@@ -39,12 +39,13 @@ instance.interceptors.response.use(
         //成功的时候
         else {
             console.log('走通接口,且成功的时候', `${response.config.method}`, `${response.request.responseURL}\n`, response);
-            return response
+            // console.log('response:{}', response)
+            return response.data.body
         }
     },
     //直接报错的时候
     error => {
-        alert('服务器连接失败')
+        // alert('服务器连接失败')
         //https://www.jianshu.com/p/349b7ab263f8
         // console.log('Interceptor response:', response)
         console.log('直接报错的时候', error.response);

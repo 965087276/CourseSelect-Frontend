@@ -48,15 +48,24 @@
                     if (valid) {
                         // 表单校验正确，准备登录
                         loginAPI.login(this.loginForm.username, this.loginForm.password)
-                            .then(({data : body}) => {
-                                // alert('登陆成功，准备跳转')
-                                this.$message("登陆成功，正在跳转");
-                                // 保存token
-                                localStorage.setItem("token", body.token);
-                                this.$store.commit("updateToken", body.token);         
-                                setTimeout(() => {
-                                    this.routeToUserNav(this.loginForm.username);
-                                }, 1000);
+                            .then(body => {
+                                switch (body.code) {
+                                    case 1:
+                                        // alert('登陆成功，准备跳转')
+                                        this.$message("登陆成功，正在跳转");
+                                        // 保存token
+                                        localStorage.setItem("token", body.token);
+                                        this.$store.commit("updateToken", body.token);
+                                        setTimeout(() => {
+                                            this.routeToUserNav(this.loginForm.username);
+                                        }, 1000);
+                                        break;
+                                    case 0:
+                                        this.$message("用户名不存在或密码错误");
+                                        break;
+                                    default:
+                                        alert('未知错误')
+                                }
                             })
                     }
                 })
@@ -64,7 +73,7 @@
             // 按角色跳转到不同页面
             routeToUserNav(username) {
                 loginAPI.getUserInfo(username)
-                    .then(({data: {body}}) => {
+                    .then(body => {
                         this.$store.commit("setData", body);
                         switch (this.$store.state.role) {
                             case "student":
