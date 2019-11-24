@@ -50,7 +50,7 @@
                         loginAPI.login(this.loginForm.username, this.loginForm.password)
                             .then(body => {
                                 switch (body.code) {
-                                    case 1:
+                                    case 200:
                                         // alert('登陆成功，准备跳转')
                                         this.$message("登陆成功，正在跳转");
                                         // 保存token
@@ -60,11 +60,8 @@
                                             this.routeToUserNav(this.loginForm.username);
                                         }, 1000);
                                         break;
-                                    case 0:
-                                        this.$message("用户名不存在或密码错误");
-                                        break;
                                     default:
-                                        alert('未知错误')
+                                        this.$message(body.message)
                                 }
                             })
                     }
