@@ -10,11 +10,11 @@ export default new Vuex.Store({
         realName: '',
         role: '',
         college: '',
-        token: ''
+        authToken: ''
     },
     mutations: {
-        updateToken(state, token) {
-            state.token = token;
+        updateToken(state, authToken) {
+            state.authToken = authToken;
         },
         setData(state, obj) {
             for (let key in obj) {

@@ -54,8 +54,8 @@
                                         // alert('登陆成功，准备跳转')
                                         this.$message("登陆成功，正在跳转");
                                         // 保存token
-                                        localStorage.setItem("token", body.token);
-                                        this.$store.commit("updateToken", body.token);
+                                        localStorage.setItem("authToken", body.authToken);
+                                        this.$store.commit("updateToken", body.authToken);
                                         setTimeout(() => {
                                             this.routeToUserNav(this.loginForm.username);
                                         }, 1000);
@@ -69,6 +69,7 @@
             },
             // 按角色跳转到不同页面
             routeToUserNav(username) {
+                alert('haha')
                 loginAPI.getUserInfo(username)
                     .then(body => {
                         this.$store.commit("setData", body);
