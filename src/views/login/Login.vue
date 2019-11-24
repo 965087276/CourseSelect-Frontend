@@ -8,8 +8,8 @@
             :model="loginForm" 
             label-width="80px"
         >
-            <el-form-item label="账号" prop="userName">
-                <el-input v-model="loginForm.userName"></el-input>
+            <el-form-item label="账号" prop="username">
+                <el-input v-model="loginForm.username"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input type="password" v-model="loginForm.password"></el-input>
@@ -31,11 +31,11 @@
         data() {
             return {
                 loginForm: {
-                    userName: '',
+                    username: '',
                     password: ''
                 },
                 rules: {
-                    userName: [{ required: true, message: '账号不能为空'}],
+                    username: [{ required: true, message: '账号不能为空'}],
                     password: [{ required: true, message: '密码不能为空'}]
                 }
             }
@@ -47,7 +47,7 @@
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         // 表单校验正确，准备登录
-                        loginAPI.login(this.loginForm.userName, this.loginForm.password)
+                        loginAPI.login(this.loginForm.username, this.loginForm.password)
                             .then(({data : body}) => {
                                 // alert('登陆成功，准备跳转')
                                 this.$message("登陆成功，正在跳转");
@@ -55,15 +55,15 @@
                                 localStorage.setItem("token", body.token);
                                 this.$store.commit("updateToken", body.token);         
                                 setTimeout(() => {
-                                    this.routeToUserNav(this.loginForm.userName);
+                                    this.routeToUserNav(this.loginForm.username);
                                 }, 1000);
                             })
                     }
                 })
             },
             // 按角色跳转到不同页面
-            routeToUserNav(userName) {
-                loginAPI.getUserInfo(userName)
+            routeToUserNav(username) {
+                loginAPI.getUserInfo(username)
                     .then(({data: {body}}) => {
                         this.$store.commit("setData", body);
                         switch (this.$store.state.role) {

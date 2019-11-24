@@ -10,8 +10,8 @@
             :label-position="'left'"
             ref="registerForm"
         >
-            <el-form-item label="账号" prop="userName">
-                <el-input v-model="registerForm.userName"></el-input>
+            <el-form-item label="账号" prop="username">
+                <el-input v-model="registerForm.username"></el-input>
             </el-form-item>
 
             <el-form-item label="姓名" prop="realName">
@@ -93,7 +93,7 @@ export default {
 
         return {
             registerForm: {
-                userName: '',
+                username: '',
                 realName: '',
                 password: '',
                 password2: '',
@@ -104,7 +104,7 @@ export default {
                 role: ''
             },
             rules: {
-                userName: [{ required: true, message: "请输入账号", trigger: "blur" }],
+                username: [{ required: true, message: "请输入账号", trigger: "blur" }],
                 realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
                 email: [
                     { required: true, message: "请输入邮箱", trigger: "blur" },
@@ -135,7 +135,7 @@ export default {
             this.$refs.registerForm.validate(valid => {
                 if (valid) {
                     let body = {
-                        userName: this.userName,
+                        username: this.username,
                         realName: this.realName,
                         password: this.password,
                         email:  this.email,
