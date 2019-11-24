@@ -40,8 +40,8 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="邮箱" prop="mailbox">
-                <el-input v-model="registerForm.mailbox"></el-input>
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="registerForm.email"></el-input>
             </el-form-item>
             
             <el-form-item label="联系方式" prop="phoneNumber">
@@ -49,7 +49,7 @@
             </el-form-item>
 
             <el-form-item label="身份">
-                <el-radio-group v-model="registerForm.type" size="medium">
+                <el-radio-group v-model="registerForm.role" size="medium">
                     <el-radio border label="学生"></el-radio>
                     <el-radio border label="老师"></el-radio>
                 </el-radio-group>
@@ -97,16 +97,16 @@ export default {
                 realName: '',
                 password: '',
                 password2: '',
-                mailbox: '',
+                email: '',
                 college: '',
                 major: '',
                 phoneNumber: '',
-                type: ''
+                role: ''
             },
             rules: {
                 userName: [{ required: true, message: "请输入账号", trigger: "blur" }],
                 realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-                mailbox: [
+                email: [
                     { required: true, message: "请输入邮箱", trigger: "blur" },
                     { type: 'email',  message: "请输入正确的邮箱地址", trigger: "blur"}
                 ],
@@ -138,11 +138,11 @@ export default {
                         userName: this.userName,
                         realName: this.realName,
                         password: this.password,
-                        mailbox:  this.mailbox,
+                        email:  this.email,
                         college:  this.college,
                         major:    this.major,
                         phoneNumber: this.phoneNumber,
-                        type: this.type
+                        role: this.role
                     };
                     loginAPI.register(body)
                             .then(({data : body}) => {
