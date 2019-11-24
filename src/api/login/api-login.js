@@ -1,12 +1,12 @@
 import request from '../axios-config.js'
 
 // 登录
-export const login = (userCode, password) => {
+export const login = (userName, password) => {
     return request({
         method: 'post',
         url   : '/login',
         data: {
-            userCode,
+            userName,
             password
         }
     })
@@ -22,9 +22,9 @@ export const register = (bodyData) => {
 }
 
 // 获取用户信息
-export const getUserInfo = (userCode) => {
+export const getUserInfo = (userName) => {
     return request({
         method: 'get',
-        url: `/users/${userCode}`
+        url: `/users/${userName}`
     })
 }

@@ -1,10 +1,10 @@
 <template>
   <div id="userInfo">
-    <div class="name">{{$store.state.userName}}</div>
-    <div class="identity">
-      <span>{{$store.state.identity | identity}}</span>
+    <div class="name">{{$store.state.realName}}</div>
+    <div class="role">
+      <span>{{$store.state.role | role}}</span>
     </div>
-    <div class="account">学号/工号：{{$store.state.userCode}}</div>
+    <div class="account">学号/工号：{{$store.state.userName}}</div>
     <div class="account" v-if="$store.state.college != ''">学院：{{$store.state.college}}</div>
     <!-- <div class="account semester" v-if="$store.state.semester != ''">学期：{{$store.state.semester | semester}}</div> -->
   </div>
@@ -40,7 +40,7 @@ export default {
     // border: 5px solid white;
     box-shadow: 0 5px 20px rgba(0,0,0,0.8);
   }
-  .identity {
+  .role {
     text-align: center;
     position: relative;
     top: -80px;

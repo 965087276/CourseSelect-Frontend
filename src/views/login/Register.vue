@@ -10,12 +10,12 @@
             :label-position="'left'"
             ref="registerForm"
         >
-            <el-form-item label="账号" prop="userCode">
-                <el-input v-model="registerForm.userCode"></el-input>
+            <el-form-item label="账号" prop="userName">
+                <el-input v-model="registerForm.userName"></el-input>
             </el-form-item>
 
-            <el-form-item label="姓名" prop="userName">
-                <el-input v-model="registerForm.userName" auto-complete="off"></el-input>
+            <el-form-item label="姓名" prop="realName">
+                <el-input v-model="registerForm.realName" auto-complete="off"></el-input>
             </el-form-item>
 
             <el-form-item label="密码" prop="password">
@@ -93,8 +93,8 @@ export default {
 
         return {
             registerForm: {
-                userCode: '',
                 userName: '',
+                realName: '',
                 password: '',
                 password2: '',
                 mailbox: '',
@@ -104,8 +104,8 @@ export default {
                 type: ''
             },
             rules: {
-                userCode: [{ required: true, message: "请输入账号", trigger: "blur" }],
-                userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+                userName: [{ required: true, message: "请输入账号", trigger: "blur" }],
+                realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
                 mailbox: [
                     { required: true, message: "请输入邮箱", trigger: "blur" },
                     { type: 'email',  message: "请输入正确的邮箱地址", trigger: "blur"}
@@ -135,8 +135,8 @@ export default {
             this.$refs.registerForm.validate(valid => {
                 if (valid) {
                     let body = {
-                        userCode: this.userCode,
                         userName: this.userName,
+                        realName: this.realName,
                         password: this.password,
                         mailbox:  this.mailbox,
                         college:  this.college,
