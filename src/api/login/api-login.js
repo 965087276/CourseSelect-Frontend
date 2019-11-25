@@ -23,7 +23,6 @@ export const register = (bodyData) => {
 
 // 获取用户信息
 export const getUserInfo = (username) => {
-    alert(username)
     return request({
         method: 'get',
         url: `/users/${username}`

@@ -69,7 +69,6 @@
             },
             // 按角色跳转到不同页面
             routeToUserNav(username) {
-                alert('haha')
                 loginAPI.getUserInfo(username)
                     .then(body => {
                         this.$store.commit("setData", body);
