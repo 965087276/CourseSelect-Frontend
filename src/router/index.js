@@ -105,7 +105,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // token具备 并且 要进入的页面的权限角色跟当前用户的角色一致
-        if (localStorage.getItem('token') && to.matched.some(record => record.meta.role  == store.state.role)) {
+        if (localStorage.getItem('authToken') && to.matched.some(record => record.meta.role  == store.state.role)) {
             next();
         }
         else {
