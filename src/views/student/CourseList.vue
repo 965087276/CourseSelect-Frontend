@@ -185,7 +185,17 @@
                 } 
             },
             addPreCourse(index, row) {
-
+                let body = {
+                    'username': this.$store.state.username,
+                    'courseCode': row.courseCode
+                };
+                studentAPI.coursePreSelect(body)
+                    .then(body => {
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
+                    })
             },
             flatCourses(coursesResponse) {
                 this.courseList = []
