@@ -75,7 +75,27 @@ const routes = [
                 component: () => import('../views/student/CourseGrade.vue')
             }
         ]
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('../views/admin/Admin.vue'),
+        meta: {
+            requiresAuth: true,
+            role: 'admin'
+        },
+        children:[
+            {
+                path:'/admin/course-maneger/add',
+                component: () => import('../views/admin/AddCourse.vue')
+            },
+            {
+                path:'/admin/course-maneger/delete',
+                component: () => import('../views/admin/DeleteCourse.vue')
+            }
+        ]
     }
+    
 ]
 
 const router = new VueRouter({
