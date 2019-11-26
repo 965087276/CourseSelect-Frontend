@@ -25,10 +25,10 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search"  @click="onSubmit">查询</el-button>
+                <el-button type="primary" icon="el-icon-search"  @click="$emit('on-submit', formInline)">查询</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-download"  @click="exportData">导出</el-button>
+                <el-button type="primary" icon="el-icon-download"  @click="$emit('export-data')">导出</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -120,68 +120,70 @@
             courseList: {
                 type: Array,
                 default: []
-            },
-            // formInline
-            formInline: {
-                type: Object,
-                default: []
             }
         },
         data() {
             return {
                 spanArr: [],
+                // formInline
+                formInline: {
+                    courseType: '',
+                    courseName: '',
+                    college: '',
+                    courseTime: ''
+                },
                 colleges: [{
-                    value: '选项1',
+                    value: '计算机科学与技术学院',
                     label: '计算机科学与技术学院'
                 }, {
-                    value: '选项2',
+                    value: '人工智能学院',
                     label: '人工智能学院'
                 }, {
-                    value: '选项3',
+                    value: '网络空间安全学院',
                     label: '网络空间安全学院'
                 }, {
-                    value: '选项4',
+                    value: '马克思学院',
                     label: '马克思学院'
                 }, {
-                    value: '选项5',
+                    value: '人文学院',
                     label: '人文学院'
                 }],
                 courseTypes: [{
-                    value: '选项1',
+                    value: '核心课',
                     label: '核心课'
                 }, {
-                    value: '选项2',
+                    value: '普及课',
                     label: '普及课'
                 }, {
-                    value: '选项3',
+                    value: '研讨课',
                     label: '研讨课'
                 }, {
-                    value: '选项4',
+                    value: '公共选修课',
                     label: '公共选修课'
                 }, {
-                    value: '选项5',
+                    value: '公共必修课',
                     label: '公共必修课'
                 }],
                 courseTimes: [{
-                    value: '选项1',
+                    value: '1',
                     label: '周一'
                 }, {
-                    value: '选项2',
+                    value: '2',
                     label: '周二'
                 }, {
-                    value: '选项3',
+                    value: '3',
                     label: '周三'
                 }, {
-                    value: '选项4',
+                    value: '4',
                     label: '周四'
                 }, {
-                    value: '选项5',
+                    value: '5',
                     label: '周五'
                 }, {
-                    value: '选项6',
+                    value: '6',
                     label: '周六'
                 }, {
-                    value: '选项7',
+                    value: '7',
                     label: '周日'
                 }],
             }

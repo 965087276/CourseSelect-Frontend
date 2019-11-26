@@ -2,25 +2,25 @@
     <el-container>
         <el-main>
             <w-course-list
-                    v-model="formInline"
                     :courseList="courseList"
-                    v-on:add-course="selectCourse">
+                    v-on:add-course="selectCourse"
+                    v-on:on-submit="onSubmit"
+                    v-on:export-data="exportData">
                 <template v-slot:course-select-text>
                     选课
                 </template>
             </w-course-list>
 
-            <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="totalElements"
-                :current-page="curPage"
-                :page-size="pageSize"
-                @current-change="handleCurrentChange">
-            </el-pagination>
         </el-main>
         <el-footer>
-            
+            <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="totalElements"
+                    :current-page="curPage"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange">
+            </el-pagination>
         </el-footer>
     </el-container>
 </template>
@@ -36,7 +36,7 @@
                 curPage: 1,
                 pageSize: 20,
                 formInline: {
-                    courseCode: '',
+                    courseType: '',
                     courseName: '',
                     college: '',
                     courseTime: ''
@@ -46,8 +46,9 @@
             }
         },
         methods: {
-            onSubmit() {
-
+            onSubmit(childFormInline) {
+                Object.assign(this.formInline, childFormInline);
+                this.getCourseList();
             },
             exportData() {
 
@@ -88,11 +89,10 @@
                 this.courseList = courseList_;
             },
             getCourseList() {
-                studentAPI.getCourseList((this.courseCode, this.courseName, this.college, this.courseTime, this.curPage, this.pageSize))
+                studentAPI.getCourseList(this.formInline, this.curPage, this.pageSize)
                     .then(body => {
                         this.totalElements = body.totalElements;
                         this.flatCourses(body.content)
-                        // this.getSpanArr()
                     })
             },
 
