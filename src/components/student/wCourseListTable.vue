@@ -12,7 +12,7 @@
             </el-form-item>
             <el-form-item label="上课时间">
                 <el-select v-model="formInline.courseTime" filterable placeholder="请选择">
-                    <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-option v-for="item in courseTimes" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="课程属性">
@@ -132,19 +132,19 @@
                 spanArr: [],
                 colleges: [{
                     value: '选项1',
-                    label: '黄金糕'
+                    label: '计算机科学与技术学院'
                 }, {
                     value: '选项2',
-                    label: '双皮奶'
+                    label: '人工智能学院'
                 }, {
                     value: '选项3',
-                    label: '蚵仔煎'
+                    label: '网络空间安全学院'
                 }, {
                     value: '选项4',
-                    label: '龙须面'
+                    label: '马克思学院'
                 }, {
                     value: '选项5',
-                    label: '北京烤鸭'
+                    label: '人文学院'
                 }],
                 courseTypes: [{
                     value: '选项1',
@@ -161,6 +161,28 @@
                 }, {
                     value: '选项5',
                     label: '公共必修课'
+                }],
+                courseTimes: [{
+                    value: '选项1',
+                    label: '周一'
+                }, {
+                    value: '选项2',
+                    label: '周二'
+                }, {
+                    value: '选项3',
+                    label: '周三'
+                }, {
+                    value: '选项4',
+                    label: '周四'
+                }, {
+                    value: '选项5',
+                    label: '周五'
+                }, {
+                    value: '选项6',
+                    label: '周六'
+                }, {
+                    value: '选项7',
+                    label: '周日'
                 }],
             }
         },
