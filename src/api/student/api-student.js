@@ -4,14 +4,14 @@ import request from '../axios-config.js'
 export const getCourseList = (formInline, curPage, pageSize) => {
     return request({
         method: 'get',
-        url: '/student/courses',
+        url: '/pub/courses',
         params: {
             curPage,
             pageSize,
             courseType: formInline.courseType,
             courseName: formInline.courseName,
             college: formInline.college,
-            courseTime: formInline.courseTime
+            day: formInline.day
         }
     })
 }

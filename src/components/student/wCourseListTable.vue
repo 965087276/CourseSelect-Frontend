@@ -11,8 +11,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="上课时间">
-                <el-select v-model="formInline.courseTime" filterable placeholder="请选择">
-                    <el-option v-for="item in courseTimes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="formInline.day" filterable placeholder="请选择">
+                    <el-option v-for="item in days" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="课程属性">
@@ -146,7 +146,7 @@
                     courseType: '',
                     courseName: '',
                     college: '',
-                    courseTime: ''
+                    day: ''
                 },
                 colleges: [{
                     value: '计算机科学与技术学院',
@@ -180,7 +180,7 @@
                     value: '公共必修课',
                     label: '公共必修课'
                 }],
-                courseTimes: [{
+                days: [{
                     value: '1',
                     label: '周一'
                 }, {
