@@ -35,7 +35,7 @@
                     <el-button type="primary" icon="el-icon-download"  @click="exportData">导出</el-button>
                 </el-form-item>
             </el-form>
-            <w-course-list :courseList="courseList" :spanArr="spanArr"></w-course-list>
+            <w-course-list :courseList="courseList" v-on:add-pre-course="addPreCourse"></w-course-list>
             <el-pagination
                 background
                 layout="prev, pager, next"
@@ -130,7 +130,7 @@
                     })
             },
             flatCourses(coursesResponse) {
-                this.courseList = []
+                let courseList_ = []
                 coursesResponse.forEach(item => {
                     let course = {}
                     Object.assign(course, item)
@@ -140,35 +140,17 @@
                         let course_ = {}
                         Object.assign(course_, course)
                         Object.assign(course_, schedule)
-                        this.courseList.push(course_)
+                        courseList_.push(course_)
                     })
                 })
-            },
-            getSpanArr() {
-                this.spanArr = []
-                for (let i = 0; i < this.courseList.length; i++) {
-                    if (i === 0) {
-                        this.spanArr.push(1)
-                        this.pos = 0
-                    }
-                    else {
-                        if (this.courseList[i].courseCode === this.courseList[i-1].courseCode) {
-                            this.spanArr[this.pos] += 1;
-                            this.spanArr.push(0);
-                        }
-                        else {
-                            this.spanArr.push(1);
-                            this.pos = i;
-                        }
-                    }
-                }
+                this.courseList = courseList_;
             },
             getCourseList() {
                 studentAPI.getCourseList((this.courseCode, this.courseName, this.college, this.courseTime, this.curPage, this.pageSize))
                     .then(body => {
                         this.totalElements = body.totalElements;
                         this.flatCourses(body.content)
-                        this.getSpanArr()
+                        // this.getSpanArr()
                     })
             },
 

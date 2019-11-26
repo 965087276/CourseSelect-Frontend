@@ -63,10 +63,16 @@
         </el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
+                <!--<el-button-->
+                        <!--type="primary"-->
+                        <!--size="small"-->
+                        <!--@click="addPreCourse(scope.$index, scope.row)">预选</el-button>-->
                 <el-button
-                        type="primary"
-                        size="small"
-                        @click="addPreCourse(scope.$index, scope.row)">预选</el-button>
+                    type="primary"
+                    size="small"
+                    @click="$emit('add-pre-course', scope.$index, scope.row)">
+                    预选
+                </el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -82,15 +88,15 @@
                 type: Array,
                 default: []
             },
-            // spanArray
-            spanArr: {
-                type: Array,
-                default: []
-            }
+            // // spanArray
+            // spanArr: {
+            //     type: Array,
+            //     default: []
+            // }
         },
         data() {
             return {
-
+                spanArr: []
             }
         },
         methods: {
@@ -101,6 +107,28 @@
                         colspan: this.spanArr[rowIndex] > 0 ? 1 : 0
                     }
                 }
+            },
+            getSpanArr() {
+                this.spanArr = []
+                for (let i = 0; i < this.courseList.length; i++) {
+                    if (i === 0) {
+                        this.spanArr.push(1)
+                        this.pos = 0
+                    } else {
+                        if (this.courseList[i].courseCode === this.courseList[i - 1].courseCode) {
+                            this.spanArr[this.pos] += 1;
+                            this.spanArr.push(0);
+                        } else {
+                            this.spanArr.push(1);
+                            this.pos = i;
+                        }
+                    }
+                }
+            }
+        },
+        watch: {
+            courseList: function () {
+                this.getSpanArr();
             }
         }
     }
