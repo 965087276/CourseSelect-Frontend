@@ -19,7 +19,15 @@ export const getCourseList = (courseCode, courseName, college, courseTime, curPa
 export const coursePreSelect = (bodyData) => {
     return request({
         method: 'post',
-        url: '/student/pre_courses',
+        url: '/student/course_preselect',
+        data: bodyData
+    })
+}
+
+export const courseSelect = (bodyData) => {
+    return request({
+        method: 'post',
+        url: '/student/course_select',
         data: bodyData
     })
 }
