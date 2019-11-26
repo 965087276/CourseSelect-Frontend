@@ -25,7 +25,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search"  @click="$emit('on-submit', formInline)">查询</el-button>
+                <el-button type="primary" icon="el-icon-search"  @click="$emit('query-course', formInline)">查询</el-button>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-download"  @click="$emit('export-data')">导出</el-button>
@@ -53,10 +53,10 @@
                     prop="courseType"
                     label="课程属性">
             </el-table-column>
-            <el-table-column
-                    prop="major"
-                    label="所属学科/专业">
-            </el-table-column>
+<!--            <el-table-column-->
+<!--                    prop="major"-->
+<!--                    label="所属学科/专业">-->
+<!--            </el-table-column>-->
             <el-table-column
                     prop="credit"
                     label="课时/学分">
@@ -85,25 +85,40 @@
                 prop="teachingType"
                 label="授课方式">
             </el-table-column> -->
-            <el-table-column
-                    prop="examType"
-                    label="考核方式">
-            </el-table-column>
+<!--            <el-table-column-->
+<!--                    prop="examType"-->
+<!--                    label="考核方式">-->
+<!--            </el-table-column>-->
             <el-table-column
                     prop="courseTeacher"
                     label="主讲教师">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="150px">
                 <template slot-scope="scope">
                     <!--<el-button-->
                     <!--type="primary"-->
                     <!--size="small"-->
                     <!--@click="addPreCourse(scope.$index, scope.row)">预选</el-button>-->
                     <el-button
+                            v-if="$store.state.role=='student'"
                             type="primary"
                             size="small"
                             @click="$emit('add-course', scope.$index, scope.row)">
                         <slot name="course-select-text"></slot>
+                    </el-button>
+                    <el-button
+                            v-if="$store.state.role=='admin'"
+                            type="primary"
+                            size="small"
+                            @click="$emit('edit-course', scope.$index, scope.row)">
+                        修改
+                    </el-button>
+                    <el-button
+                            v-if="$store.state.role=='admin'"
+                            type="danger"
+                            size="small"
+                            @click="$emit('remove-course', scope.$index, scope.row)">
+                        删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -117,7 +132,7 @@
         components: {},
         props: {
             // 课程列表
-            courseList: {
+            courseListRes: {
                 type: Array,
                 default: []
             }
@@ -125,6 +140,7 @@
         data() {
             return {
                 spanArr: [],
+                courseList: [],
                 // formInline
                 formInline: {
                     courseType: '',
@@ -186,9 +202,34 @@
                     value: '7',
                     label: '周日'
                 }],
+                weekMap: {
+                    '1': '周一',
+                    '2': '周二',
+                    '3': '周三',
+                    '4': '周四',
+                    '5': '周五',
+                    '6': '周六',
+                    '7': '周日'
+                }
             }
         },
         methods: {
+            flatCourses(coursesResponse) {
+                let courseList_ = []
+                coursesResponse.forEach(item => {
+                    let course = {}
+                    Object.assign(course, item)
+                    let schedules = course.courseSchedule
+                    delete course.courseSchedule
+                    schedules.forEach(schedule => {
+                        let course_ = {}
+                        Object.assign(course_, course)
+                        Object.assign(course_, schedule)
+                        courseList_.push(course_)
+                    })
+                })
+                this.courseList = courseList_;
+            },
             objectSpanMethod({row, column, rowIndex, columnIndex}) {
                 if (columnIndex < 8 || columnIndex > 11) {
                     return {
@@ -213,10 +254,20 @@
                         }
                     }
                 }
+            },
+            mapCourse() {
+                this.courseList.forEach(item => {
+                    item.weekPeriod = '第' + item.startWeek + '-' + item.endWeek + '周'
+                    item.sectionPeriod = this.weekMap[item.day] + '(第' + item.time + '节)'
+                    // delete item.startWeek
+                    // delete item.endWeek
+                })
             }
         },
         watch: {
-            courseList: function () {
+            courseListRes: function (newCourseListRes) {
+                this.flatCourses(newCourseListRes);
+                this.mapCourse();
                 this.getSpanArr();
             }
         }
