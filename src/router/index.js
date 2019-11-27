@@ -60,11 +60,12 @@ const routes = [
             },
             {
                 path: '/student/course-select/select',
+                name: 'course-select',
                 component: () => import('../views/student/CourseSelect.vue')
             },
             {
-                path: '/student/course-select/my',
-                component: () => import('../views/student/MyCourse.vue')
+                path: '/student/course-select/my_course_table',
+                component: () => import('../views/student/MyCourseTable.vue')
             },
             {
                 path: '/student/course-select/stats',

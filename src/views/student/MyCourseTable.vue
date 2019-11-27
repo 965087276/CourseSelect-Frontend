@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="no_class" v-if="item.courseCode == ''"  @click="addCourse(index)">无课</div>
+                        <div class="no_class" v-if="item.courseCode == ''"  @click="routeTo(index)">无课</div>
                     </div>
                 </div>
             </div>
@@ -51,8 +51,10 @@
             };
         },
         methods: {
-            addCourse(index) {
-                alert(index)
+            routeTo(index) {
+                let day = index / 5 + 1
+                let time = index % 5 + 1
+                this.$router.push({name: 'course-select', params: {day: day, time: time} })
             },
             parseData(data) {
                 let finalData = [];
