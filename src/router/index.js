@@ -92,6 +92,10 @@ const routes = [
             {
                 path:'/admin/course-maneger/delete',
                 component: () => import('../views/admin/DeleteCourse.vue')
+            },
+            {
+                path:'/admin/ableToSelectTime',
+                component: () => import('../views/admin/AbleToSelectTime.vue')
             }
         ]
     }
