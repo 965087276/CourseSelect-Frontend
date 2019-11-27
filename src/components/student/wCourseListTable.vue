@@ -1,36 +1,5 @@
 <template>
     <div id="app">
-        <el-form
-                :inline="true"
-                :model="formInline"
-                label-width="auto"
-                class="demo-form-inline">
-            <el-form-item label="开课学院">
-                <el-select v-model="formInline.college" filterable placeholder="请选择">
-                    <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="上课时间">
-                <el-select v-model="formInline.day" filterable placeholder="请选择">
-                    <el-option v-for="item in days" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="课程属性">
-                <el-select v-model="formInline.courseType" filterable placeholder="请选择">
-                    <el-option v-for="item in courseTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="课程名称">
-                <el-input v-model="formInline.courseName" placeholder="请输入"></el-input>
-            </el-form-item>
-
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search"  @click="$emit('query-course', formInline)">查询</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-download"  @click="$emit('export-data')">导出</el-button>
-            </el-form-item>
-        </el-form>
         <el-table
                 :data="courseList"
                 :span-method="objectSpanMethod"
@@ -81,14 +50,6 @@
                     prop="classroom"
                     label="教室">
             </el-table-column>
-            <!-- <el-table-column
-                prop="teachingType"
-                label="授课方式">
-            </el-table-column> -->
-<!--            <el-table-column-->
-<!--                    prop="examType"-->
-<!--                    label="考核方式">-->
-<!--            </el-table-column>-->
             <el-table-column
                     prop="courseTeacher"
                     label="主讲教师">

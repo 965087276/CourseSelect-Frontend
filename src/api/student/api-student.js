@@ -31,3 +31,10 @@ export const courseSelect = (bodyData) => {
         data: bodyData
     })
 }
+
+export const getStudentCourse = (username) => {
+    return request({
+        method: 'get',
+        url: `/student/courses_table/students/${username}`
+    })
+}
