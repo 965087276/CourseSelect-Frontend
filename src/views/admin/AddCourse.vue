@@ -2,7 +2,7 @@
     <el-container>
         <el-main>
            <el-button type="primary" @click="importCourse">导入课程</el-button>
-           <el-form :inline="true" :model="formInline" label-width="auto" class="demo-form-inline">
+           <el-form :inline="true" :model="formInline" label-width="100px" class="demo-dynamic">
            <el-row>
                 <el-col :span="12">
                     <div class="grid-content bg-purple-light">
@@ -91,10 +91,19 @@
                 </el-col>
                 <el-col :span="12">
                 <div class="grid-content bg-purple-light">
-                    <el-form-item label="教室">
-                        <el-select v-model="formInline.classrooms" filterable placeholder="请选择">
-                            <el-option v-for="item in classrooms" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                    <el-form-item
+                        v-for="(classroom, index) in formInline.classrooms"
+                        :label="'教室' + index"
+                        :key="classroom.key"
+                        :prop="'classrooms.' + index + '.value'"
+                        :rules="{
+                        required: true, message: '输入不能为空', trigger: 'blur'
+                        }"
+                    >
+                        <el-input v-model="classroom.value"></el-input><el-button @click.prevent="removeClassroom(classroom)">删除</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button @click="addClassroom">新增教室</el-button>
                     </el-form-item>
                     </div>
                 </el-col>
@@ -301,22 +310,37 @@
                     outline:'',
                     limitNum:'',
                     weeks:'',
-                    classrooms:'',
                     teachingTypes:'',
                     examTypes:'',
                     teacher:'',
                     courseTimes:'',
-                    majors:''
+                    majors:'',
+                    classrooms:[{
+                        value:''
+                    }]
                 },
                 courseList: [
 
-                ]
+                ],
+                
             }
         },
         methods: {
             importCourse(){
 
-            }
+            },
+            removeClassroom(item) {
+                var index = this.formInline.classrooms.indexOf(item)
+                if (index !== -1) {
+                this.formInline.classrooms.splice(index, 1)
+                }
+            },
+            addClassroom() {
+                this.formInline.classrooms.push({
+                value: '',
+                key: Date.now()
+            });
+      }
         },
         mounted(){
         }
