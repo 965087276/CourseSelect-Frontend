@@ -82,12 +82,21 @@
             <el-row>
                  <el-col :span="12">
                  <div class="grid-content bg-purple-light">
-                    <el-form-item label="节次">
-                        <el-select v-model="formInline.courseTimes" filterable placeholder="请选择">
-                            <el-option v-for="item in courseTimes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-form-item
+                        v-for="(courseTime, index) in formInline.courseTimes"
+                        :label="'节次' + index"
+                        :key="courseTime.key"
+                        :prop="'courseTimes.' + index + '.value'"
+                        >
+                        <el-select v-model="formInline.coursetimes" filterable placeholder="请选择">
+                            <el-option v-for="item in coursetimes" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
+                        <el-button @click.prevent="removeCourseTime(courseTime)">删除</el-button>
                     </el-form-item>
-                    </div>
+                    <el-form-item>
+                        <el-button @click="addCourseTime">新增节次</el-button>
+                    </el-form-item>
+                </div>
                 </el-col>
                 <el-col :span="12">
                 <div class="grid-content bg-purple-light">
@@ -313,15 +322,25 @@
                     teachingTypes:'',
                     examTypes:'',
                     teacher:'',
-                    courseTimes:'',
+                    courseTimes:[{
+                        value:''
+                    }],
                     majors:'',
                     classrooms:[{
                         value:''
-                    }]
+                    }],
+                    coursetimes:''
                 },
                 courseList: [
 
                 ],
+                coursetimes:[{
+                    value:'选项1',
+                    label:'周一(第1节)'
+                },{
+                    value:'选项2',
+                    label:'周一(第2节)'
+                }]
                 
             }
         },
@@ -339,8 +358,20 @@
                 this.formInline.classrooms.push({
                 value: '',
                 key: Date.now()
-            });
-      }
+                });
+            },
+            removeCourseTime(item) {
+                var index = this.formInline.courseTimes.indexOf(item)
+                if (index !== -1) {
+                this.formInline.courseTimes.splice(index, 1)
+                }
+            },
+            addCourseTime() {
+                this.formInline.courseTimes.push({
+                value: '',
+                key: Date.now()
+                });
+            }
         },
         mounted(){
         }
