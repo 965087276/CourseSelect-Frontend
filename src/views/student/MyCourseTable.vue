@@ -52,9 +52,10 @@
         },
         methods: {
             routeTo(index) {
-                let day = index / 5 + 1
+                let day = parseInt(index / 5) + 1
                 let time = index % 5 + 1
-                this.$router.push({name: 'course-select', params: {day: day, time: time} })
+                let isCourseTable = true
+                this.$router.push({name: 'course-select', params: {day, time, isCourseTable} })
             },
             parseData(data) {
                 let finalData = [];

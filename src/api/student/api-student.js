@@ -11,7 +11,8 @@ export const getCourseList = (formInline, curPage, pageSize) => {
             courseType: formInline.courseType,
             courseName: formInline.courseName,
             college: formInline.college,
-            day: formInline.day
+            day: formInline.day,
+            time: formInline.time
         }
     })
 }

@@ -10,8 +10,13 @@
             </el-select>
         </el-form-item>
         <el-form-item label="上课时间">
-            <el-select v-model="formInline.day" filterable placeholder="请选择">
+            <el-select v-model="formInline.day" filterable placeholder="请选择" class="control" ref="select_day">
                 <el-option v-for="item in days" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="节次">
+            <el-select v-model="formInline.time" filterable placeholder="请选择" class="control" ref="select_time">
+                <el-option v-for="item in times" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="课程属性">
@@ -36,7 +41,11 @@
     export default {
         name: "wCourseSearch",
         components: {},
-        props: {},
+        props: {
+            courseTime: {
+                type: Object
+            }
+        },
         data() {
             return {
                 // formInline
@@ -100,6 +109,22 @@
                     value: '7',
                     label: '周日'
                 }],
+                times: [{
+                    value: '1',
+                    label: '第一节 (8:00-9:40)'
+                }, {
+                    value: '2',
+                    label: '第二节 (10:10-11:50)'
+                }, {
+                    value: '3',
+                    label: '第三节 (14:00-15:40)'
+                }, {
+                    value: '4',
+                    label: '第四节 (16:10-17:50)'
+                }, {
+                    value: '5',
+                    label: '第五节 (19:00-20:40)'
+                }],
                 weekMap: {
                     '1': '周一',
                     '2': '周二',
@@ -111,6 +136,14 @@
                 }
             }
         },
-        methods: {}
+        methods: {},
+        watch: {
+            courseTime: function (newTime) {
+                let i = parseInt(newTime.day) - 1
+                this.$refs.select_day.handleOptionSelect(this.days[i])
+                let j = parseInt(newTime.time) - 1
+                this.$refs.select_time.handleOptionSelect(this.times[j])
+            }
+        }
     }
 </script>
