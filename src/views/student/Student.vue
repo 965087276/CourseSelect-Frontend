@@ -30,7 +30,7 @@
                             <span>选修课程</span>
                         </template>
                         <el-menu-item index="course-select/select">选择课程</el-menu-item>
-                        <el-menu-item index="course-select/my">我的课程</el-menu-item>
+                        <el-menu-item index="course-select/my_course_table">我的课表</el-menu-item>
                         <el-menu-item index="course-select/stats">选课学分统计</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="grades">
