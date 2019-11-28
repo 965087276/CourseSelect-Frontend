@@ -1,14 +1,16 @@
 <template>
     <el-container>
         <el-main>
+            <w-course-search
+                    v-on:query-course="queryCourse"
+                    v-on:export-data="exportData">
+            </w-course-search>
             <w-course-list
                     :courseListRes="courseListRes"
                     v-on:edit-course="editCourse"
-                    v-on:remove-course="deleteCourse"
-                    v-on:query-course="queryCourse"
-                    v-on:export-data="exportData">
+                    v-on:remove-course="deleteCourse">
                 <template v-slot:course-select-text>
-                    预选
+                    编辑和删除
                 </template>
             </w-course-list>
 
@@ -29,8 +31,9 @@
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
     import wCourseList from '@/components/student/wCourseListTable.vue'
+    import wCourseSearch from '@/components/student/wCourseSearch.vue'
     export default {
-        components: {wCourseList},
+        components: {wCourseList,wCourseSearch},
         data() {
             return {
                 totalElements: 100,
