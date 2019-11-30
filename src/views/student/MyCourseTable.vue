@@ -94,12 +94,10 @@
     .table_head {
         padding: 20px;
         background-color: #fff;
-        padding: 20px;
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-        margin-bottom: 20px;
+        margin: 0 0 20px 85px;
         display: flex;
-        margin-left: 85px;
         .day {
             width: 14.286%;
             text-align: center;
