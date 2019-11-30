@@ -43,6 +43,6 @@ export const getStudentCourse = (username) => {
 export const getCourseStats = (username) => {
     return request({
         method: 'get',
-        url: `/student/courses_stats/students/${username}`
+        url: `/student/course_stats/students/${username}`
     })
 }
