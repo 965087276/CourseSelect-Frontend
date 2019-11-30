@@ -192,7 +192,7 @@
                 this.courseList = courseList_;
             },
             objectSpanMethod({row, column, rowIndex, columnIndex}) {
-                if (columnIndex < 8 || columnIndex > 11) {
+                if (columnIndex < 8 || columnIndex > 10) {
                     return {
                         rowspan: this.spanArr[rowIndex],
                         colspan: this.spanArr[rowIndex] > 0 ? 1 : 0
