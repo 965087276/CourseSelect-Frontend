@@ -8,7 +8,7 @@
             <w-course-list
                     :courseListRes="courseListRes"
                     v-on:edit-course="editCourse"
-                    v-on:remove-course="deleteCourse">
+                    v-on:remove-course="removeCourse">
                 <template v-slot:course-select-text>
                     编辑和删除
                 </template>
@@ -30,6 +30,7 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
+    import * as adminAPI from '@/api/admin/api-admin.js'
     import wCourseList from '@/components/student/wCourseListTable.vue'
     import wCourseSearch from '@/components/student/wCourseSearch.vue'
     export default {
@@ -54,8 +55,24 @@
             editCourse(){
 
             },
-            deleteCourse(){
-
+            removeCourse(index,row){
+                this.$confirm("是否确认删除？","删除确认",{
+                    type:"warning"})
+                    .then(()=>{
+                        adminAPI.deleteCourse(row.courseCode)
+                        .then(()=>{
+                            this.$message({
+                                    message:"删除成功！！",
+                                    type:'success',
+                                });
+                            })
+                        this.getCourseList();
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    })
             },
             handleCurrentChange(val) {
                 if (val != this.curPage) {
