@@ -56,20 +56,30 @@
                 if (val != this.curPage) {
                     this.curPage = val;
                     this.getCourseList();
-                } 
+                }
             },
             selectCourse(index, row) {
                 let body = {
                     'username': this.$store.state.username,
                     'courseCode': row.courseCode
                 };
-                studentAPI.courseSelect(body)
-                    .then(body => {
-                        this.$message({
-                            message: '添加成功',
-                            type: 'success'
-                        });
-                    })
+                this.$confirm('您要选的课程为' + row.courseName, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    studentAPI.deleteStudentPreCourse(this.$store.state.username, row.courseCode)
+                        .then(body => {
+                            studentAPI.courseSelect(body)
+                                .then(body => {
+                                    this.$message({
+                                        message: '选课成功',
+                                        type: 'success'
+                                    });
+                                })
+                        })
+                })
+
             },
             getCourseList() {
                 studentAPI.getCourseList(this.formInline, this.curPage, this.pageSize)
