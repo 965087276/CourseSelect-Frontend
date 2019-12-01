@@ -80,7 +80,7 @@
             getStudentClass() {
                 studentAPI.getStudentCourseTable(this.$store.state.username)
                     .then(res => {
-                        this.data = this.parseData(res.courses);
+                        this.data = this.parseData(res);
                     });
             }
         },
