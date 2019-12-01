@@ -46,3 +46,10 @@ export const getCourseStats = (username) => {
         url: `/student/course_stats/students/${username}`
     })
 }
+
+export const getStudentPreCourse = (username) => {
+    return request({
+        method: 'get',
+        url: `/student/pre_course/students/${username}`
+    })
+}
