@@ -53,3 +53,13 @@ export const getStudentPreCourse = (username) => {
         url: `/student/pre_course/students/${username}`
     })
 }
+
+export const deleteStudentPreCourse = (username, courseCode) => {
+    return request({
+        method: 'delete',
+        url: `/student/pre_courses/${courseCode}`,
+        params: {
+            username
+        }
+    })
+}

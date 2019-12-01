@@ -41,7 +41,7 @@
                         <el-button
                                 type="danger"
                                 size="small"
-                                @click="$emit('removeCourse', scope.$index, scope.row)">
+                                @click="removeCourse(scope.$index, scope.row)">
                             删除
                         </el-button>
                     </template>
@@ -64,7 +64,20 @@
 
             },
             removeCourse(index, row) {
-
+                this.$confirm('确认要删除这门预选课？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    studentAPI.deleteStudentPreCourse(this.$store.state.username, row.courseCode)
+                        .then(body => {
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            this.tableData.splice(index, 1);
+                        })
+                })
             },
             getTableData() {
                 studentAPI.getStudentPreCourse(this.$store.state.username)
