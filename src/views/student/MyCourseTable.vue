@@ -78,7 +78,7 @@
                 return finalData;
             },
             getStudentClass() {
-                studentAPI.getStudentCourse(this.$store.state.username)
+                studentAPI.getStudentCourseTable(this.$store.state.username)
                     .then(res => {
                         this.data = this.parseData(res.courses);
                     });
