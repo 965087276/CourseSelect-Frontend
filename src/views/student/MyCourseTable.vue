@@ -21,20 +21,33 @@
                 </div>
                 <div class="table_content">
                     <div class="class" v-for="(item,index) in data" :key="index">
-                        <div class="class_inner" v-if="item.courseCode!=''">
-                            <div class="course">{{item.courseName}}</div>
+                        <div class="no_class" v-if="item.length == 0"  @click="routeTo(index)">无课</div>
+                        <div class="class_inner" v-else-if="item.length == 1">
+                            <div class="course">{{item[0].courseName}}</div>
                             <div class="class_info">
                                 <div class="student">
                                     <i class="el-icon-info"></i>
-                                    {{item.courseTeacher}}
+                                    {{item[0].courseTeacher}}
                                 </div>
                                 <div class="classroom">
                                     <i class="el-icon-location"></i>
-                                    {{item.classroom}}
+                                    {{item[0].classroom}}
                                 </div>
                             </div>
                         </div>
-                        <div class="no_class" v-if="item.courseCode == ''"  @click="routeTo(index)">无课</div>
+                        <div class="class_inner" style="background-color: rgb(39, 247, 133); cursor: pointer" v-else @click="getNextCourse(index, item.length)">
+                            <div class="course">{{ item[dataPos[index]].courseName }}</div>
+                            <div class="class_info">
+                                <div class="student">
+                                    <i class="el-icon-info"></i>
+                                    {{ item[dataPos[index]].courseTeacher }}
+                                </div>
+                                <div class="classroom">
+                                    <i class="el-icon-location"></i>
+                                    {{ item[dataPos[index]].classroom }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,10 +60,15 @@
     export default {
         data() {
             return {
-                data: []
+                data: [],
+                dataPos: [],
             };
         },
         methods: {
+            getNextCourse(index, itemLength) {
+                let v = (this.dataPos[index] + 1) % parseInt(itemLength);
+                this.$set(this.dataPos, index, v);
+            },
             routeTo(index) {
                 let day = parseInt(index / 5) + 1
                 let time = index % 5 + 1
@@ -60,20 +78,14 @@
             parseData(data) {
                 let finalData = [];
                 for (let i = 0; i < 35; i++) {
-                    finalData[i] = {
-                        courseCode: "",
-                        classroomId: "",
-                        day: "",
-                        time: "",
-                        classroom: "",
-                        courseName: ""
-                    };
+                    finalData[i] = []
+                    this.dataPos[i] = 0
                 }
                 for (let i in data) {
                     let day = parseInt(data[i].day);
                     let time = parseInt(data[i].time);
                     let index = (day - 1) * 5 + time - 1;
-                    finalData[index] = data[i];
+                    finalData[index].push(data[i]);
                 }
                 return finalData;
             },
@@ -147,7 +159,7 @@
                     }
                 }
                 .class_inner {
-                    background-color: #409eff;
+                    background: #409eff;
                     height: 100%;
                     border-radius: 10px;
                     padding: 20px;
