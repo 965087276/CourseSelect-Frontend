@@ -4,17 +4,31 @@ import request from '../axios-config.js'
 export const getEnableTimes = () => {
     return request({
         method: 'get',
-        url   : '/pub/get_enable_times'
+        url   : '/pub/enabletimes'
     })
 }
 
 export const editEnableTimes=(startTime,endTime)=>{
     return request({
         method:'post',
-        url:'/admin/admin/edit_enable_times',
+        url:'/admin/enabletimes_edit',
         data:{
             startTime:startTime,
             endTime:endTime
         }
+    })
+}
+export const deleteCourse=(courseCode)=>{
+    return request({
+        method:'delete',
+        url:'/admin/course/${courseCode}'
+    })
+}
+
+export const addCourse=(bodyDate)=>{
+    return request({
+        method:'post',
+        url:'/teacher/courses',
+        data:bodyDate
     })
 }
