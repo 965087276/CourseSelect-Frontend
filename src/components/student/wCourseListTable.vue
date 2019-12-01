@@ -126,14 +126,14 @@
                     label: '人文学院'
                 }],
                 courseTypes: [{
-                    value: '核心课',
-                    label: '核心课'
+                    value: '专业核心课',
+                    label: '专业核心课'
                 }, {
-                    value: '普及课',
-                    label: '普及课'
+                    value: '专业普及课',
+                    label: '专业普及课'
                 }, {
-                    value: '研讨课',
-                    label: '研讨课'
+                    value: '专业研讨课',
+                    label: '专业研讨课'
                 }, {
                     value: '公共选修课',
                     label: '公共选修课'
