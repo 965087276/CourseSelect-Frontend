@@ -14,10 +14,18 @@
                     <el-table-column label="课程规划" width="200px">
                         <template slot-scope="scope">
                             <el-button
+                                    v-if="!scope.row.addToTable"
                                     type="primary"
                                     size="small"
                                     @click="addToPreTable(scope.$index, scope.row)">
                                 加入预选课表
+                            </el-button>
+                            <el-button
+                                    v-else
+                                    type="danger"
+                                    size="small"
+                                    @click="removeFromPreTable(scope.$index, scope.row)">
+                                移出预选课表
                             </el-button>
                         </template>
                     </el-table-column>
@@ -130,14 +138,6 @@
             }
         },
         methods: {
-            init() {
-                this.data = []
-                this.dataPos = []
-                for (let i = 0; i < 35; i++) {
-                    this.data[i] = []
-                    this.dataPos[i] = 0;
-                }
-            },
             getNextCourse(index, itemLength) {
                 let v = (this.dataPos[index] + 1) % parseInt(itemLength);
                 this.$set(this.dataPos, index, v);
@@ -162,29 +162,56 @@
                 studentAPI.getStudentPreCourse(this.$store.state.username)
                     .then(body => {
                         this.courseList = body;
+                        this.initPreTable()
                     })
             },
-
-            addToPreTable(index, row) {
-                let schedules = row.courseSchedules;
-                schedules.forEach(schedule => {
-                    let day = parseInt(schedule.day);
-                    let time = parseInt(schedule.time);
-                    let index = (day - 1) * 5 + time - 1;
-                    let ans = {
-                        day,
-                        time,
-                        classroom: schedule.classroom,
-                        courseName: row.courseName,
-                        courseTeacher: row.courseTeacher
-                    }
-                    this.data[index].push(ans)
+            /**
+             * 初始化预选课课表
+             */
+            initPreTable() {
+                this.data = []
+                for (let i = 0; i < 35; i++) {
+                    this.data[i] = []
+                    this.dataPos[i] = 0
+                }
+                this.courseList.filter(course => course.addToTable).forEach(course => {
+                    let schedules = course.courseSchedules;
+                    schedules.forEach(schedule => {
+                        let day = parseInt(schedule.day);
+                        let time = parseInt(schedule.time);
+                        let index = (day - 1) * 5 + time - 1;
+                        let ans = {
+                            day,
+                            time,
+                            classroom: schedule.classroom,
+                            courseName: course.courseName,
+                            courseTeacher: course.courseTeacher
+                        }
+                        this.data[index].push(ans)
+                    })
                 })
                 this.data.push()
+            },
+            /**
+             * 从预选课课表中删除某门课
+             * @param index
+             * @param row
+             */
+            removeFromPreTable(index, row) {
+                this.courseList[index].addToTable = false;
+                this.initPreTable();
+            },
+            /**
+             * 向预选课课表中添加某门课
+             * @param index
+             * @param row
+             */
+            addToPreTable(index, row) {
+                this.courseList[index].addToTable = true;
+                this.initPreTable()
             }
         },
         mounted() {
-            this.init();
             this.getTableData();
         }
     }
