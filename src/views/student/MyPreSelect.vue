@@ -155,6 +155,7 @@
                                 message: '删除成功'
                             });
                             this.courseList.splice(index, 1);
+                            this.initPreTable();
                         })
                 })
             },
