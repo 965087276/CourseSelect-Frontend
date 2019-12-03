@@ -80,21 +80,35 @@
                         <div class="time">5</div>
                     </div>
                     <div class="table_content">
-                        <div class="class" v-for="(item,index) in courseSchedulesTable" :key="index">
-                            <div class="class_inner" v-if="item.courseName != null && item.courseName!=''">
-                                <div class="course">{{item.courseName}}</div>
+                        <div class="class" v-for="(item,index) in data" :key="index">
+                            <div class="no_class" v-if="item.length == 0">无课</div>
+                            <div class="class_inner" v-else-if="item.length == 1">
+                                <div class="course">{{item[0].courseName}}</div>
                                 <div class="class_info">
                                     <div class="student">
                                         <i class="el-icon-info"></i>
-                                        {{item.courseTeacher}}
+                                        {{item[0].courseTeacher}}
                                     </div>
                                     <div class="classroom">
                                         <i class="el-icon-location"></i>
-                                        {{item.classroom}}
+                                        {{item[0].classroom}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="no_class" v-if="item.courseName == ''">无课</div>
+                            <div class="class_inner" style="background-color: rgb(39, 247, 133); cursor: pointer" v-else @click="getNextCourse(index, item.length)">
+                                <div class="course">{{ item[dataPos[index]].courseName }}</div>
+                                <div class="class_info">
+                                    <div class="student">
+                                        <i class="el-icon-info"></i>
+                                        {{ item[dataPos[index]].courseTeacher }}
+                                    </div>
+                                    <div class="classroom">
+                                        <i class="el-icon-location"></i>
+                                        {{ item[dataPos[index]].classroom }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -111,20 +125,22 @@
             return {
                 courseList: [],
                 multipleSelection: [],
-                courseSchedulesTable: []
+                data: [],
+                dataPos: []
             }
         },
         methods: {
             init() {
+                this.data = []
+                this.dataPos = []
                 for (let i = 0; i < 35; i++) {
-                    this.courseSchedulesTable[i] = {
-                        day: "",
-                        time: "",
-                        classroom: "",
-                        courseName: "",
-                        courseTeacher: ""
-                    };
+                    this.data[i] = []
+                    this.dataPos[i] = 0;
                 }
+            },
+            getNextCourse(index, itemLength) {
+                let v = (this.dataPos[index] + 1) % parseInt(itemLength);
+                this.$set(this.dataPos, index, v);
             },
             removeCourse(index, row) {
                 this.$confirm('确认要删除这门预选课？', '提示', {
@@ -162,16 +178,14 @@
                         courseName: row.courseName,
                         courseTeacher: row.courseTeacher
                     }
-                    this.$set(this.courseSchedulesTable, index, ans);
+                    this.data[index].push(ans)
                 })
+                this.data.push()
             }
         },
-        created() {
-            this.init();
-        },
         mounted() {
-            this.getTableData();
             this.init();
+            this.getTableData();
         }
     }
 </script>
