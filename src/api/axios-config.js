@@ -33,7 +33,23 @@ instance.interceptors.response.use(
     response => {
         //失败的时候
         if (response.status !== STATUS) {
-            console.log('走通接口,但失败的时候', response);
+            console.log('直接失败的时候', response);
+            return Promise.reject('error')
+        }
+        else if (response.data.status !== STATUS) {
+            console.log('走通接口，但失败的时候', response.data);
+            let message = response.data.message
+            MessageBox.confirm(
+                `${message}`,
+                `错误信息`,
+                {
+                    dangerouslyUseHTMLString: true,
+                    confirmButtonText       : '刷新',
+                    cancelButtonText        : '取消'
+                }
+            ).then(() => {
+                window.location.reload(true)
+            })
             return Promise.reject('error')
         }
         //成功的时候
@@ -49,15 +65,9 @@ instance.interceptors.response.use(
         //https://www.jianshu.com/p/349b7ab263f8
         // console.log('Interceptor response:', response)
         console.log('直接报错的时候', error.response);
-        /*Message({
-            message  : `请求错误:${response.message ? response.message : '错误读取不到message键'}`,
-            type     : 'error',
-            duration : 5 * 1000,
-            showClose: true,
-        })*/
         let message;
         try {
-            message = error.response.data.message
+            message = error.response.data.message ? error.response.data.message : error.response
         } catch (e) {
             message = error
         }
