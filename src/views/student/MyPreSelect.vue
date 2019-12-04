@@ -199,8 +199,15 @@
              * @param row
              */
             removeFromPreTable(index, row) {
-                this.courseList[index].addToTable = false;
-                this.initPreTable();
+                studentAPI.modifyAddToTable(this.$store.state.username, row.courseCode, false)
+                    .then(body => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功'
+                        });
+                        this.courseList[index].addToTable = false;
+                        this.initPreTable()
+                    })
             },
             /**
              * 向预选课课表中添加某门课
@@ -208,8 +215,15 @@
              * @param row
              */
             addToPreTable(index, row) {
-                this.courseList[index].addToTable = true;
-                this.initPreTable()
+                studentAPI.modifyAddToTable(this.$store.state.username, row.courseCode, true)
+                    .then(body => {
+                        this.$message({
+                            type: 'success',
+                            message: '添加成功'
+                        });
+                        this.courseList[index].addToTable = true;
+                        this.initPreTable()
+                    })
             }
         },
         mounted() {
