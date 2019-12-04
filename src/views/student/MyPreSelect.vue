@@ -184,6 +184,8 @@
                         let ans = {
                             day,
                             time,
+                            startWeek: schedule.startWeek,
+                            endWeek: schedule.endWeek,
                             classroom: schedule.classroom,
                             courseName: course.courseName,
                             courseTeacher: course.courseTeacher
@@ -215,6 +217,35 @@
              * @param row
              */
             addToPreTable(index, row) {
+                // let courseInfos = this.data[index]
+                // for (let i = 0; i < courseInfos.length; i++) {
+                //     let courseInfo = courseInfos[i];
+                //     if (!(row.endWeek < courseInfo.startWeek || courseInfo.endWeek < row.startWeek)) {
+                //         let message = "当前课程与" + courseInfo.courseName + "冲突"
+                //         this.$alert(message, '添加失败', {
+                //             confirmButtonText: '确定'
+                //         });
+                //         return false;
+                //     }
+                // }
+                let myList = row.courseSchedules;
+                for (let p = 0; p < this.courseList.length; p++) if (this.courseList[p].addToTable) {
+                    let preList = this.courseList[p].courseSchedules;
+                    for (let i = 0; i < myList.length; i++)
+                        for (let j = 0; j < preList.length; j++) {
+                            // 判断预选课程是否冲突
+                            if (!(myList[i].endWeek < preList[j].startWeek || preList[j].endWeek < myList[i].startWeek)
+                                && myList[i].day == preList[j].day
+                                && myList[i].time == preList[j].time) {
+                                let message = "当前课程与" + this.courseList[p].courseName + "冲突"
+                                this.$alert(message, '添加失败', {
+                                    confirmButtonText: '确定'
+                                });
+                                return false;
+                            }
+                        }
+                }
+
                 studentAPI.modifyAddToTable(this.$store.state.username, row.courseCode, true)
                     .then(body => {
                         this.$message({
