@@ -69,3 +69,15 @@ export const deleteStudentPreCourse = (username, courseCode) => {
         }
     })
 }
+
+// 修改预选课课程addToTable状态
+export const modifyAddToTable = (username, courseCode, addToTable) => {
+    return request({
+        method: 'patch',
+        url: `/student/pre_courses/${courseCode}`,
+        params: {
+            username,
+            addToTable
+        }
+    })
+}
