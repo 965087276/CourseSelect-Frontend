@@ -17,6 +17,7 @@ export const getCourseList = (formInline, curPage, pageSize) => {
     })
 }
 
+// 课程预选
 export const coursePreSelect = (bodyData) => {
     return request({
         method: 'post',
@@ -25,6 +26,7 @@ export const coursePreSelect = (bodyData) => {
     })
 }
 
+// 选课
 export const courseSelect = (bodyData) => {
     return request({
         method: 'post',
@@ -33,6 +35,7 @@ export const courseSelect = (bodyData) => {
     })
 }
 
+// 获取课表
 export const getStudentCourseTable = (username) => {
     return request({
         method: 'get',
@@ -40,6 +43,7 @@ export const getStudentCourseTable = (username) => {
     })
 }
 
+// 选课学分统计
 export const getCourseStats = (username) => {
     return request({
         method: 'get',
@@ -47,6 +51,7 @@ export const getCourseStats = (username) => {
     })
 }
 
+// 获取预选课程及时间安排
 export const getStudentPreCourse = (username) => {
     return request({
         method: 'get',
@@ -54,6 +59,7 @@ export const getStudentPreCourse = (username) => {
     })
 }
 
+// 删除预选课程
 export const deleteStudentPreCourse = (username, courseCode) => {
     return request({
         method: 'delete',
