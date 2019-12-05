@@ -32,7 +32,6 @@
                     </template>
                 </el-table-column>
         </el-table>
-        <br>数据{{this.tableData}}</br>
     </div>
 </template>
 
@@ -84,16 +83,23 @@
             getStudentsInfo(){
                 teacherAPI.getStudents(this.courseCode)
                 .then(body=>{
-                    this.tableData=body.students;
+                    this.tableData=body.students.sort(this.compare('studentId'));
                 })
-            }
+            },
+            compare(attr) {
+                return function(a,b){
+                    var val1 = a[attr];
+                    var val2 = b[attr];
+                    return val1 - val2;
+                }
+            },
         },
         created() {
             this.getParams();
         },
         mounted(){
             this.getStudentsInfo();
-        },
+        }
     };
 </script>
 
