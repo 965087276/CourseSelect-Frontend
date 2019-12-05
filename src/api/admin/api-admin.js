@@ -21,7 +21,7 @@ export const editEnableTimes=(startTime,endTime)=>{
 export const deleteCourse=(courseCode)=>{
     return request({
         method:'delete',
-        url:'/admin/course/${courseCode}'
+        url:`/admin/course/${courseCode}`
     })
 }
 
