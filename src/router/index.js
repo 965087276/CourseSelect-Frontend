@@ -36,8 +36,16 @@ const routes = [
         },
         children: [
             {
-                path: 'children',
-                component: () => import('../views/teacher/TeacherChild.vue'),
+                path: '/teacher/course-maneger/add',
+                component: () => import('../views/teacher/AddCourse.vue'),
+            },
+            {
+                path:'/teacher/course-maneger/grades',
+                component:()=>import('../views/teacher/SelectForGrades.vue')
+            },
+            {
+                path:'/teacher/course-maneger/grades/enter',
+                component:()=>import('../views/teacher/EnterGrades.vue')
             }
         ]
     },
