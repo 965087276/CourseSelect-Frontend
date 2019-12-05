@@ -1,30 +1,38 @@
 <template>
     <div>
         <h1>{{this.courseName}}({{this.courseCode}})选课花名册</h1>
+        <el-button type="primary" size="medium" @click="save()">提交</el-button>
         <el-table
-        :data="tableData"
-        style="width: 100%">
-            <el-table-column
-                prop="studentId"
-                label="学号"
-                width="300">
-            </el-table-column>
-            <el-table-column
-                prop="studentName"
-                label="姓名"
-                width="300">
-            </el-table-column>
-            <el-table-column
-                prop="college"
-                label="学院"
-                width="300">
-            </el-table-column>
-            <el-table-column
-                prop="grades"
-                label="成绩"
-                width="300">
-            </el-table-column>
-    </el-table>
+            :data="tableData"
+            style="width: 90%">
+                <el-table-column
+                    prop="studentId"
+                    label="学号"
+                    width="300">
+                </el-table-column>
+                <el-table-column
+                    prop="studentName"
+                    label="姓名"
+                    width="300">
+                </el-table-column>
+                <el-table-column
+                    prop="college"
+                    label="学院"
+                    width="300">
+                </el-table-column>
+                <el-table-column
+                    prop="grade"
+                    label="成绩"
+                    width="300">
+                    <template scope="scope">
+                        <el-input size="small" 
+                            v-model="scope.row.grade" 
+                            placeholder="请输入内容">
+                        </el-input> 
+                    </template>
+                </el-table-column>
+        </el-table>
+        <br>数据{{this.tableData}}</br>
     </div>
 </template>
 
@@ -33,27 +41,7 @@
     export default {
         data() {
             return {
-                tableData: [{
-                    studentId: '201928015029019',
-                    studentName: '康林峰',
-                    college: '计算机科学与技术学院',
-                    grades:93
-                }, {
-                    studentId: '201928015029001',
-                    studentName: '王小虎',
-                    college: '人工智能学院',
-                    grades:99
-                }, {
-                    studentId: '201928015029010',
-                    studentName: '王锦浩',
-                    college: '软件学院',
-                    grades:95
-                }, {
-                    studentId: '201928015029011',
-                    studentName: '冯建勇',
-                    college: '网络空间安全学院',
-                    grades:98
-                }],
+                tableData: [],
                 courseCode:'',
                 courseName:'',
                 }
@@ -62,13 +50,49 @@
             getParams(){
                 this.courseCode=this.$route.query.courseCode;
                 this.courseName=this.$route.query.courseName;
+            },
+            save(){
+                this.$confirm("是否确认提交？","确认提交",
+                {type:'info'})
+                .then(()=>{
+                    let body={
+                        content:[]
+                    }
+                    for(let i=0;i<this.tableData.length;i++)
+                    {
+                        body.content[i]={
+                            courseCode:this.courseCode,
+                            studentId:this.tableData[i].studentId,
+                            grade:this.tableData[i].grade,
+                        }
+                    }
+                    teacherAPI.inputGrades(body)
+                    .then(()=>{
+                        this.$message({
+                            message:"成绩已提交！！",
+                            type:'success',
+                        });
+                    })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消提交'
+                    });
+                })
+                
+            },
+            getStudentsInfo(){
+                teacherAPI.getStudents(this.courseCode)
+                .then(body=>{
+                    this.tableData=body.students;
+                })
             }
         },
         created() {
             this.getParams();
         },
         mounted(){
-            
+            this.getStudentsInfo();
         },
     };
 </script>
