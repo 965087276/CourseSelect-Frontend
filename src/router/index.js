@@ -46,6 +46,10 @@ const routes = [
             {
                 path:'/teacher/course-maneger/grades/enter',
                 component:()=>import('../views/teacher/EnterGrades.vue')
+            },
+            {
+                path:'/teacher/teacherCourseTable',
+                component:()=>import('../views/teacher/TeacherCourse.vue')
             }
         ]
     },
