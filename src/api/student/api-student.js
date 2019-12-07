@@ -100,3 +100,18 @@ export const deleteMyCourse = (username, courseCode) => {
         }
     })
 }
+
+// 我的已选课程课程编码
+export const getMyCourseCode = (username) => {
+    return request({
+        method: 'get',
+        url: `/student/course_code/students/${username}`
+    })
+}
+// 我的预选课程课程编码
+export const getMyPreCourseCode = (username) => {
+    return request({
+        method: 'get',
+        url: `/student/pre_course_code/students/${username}`
+    })
+}
