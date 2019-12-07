@@ -1,65 +1,67 @@
 <template>
     <div id="register">
-        <div class="title">用户注册</div>
-        <hr>
-        <el-form
-            :model="registerForm"
-            status-icon
-            :rules="rules"
-            label-width="100px"
-            :label-position="'left'"
-            ref="registerForm"
-        >
-            <el-form-item label="账号" prop="username">
-                <el-input v-model="registerForm.username"></el-input>
-            </el-form-item>
+<!--        <div class="title">用户注册</div>-->
+<!--        <hr>-->
+        <el-dialog title="用户注册" :visible.sync="dialogTableVisible" width="40%">
+            <el-form
+                    :model="registerForm"
+                    status-icon
+                    :rules="rules"
+                    label-width="100px"
+                    :label-position="'left'"
+                    ref="registerForm"
+            >
+                <el-form-item label="账号" prop="username">
+                    <el-input v-model="registerForm.username"></el-input>
+                </el-form-item>
 
-            <el-form-item label="姓名" prop="realName">
-                <el-input v-model="registerForm.realName" auto-complete="off"></el-input>
-            </el-form-item>
+                <el-form-item label="姓名" prop="realName">
+                    <el-input v-model="registerForm.realName" auto-complete="off"></el-input>
+                </el-form-item>
 
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="registerForm.password" auto-complete="off"></el-input>
-            </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" v-model="registerForm.password" auto-complete="off"></el-input>
+                </el-form-item>
 
-            <el-form-item label="重复密码" prop="password2">
-                <el-input type="password" v-model="registerForm.password2" auto-complete="off"></el-input>
-            </el-form-item>
-            
-            <el-form-item label="学院" prop="college">
-                <el-select v-model="registerForm.college" placeholder="请选择学院">
-                    <el-option label="计算机学院" value="计算机学院"></el-option>
-                    <el-option label="人工智能学院" value="人工智能学院"></el-option>
-                </el-select>
-            </el-form-item>
+                <el-form-item label="重复密码" prop="password2">
+                    <el-input type="password" v-model="registerForm.password2" auto-complete="off"></el-input>
+                </el-form-item>
 
-            <el-form-item label="专业" prop="major">
-                <el-select v-model="registerForm.major" placeholder="请选择专业">
-                    <el-option label="计算机应用技术" value="计算机应用技术"></el-option>
-                    <el-option label="计算机体系结构" value="计算机体系结构"></el-option>
-                </el-select>
-            </el-form-item>
+                <el-form-item label="学院" prop="college">
+                    <el-select v-model="registerForm.college" placeholder="请选择学院">
+                        <el-option label="计算机学院" value="计算机学院"></el-option>
+                        <el-option label="人工智能学院" value="人工智能学院"></el-option>
+                    </el-select>
+                </el-form-item>
 
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="registerForm.email"></el-input>
-            </el-form-item>
-            
-            <el-form-item label="联系方式" prop="phoneNumber">
-                <el-input v-model="registerForm.phoneNumber"></el-input>
-            </el-form-item>
+                <el-form-item label="专业" prop="major">
+                    <el-select v-model="registerForm.major" placeholder="请选择专业">
+                        <el-option label="计算机应用技术" value="计算机应用技术"></el-option>
+                        <el-option label="计算机体系结构" value="计算机体系结构"></el-option>
+                    </el-select>
+                </el-form-item>
 
-            <el-form-item label="身份">
-                <el-radio-group v-model="registerForm.role" size="medium">
-                    <el-radio border label="学生"></el-radio>
-                    <el-radio border label="老师"></el-radio>
-                </el-radio-group>
-            </el-form-item>
+                <el-form-item label="邮箱" prop="email">
+                    <el-input v-model="registerForm.email"></el-input>
+                </el-form-item>
 
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
-                <el-button @click="resetForm('registerForm')">重置</el-button>
-            </el-form-item>
-        </el-form>
+                <el-form-item label="联系方式" prop="phoneNumber">
+                    <el-input v-model="registerForm.phoneNumber"></el-input>
+                </el-form-item>
+
+                <el-form-item label="身份">
+                    <el-radio-group v-model="registerForm.role" size="medium">
+                        <el-radio border label="学生"></el-radio>
+                        <el-radio border label="老师"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
+                    <el-button @click="resetForm('registerForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </div>
 </template>
 
@@ -68,7 +70,7 @@
 import * as loginAPI from '@/api/login/api-login.js'
 export default {
     data() {
-        var validatePassword = (rule, value, callback) => {
+        let validatePassword = (rule, value, callback) => {
             if (value === '') {
                callback(new Error('请输入密码'));
             } 
@@ -79,7 +81,7 @@ export default {
                 callback();
             }
         };
-        var validatePassword2 = (rule, value, callback) => {
+        let validatePassword2 = (rule, value, callback) => {
             if (value == '') {
                 callback(new Error('请再次输入密码'))
             }
@@ -92,6 +94,7 @@ export default {
         };
 
         return {
+            dialogTableVisible: true,
             registerForm: {
                 username: '',
                 realName: '',
