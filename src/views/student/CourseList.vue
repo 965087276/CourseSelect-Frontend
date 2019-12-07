@@ -6,11 +6,10 @@
                     v-on:export-data="exportData">
             </w-course-search>
             <w-course-list
+                    unSelectedText="预选"
+                    selectedText="已预选"
                     :courseListRes="courseListRes"
                     v-on:add-course="preSelectCourse">
-                <template v-slot:course-select-text>
-                    预选
-                </template>
             </w-course-list>
 
         </el-main>
@@ -54,12 +53,21 @@
                             message: '添加成功',
                             type: 'success'
                         });
+                        this.courseListRes[index].isSelected = true;
+                        this.courseListRes.push()
                     })
             },
             getCourseList() {
                 studentAPI.getCourseList(this.formInline)
                     .then(body => {
                         this.courseListRes = body;
+                        studentAPI.getMyPreCourseCode(this.$store.state.username)
+                            .then(codes => {
+                                this.courseListRes.forEach(course => {
+                                    course.isSelected = (codes.indexOf(course.courseCode) != -1);
+                                })
+                                this.courseListRes.push()
+                            })
                     })
             },
 

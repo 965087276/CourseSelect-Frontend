@@ -60,16 +60,13 @@
             </el-table-column>
             <el-table-column label="操作" width="150px">
                 <template slot-scope="scope">
-                    <!--<el-button-->
-                    <!--type="primary"-->
-                    <!--size="small"-->
-                    <!--@click="addPreCourse(scope.$index, scope.row)">预选</el-button>-->
                     <el-button
                             v-if="$store.state.role=='student'"
-                            type="primary"
+                            :type="scope.row.isSelected ? 'danger' : 'primary'"
                             size="small"
+                            :disabled="scope.row.isSelected"
                             @click="$emit('add-course', scope.$index, scope.row)">
-                        <slot name="course-select-text"></slot>
+                        {{ scope.row.isSelected ? selectedText : unSelectedText }}
                     </el-button>
                     <el-button
                             v-if="$store.state.role=='admin'"
@@ -100,6 +97,12 @@
             courseListRes: {
                 type: Array,
                 default: []
+            },
+            unSelectedText: {
+                type: String
+            },
+            selectedText: {
+                type: String
             }
         },
         data() {

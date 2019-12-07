@@ -7,11 +7,10 @@
                     v-on:export-data="exportData">
             </w-course-search>
             <w-course-list
+                    unSelectedText="选课"
+                    selectedText="已选课"
                     :courseListRes="courseListRes"
                     v-on:add-course="selectCourse">
-                <template v-slot:course-select-text>
-                    选课
-                </template>
             </w-course-list>
 
         </el-main>
@@ -57,6 +56,8 @@
                                 message: '选课成功',
                                 type: 'success'
                             });
+                            this.courseListRes[index].isSelected = true;
+                            this.courseListRes.push()
                         })
                 })
 
@@ -65,6 +66,13 @@
                 studentAPI.getCourseList(this.formInline, this.curPage, this.pageSize)
                     .then(body => {
                         this.courseListRes = body;
+                        studentAPI.getMyCourseCode(this.$store.state.username)
+                            .then(codes => {
+                                this.courseListRes.forEach(course => {
+                                    course.isSelected = (codes.indexOf(course.courseCode) != -1);
+                                })
+                                this.courseListRes.push()
+                            })
                     })
             },
             fetchData() {
