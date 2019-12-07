@@ -10,7 +10,7 @@ export const getEnableTimes = () => {
 
 export const editEnableTimes=(startTime,endTime)=>{
     return request({
-        method:'post',
+        method:'put',
         url:'/admin/enabletimes_edit',
         data:{
             startTime:startTime,
