@@ -125,5 +125,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .el-main {
+        margin-left: 0px
+    }
 </style>

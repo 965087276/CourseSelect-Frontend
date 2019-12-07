@@ -14,16 +14,6 @@
             </w-course-list>
 
         </el-main>
-        <el-footer>
-            <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="totalElements"
-                    :current-page="curPage"
-                    :page-size="pageSize"
-                    @current-change="handleCurrentChange">
-            </el-pagination>
-        </el-footer>
     </el-container>
 </template>
 
@@ -35,9 +25,6 @@
         components: {wCourseList, wCourseSearch},
         data() {
             return {
-                totalElements: 100,
-                curPage: 1,
-                pageSize: 20,
                 formInline: {},
                 courseListRes: [], //表格
             }
@@ -70,10 +57,9 @@
                     })
             },
             getCourseList() {
-                studentAPI.getCourseList(this.formInline, this.curPage, this.pageSize)
+                studentAPI.getCourseList(this.formInline)
                     .then(body => {
-                        this.totalElements = body.totalElements;
-                        this.courseListRes = body.content;
+                        this.courseListRes = body;
                     })
             },
 

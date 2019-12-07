@@ -30,6 +30,9 @@
             <el-table-column
                     prop="credit"
                     label="课时/学分">
+                <template slot-scope="scope">
+                    {{ scope.row.courseHour + '/' + parseFloat(scope.row.credit) }}
+                </template>
             </el-table-column>
             <el-table-column
                     prop="limitNum"

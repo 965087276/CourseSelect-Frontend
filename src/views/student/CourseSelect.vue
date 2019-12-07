@@ -15,16 +15,7 @@
             </w-course-list>
 
         </el-main>
-        <el-footer>
-            <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="totalElements"
-                    :current-page="curPage"
-                    :page-size="pageSize"
-                    @current-change="handleCurrentChange">
-            </el-pagination>
-        </el-footer>
+
     </el-container>
 </template>
 
@@ -32,16 +23,14 @@
     import * as studentAPI from '@/api/student/api-student.js'
     import wCourseList from '@/components/student/wCourseListTable.vue'
     import wCourseSearch from '@/components/student/wCourseSearch.vue'
+
     export default {
         components: {wCourseList, wCourseSearch},
         data() {
             return {
-                totalElements: 100,
-                curPage: 1,
-                pageSize: 20,
                 formInline: {},
                 courseListRes: [], //表格
-                courseTimeParams:{}
+                courseTimeParams: {}
             }
         },
         methods: {
@@ -51,12 +40,6 @@
             },
             exportData() {
 
-            },
-            handleCurrentChange(val) {
-                if (val != this.curPage) {
-                    this.curPage = val;
-                    this.getCourseList();
-                }
             },
             selectCourse(index, row) {
                 let body = {
@@ -68,15 +51,12 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    studentAPI.deleteStudentPreCourse(this.$store.state.username, row.courseCode)
+                    studentAPI.courseSelect(body)
                         .then(body => {
-                            studentAPI.courseSelect(body)
-                                .then(body => {
-                                    this.$message({
-                                        message: '选课成功',
-                                        type: 'success'
-                                    });
-                                })
+                            this.$message({
+                                message: '选课成功',
+                                type: 'success'
+                            });
                         })
                 })
 
@@ -84,8 +64,7 @@
             getCourseList() {
                 studentAPI.getCourseList(this.formInline, this.curPage, this.pageSize)
                     .then(body => {
-                        this.totalElements = body.totalElements;
-                        this.courseListRes = body.content;
+                        this.courseListRes = body;
                     })
             },
             fetchData() {
@@ -110,6 +89,7 @@
     .el-main {
         margin-left: 0px
     }
+
     .el-pagination {
         width: 100%;
         margin: 0 auto
