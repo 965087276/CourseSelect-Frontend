@@ -5,7 +5,7 @@
         </el-header>
         <el-main>
             <el-row
-                :gutter="15"
+                    :gutter="15"
             >
                 <el-col class="course-stats">
                     <span style="font-weight: bold; color: #888888">
@@ -63,6 +63,7 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
+
     export default {
         name: "MyCourseList",
         data() {
@@ -78,6 +79,20 @@
         },
         methods: {
             removeCourse(index, row) {
+                this.$confirm('您要退选的课程为' + row.courseName, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'danger'
+                }).then(() => {
+                    studentAPI.deleteStudentPreCourse(this.$store.state.username, row.courseCode)
+                        .then(body => {
+                            this.$message({
+                                message: '成功退选课程：' + row.courseCode,
+                                type: 'success'
+                            });
+                            this.courseList.splice(index, 1);
+                        })
+                })
             },
             getCourseList() {
                 studentAPI.getMyCourseList(this.$store.state.username)
@@ -97,15 +112,19 @@
     .el-main {
         margin-left: 0px
     }
+
     .el-row {
         margin-bottom: 20px;
+
         &:last-child {
-             margin-bottom: 0;
-         }
+            margin-bottom: 0;
+        }
     }
+
     .el-col {
         border-radius: 4px;
     }
+
     #course-stats {
         color: #888888;
     }

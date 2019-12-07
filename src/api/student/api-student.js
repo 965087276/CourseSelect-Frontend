@@ -89,3 +89,14 @@ export const getMyCourseList = (username) => {
         url: `student/course/students/${username}`
     })
 }
+
+// 退课
+export const deleteMyCourse = (username, courseCode) => {
+    return request({
+        method: 'delete',
+        url: `/student/course/${courseCode}`,
+        params: {
+            username
+        }
+    })
+}
