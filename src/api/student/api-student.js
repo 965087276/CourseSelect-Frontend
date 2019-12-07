@@ -115,3 +115,11 @@ export const getMyPreCourseCode = (username) => {
         url: `/student/pre_course_code/students/${username}`
     })
 }
+
+// 我的成绩
+export const getMyGrades = (username) => {
+    return request({
+        method: 'get',
+        url: `/student/course_grade/students/${username}`
+    })
+}
