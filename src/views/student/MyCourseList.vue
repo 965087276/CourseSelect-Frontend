@@ -85,10 +85,10 @@
                     cancelButtonText: '取消',
                     type: 'danger'
                 }).then(() => {
-                    studentAPI.deleteStudentPreCourse(this.$store.state.username, row.courseCode)
+                    studentAPI.deleteMyCourse(this.$store.state.username, row.courseCode)
                         .then(body => {
                             this.$message({
-                                message: '成功退选课程：' + row.courseCode,
+                                message: '成功退选课程：' + row.courseName,
                                 type: 'success'
                             });
                             this.courseList.splice(index, 1);
@@ -120,7 +120,7 @@
             getCourseList() {
                 studentAPI.getMyCourseList(this.$store.state.username)
                     .then(body => {
-                        this.courseList = body.courses;
+                        this.courseList = body;
                         this.calCourseCredit();
                     })
             }
