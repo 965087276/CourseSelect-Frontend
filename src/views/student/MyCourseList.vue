@@ -9,10 +9,11 @@
             >
                 <el-col class="course-stats">
                     <span style="font-weight: bold; color: #888888">
-                        总共选修课程：<span style="color: #CC0000">{{courseCredits.totalCredits}}</span>分，
-                        其中必修课：<span style="color: #CC0000">{{courseCredits.requiredCredits}}</span>分，
-                        公选课：<span style="color: #CC0000">{{courseCredits.electiveCredits}}</span>分，
-                        专业课：<span style="color: #CC0000">{{courseCredits.specializedCredits}}</span>分
+                        选课数量：<span style="color: #CC0000">{{this.courseList.length}}</span> 门；
+                        选修课程总学分：<span style="color: #CC0000">{{courseCredits.totalCredits}}</span> 分，
+                        其中必修课：<span style="color: #CC0000">{{courseCredits.requiredCredits}}</span> 分，
+                        公选课：<span style="color: #CC0000">{{courseCredits.electiveCredits}}</span> 分，
+                        专业课：<span style="color: #CC0000">{{courseCredits.specializedCredits}}</span> 分
                     </span>
                 </el-col>
             </el-row>
@@ -91,14 +92,36 @@
                                 type: 'success'
                             });
                             this.courseList.splice(index, 1);
+                            this.calCourseCredit();
                         })
                 })
+            },
+            calCourseCredit() {
+                let map = {
+                    '公共选修课': 'electiveCredits',
+                    '公共必修课': 'requiredCredits',
+                    '专业核心课': 'specializedCredits',
+                    '专业普及课': 'specializedCredits',
+                    '专业研讨课': 'specializedCredits'
+                };
+
+                for (let v of Object.values(map)) {
+                    this.courseCredits[v] = 0;
+                }
+                this.courseList.forEach(row => {
+                    let courseType = map[row.courseType];
+                    let credit = parseFloat(row.credit);
+                    this.courseCredits[courseType] += credit;
+                })
+
+                this.courseCredits.totalCredits = this.courseCredits.specializedCredits
+                    + this.courseCredits.electiveCredits + this.courseCredits.requiredCredits;
             },
             getCourseList() {
                 studentAPI.getMyCourseList(this.$store.state.username)
                     .then(body => {
                         this.courseList = body.courses;
-                        this.courseCredits = body.courseCredits;
+                        this.calCourseCredit();
                     })
             }
         },
