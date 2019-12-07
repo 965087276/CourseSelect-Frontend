@@ -5,6 +5,7 @@
                 :span-method="objectSpanMethod"
                 border
                 stripe
+                :header-cell-style="{background: '#e6e6e6'}"
                 style="width: 100%">
             <el-table-column
                     prop="college"
