@@ -1,6 +1,13 @@
 <template>
     <div id="login">
-        <el-dialog title="用户登录" :visible.sync="dialogTableVisible" width="40%">
+        <el-dialog
+                title="用户登录"
+                :visible.sync="dialogTableVisible"
+                width="40%"
+                :close-on-click-modal="false"
+                :close-on-press-escape="false"
+                :show-close="false"
+        >
             <el-form
                     ref="loginForm"
                     :rules="rules"

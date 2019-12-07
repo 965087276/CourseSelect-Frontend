@@ -2,7 +2,14 @@
     <div id="register">
 <!--        <div class="title">用户注册</div>-->
 <!--        <hr>-->
-        <el-dialog title="用户注册" :visible.sync="dialogTableVisible" width="40%">
+        <el-dialog
+                title="用户注册"
+                :visible.sync="dialogTableVisible"
+                width="40%"
+                :close-on-click-modal="false"
+                :close-on-press-escape="false"
+                :show-close="false"
+        >
             <el-form
                     :model="registerForm"
                     status-icon
