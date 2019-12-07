@@ -6,6 +6,10 @@
     </div>
     <div class="account">学号/工号：{{$store.state.username}}</div>
     <div class="account" v-if="$store.state.college != ''">学院：{{$store.state.college}}</div>
+    <div style="margin: 18px 2px 10px 2px">
+      <el-button type="primary" round>修改信息</el-button>
+      <el-button type="danger" round>退出登录</el-button>
+    </div>
     <!-- <div class="account semester" v-if="$store.state.semester != ''">学期：{{$store.state.semester | semester}}</div> -->
   </div>
 </template>
