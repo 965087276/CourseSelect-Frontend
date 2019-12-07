@@ -19,7 +19,7 @@
                         <el-menu-item index="course-maneger/add">增添课程</el-menu-item>
                         <el-menu-item index="course-maneger/grades">录入成绩</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="courseList">
+                    <el-menu-item index="teacherCourseTable">
                     <template slot="title">
                             <i class="el-icon-location"></i>
                             <span>查看上课课表</span>
@@ -47,6 +47,7 @@
         },
         methods: {
             selectMenu(index) {
+                console.log(index)
                 this.$router.push("/teacher/" + index);
             },
             exit() {
