@@ -76,6 +76,10 @@ const routes = [
                 component: () => import('../views/student/MyCourseTable.vue')
             },
             {
+                path: '/student/course-select/my_course_list',
+                component: () => import('../views/student/MyCourseList.vue')
+            },
+            {
                 path: '/student/course-select/stats',
                 component: () => import('../views/student/CourseStats.vue')
             },
