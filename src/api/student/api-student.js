@@ -81,3 +81,11 @@ export const modifyAddToTable = (username, courseCode, addToTable) => {
         }
     })
 }
+
+// 我的已选课程
+export const getMyCourseList = (username) => {
+    return request({
+        method: 'get',
+        url: `student/course/students/${username}`
+    })
+}
