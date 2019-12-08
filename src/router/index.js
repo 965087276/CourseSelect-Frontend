@@ -50,6 +50,10 @@ const routes = [
             {
                 path:'/teacher/teacherCourseTable',
                 component:()=>import('../views/teacher/TeacherCourse.vue')
+            },
+            {
+                path:'/teacher/teacherCourseList',
+                component:()=>import('../views/teacher/TeacherCourseList.vue')
             }
         ]
     },
