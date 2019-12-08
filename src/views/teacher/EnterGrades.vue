@@ -6,12 +6,12 @@
             :data="tableData"
             style="width: 90%">
                 <el-table-column
-                    prop="studentId"
+                    prop="studentUsername"
                     label="学号"
                     width="300">
                 </el-table-column>
                 <el-table-column
-                    prop="studentName"
+                    prop="studentRealName"
                     label="姓名"
                     width="300">
                 </el-table-column>
@@ -61,7 +61,7 @@
                     {
                         body.content[i]={
                             courseCode:this.courseCode,
-                            studentId:this.tableData[i].studentId,
+                            studentUsername:this.tableData[i].studentUsername,
                             grade:this.tableData[i].grade,
                         }
                     }
@@ -83,7 +83,7 @@
             getStudentsInfo(){
                 teacherAPI.getStudents(this.courseCode)
                 .then(body=>{
-                    this.tableData=body.students.sort(this.compare('studentId'));
+                    this.tableData=body.students.sort(this.compare('studentUsername'));
                 })
             },
             compare(attr) {

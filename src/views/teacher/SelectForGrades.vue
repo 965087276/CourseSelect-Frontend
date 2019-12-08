@@ -53,7 +53,7 @@
             getTeacherCourses(teacherId){
                 teacherAPI.getTeacherCourse(teacherId)
                 .then(body=>{
-                    this.tableData=body.content;
+                    this.tableData=body;
                 })
             }
         },

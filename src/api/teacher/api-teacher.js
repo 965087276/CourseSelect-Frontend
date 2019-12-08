@@ -8,6 +8,13 @@ export const addCourse=(bodyDate)=>{
     })
 }
 
+export const getTeacherCourseTable=(teacherId)=>{
+    return request({
+        method:'get',
+        url:`/teacher/courseTable/${teacherId}`
+    })
+}
+
 export const getTeacherCourse=(teacherId)=>{
     return request({
         method:'get',
@@ -26,7 +33,7 @@ export const getStudents=(courseCode)=>{
 //输入成绩
 export const inputGrades=(bodyDate) =>{
     return request({
-        method:'post',
+        method:'patch',
         url:'/teacher/grades',
         data:bodyDate
     })
