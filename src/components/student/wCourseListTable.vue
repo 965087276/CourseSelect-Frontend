@@ -76,7 +76,7 @@
                         修改
                     </el-button>
                     <el-button
-                            v-if="$store.state.role=='admin'"
+                            v-if="$store.state.role=='admin'||$store.state.role=='teacher'"
                             type="danger"
                             size="small"
                             @click="$emit('remove-course', scope.$index, scope.row)">
