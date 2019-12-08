@@ -56,7 +56,7 @@
                                     :type="scope.row.isSelected ? 'danger' : 'primary'"
                                     size="small"
                                     :disabled="scope.row.isSelected"
-                                    @click="$emit('selectCourse', scope.$index, scope.row)">
+                                    @click="selectCourse(scope.$index, scope.row)">
                                 {{ scope.row.isSelected ? '已选' : '选课' }}
                             </el-button>
                             <el-button
@@ -142,6 +142,28 @@
             getNextCourse(index, itemLength) {
                 let v = (this.dataPos[index] + 1) % parseInt(itemLength);
                 this.$set(this.dataPos, index, v);
+            },
+            selectCourse(index, row) {
+                let body = {
+                    'username': this.$store.state.username,
+                    'courseCode': row.courseCode
+                };
+                this.$confirm('您要选的课程为' + row.courseName, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    studentAPI.courseSelect(body)
+                        .then(body => {
+                            this.$message({
+                                message: '选课成功',
+                                type: 'success'
+                            });
+                            this.courseList[index].isSelected = true;
+                            this.courseList.push()
+                        })
+                })
+
             },
             removeCourse(index, row) {
                 this.$confirm('确认要删除这门预选课？', '提示', {
