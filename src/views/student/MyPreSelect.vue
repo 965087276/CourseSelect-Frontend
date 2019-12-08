@@ -10,7 +10,7 @@
                         :data="courseList"
                         border
                         stripe
-                        style="width: 100%">
+                        style="width: 80%">
                     <el-table-column label="课程规划" width="200px">
                         <template slot-scope="scope">
                             <el-button
@@ -49,14 +49,15 @@
                             prop="courseTeacher"
                             label="主讲教师">
                     </el-table-column>
-                    <el-table-column label="操作" width="150px">
+                    <el-table-column label="操作" width="200px">
                         <template slot-scope="scope">
                             <el-button
                                     v-if="$store.state.canSelect"
-                                    type="primary"
+                                    :type="scope.row.isSelected ? 'danger' : 'primary'"
                                     size="small"
+                                    :disabled="scope.row.isSelected"
                                     @click="$emit('selectCourse', scope.$index, scope.row)">
-                                选课
+                                {{ scope.row.isSelected ? '已选' : '选课' }}
                             </el-button>
                             <el-button
                                     type="danger"
@@ -127,7 +128,7 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
-
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         data() {
             return {
@@ -163,6 +164,18 @@
                 studentAPI.getStudentPreCourse(this.$store.state.username)
                     .then(body => {
                         this.courseList = body;
+                        pubAPI.getCourseSelectStatus().then(status => {
+                            this.$store.state.canSelect = status;
+                            if (status) {
+                                studentAPI.getMyCourseCode(this.$store.state.username)
+                                    .then(codes => {
+                                        this.courseList.forEach(course => {
+                                            course.isSelected = (codes.indexOf(course.courseCode) != -1);
+                                        })
+                                        this.courseList.push()
+                                    })
+                            }
+                        })
                         this.initPreTable()
                     })
             },
@@ -254,6 +267,12 @@
                         });
                         this.courseList[index].addToTable = true;
                         this.initPreTable()
+                    })
+            },
+            getCourseSelectStatus() {
+                pubAPI.getCourseSelectStatus()
+                    .then(status => {
+                        this.$store.state.canSelect = status;
                     })
             }
         },
