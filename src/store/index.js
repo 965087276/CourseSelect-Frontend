@@ -10,7 +10,8 @@ export default new Vuex.Store({
         realName: '',
         role: '',
         college: '',
-        authToken: ''
+        authToken: '',
+        canSelect: false
     },
     mutations: {
         clear() {
