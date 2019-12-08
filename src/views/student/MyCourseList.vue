@@ -23,7 +23,7 @@
                         border
                         stripe
                         :header-cell-style="{background: '#e6e6e6'}"
-                        style="width: 100%"
+                        style="width: 80%"
                 >
                     <el-table-column
                             prop="courseCode"
@@ -45,7 +45,7 @@
                             prop="courseTeacher"
                             label="主讲教师">
                     </el-table-column>
-                    <el-table-column label="操作" width="150px">
+                    <el-table-column label="操作" width="150px" v-if="$store.state.canSelect">
                         <template slot-scope="scope">
                             <el-button
                                     type="danger"
@@ -64,7 +64,7 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
-
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         name: "MyCourseList",
         data() {
@@ -123,10 +123,17 @@
                         this.courseList = body;
                         this.calCourseCredit();
                     })
+            },
+            getCourseSelectStatus() {
+                pubAPI.getCourseSelectStatus()
+                    .then(status => {
+                        this.$store.commit('updateCanSelect', status);
+                    })
             }
         },
         mounted() {
             this.getCourseList();
+            this.getCourseSelectStatus();
         }
     }
 </script>
