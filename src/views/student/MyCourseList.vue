@@ -64,7 +64,6 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
-    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         name: "MyCourseList",
         data() {
@@ -123,17 +122,11 @@
                         this.courseList = body;
                         this.calCourseCredit();
                     })
-            },
-            getCourseSelectStatus() {
-                pubAPI.getCourseSelectStatus()
-                    .then(status => {
-                        this.$store.commit('updateCanSelect', status);
-                    })
             }
         },
         mounted() {
             this.getCourseList();
-            this.getCourseSelectStatus();
+            this.$store.commit('updateCanSelect')
         }
     }
 </script>

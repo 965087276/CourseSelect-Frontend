@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import {getCourseSelectStatus} from '@/api/pub/api-pub.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,8 +19,8 @@ export default new Vuex.Store({
                 this.state[key] = ''
             }
         },
-        updateCanSelect(state, canSelect) {
-            state.canSelect = canSelect
+        updateCanSelect() {
+            getCourseSelectStatus().then(status => this.state.canSelect = status)
         },
         updateToken(state, authToken) {
             state.authToken = authToken;

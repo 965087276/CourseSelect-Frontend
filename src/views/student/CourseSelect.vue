@@ -22,7 +22,6 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
-    import * as pubAPI from '@/api/pub/api-pub.js'
     import wCourseList from '@/components/student/wCourseListTable.vue'
     import wCourseSearch from '@/components/student/wCourseSearch.vue'
 
@@ -77,19 +76,13 @@
                                 this.courseListRes.push()
                             })
                     })
-            },
-            getCourseSelectStatus() {
-                pubAPI.getCourseSelectStatus()
-                    .then(status => {
-                        this.$store.commit('updateCanSelect', status);
-                    })
             }
         },
         created() {
 
         },
         mounted() {
-            this.getCourseSelectStatus();
+            this.$store.commit('updateCanSelect')
             // 如果是从我的课程里跳转过来
             if (this.$route.params.isCourseTable == true) {
                 this.courseTimeParams = this.$route.params;

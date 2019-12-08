@@ -128,7 +128,6 @@
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
-    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         data() {
             return {
@@ -186,18 +185,16 @@
                 studentAPI.getStudentPreCourse(this.$store.state.username)
                     .then(body => {
                         this.courseList = body;
-                        pubAPI.getCourseSelectStatus().then(status => {
-                            this.$store.state.canSelect = status;
-                            if (status) {
-                                studentAPI.getMyCourseCode(this.$store.state.username)
-                                    .then(codes => {
-                                        this.courseList.forEach(course => {
-                                            course.isSelected = (codes.indexOf(course.courseCode) != -1);
+                        this.$store.commit('updateCanSelect')
+                        if (this.$store.state.canSelect) {
+                            studentAPI.getMyCourseCode(this.$store.state.username)
+                                        .then(codes => {
+                                            this.courseList.forEach(course => {
+                                                course.isSelected = (codes.indexOf(course.courseCode) != -1);
+                                            })
+                                            this.courseList.push()
                                         })
-                                        this.courseList.push()
-                                    })
-                            }
-                        })
+                        }
                         this.initPreTable()
                     })
             },
@@ -289,12 +286,6 @@
                         });
                         this.courseList[index].addToTable = true;
                         this.initPreTable()
-                    })
-            },
-            getCourseSelectStatus() {
-                pubAPI.getCourseSelectStatus()
-                    .then(status => {
-                        this.$store.commit('updateCanSelect', status);
                     })
             }
         },
