@@ -7,21 +7,27 @@ export const addCourse=(bodyDate)=>{
         data:bodyDate
     })
 }
-
+//老师课表周试图接口
 export const getTeacherCourseTable=(teacherId)=>{
     return request({
         method:'get',
         url:`/teacher/courseTable/${teacherId}`
     })
 }
-
+//录入成绩课程的接口
 export const getTeacherCourse=(teacherId)=>{
     return request({
         method:'get',
         url:`/teacher/courses/${teacherId}`
     })
 }
-
+//删除课程接口
+export const getTeacherCourseList=(teacherId)=>{
+    return request({
+        method:'get',
+        url:`/teacher/courseList/${teacherId}`
+    })
+}
 //得到上该门课的学生
 export const getStudents=(courseCode)=>{
     return request({
