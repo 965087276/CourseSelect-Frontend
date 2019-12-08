@@ -13,6 +13,11 @@ export default new Vuex.Store({
         authToken: ''
     },
     mutations: {
+        clear() {
+            for (let key in this.state) {
+                this.state[key] = ''
+            }
+        },
         updateToken(state, authToken) {
             state.authToken = authToken;
         },

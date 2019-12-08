@@ -1,67 +1,77 @@
 <template>
-  <div id="userInfo">
-    <div class="name">{{$store.state.realName}}</div>
-    <div class="role">
-      <span>{{$store.state.role | role}}</span>
+    <div id="userInfo">
+        <div class="name">{{$store.state.realName}}</div>
+        <div class="role">
+            <span>{{$store.state.role | role}}</span>
+        </div>
+        <div class="account">学号/工号：{{$store.state.username}}</div>
+        <div class="account" v-if="$store.state.college != ''">学院：{{$store.state.college}}</div>
+        <div style="margin: 18px 2px 10px 2px">
+            <el-button type="primary" round>修改信息</el-button>
+            <el-button type="danger" round @click="exit">退出登录</el-button>
+        </div>
+        <!-- <div class="account semester" v-if="$store.state.semester != ''">学期：{{$store.state.semester | semester}}</div> -->
     </div>
-    <div class="account">学号/工号：{{$store.state.username}}</div>
-    <div class="account" v-if="$store.state.college != ''">学院：{{$store.state.college}}</div>
-    <div style="margin: 18px 2px 10px 2px">
-      <el-button type="primary" round>修改信息</el-button>
-      <el-button type="danger" round>退出登录</el-button>
-    </div>
-    <!-- <div class="account semester" v-if="$store.state.semester != ''">学期：{{$store.state.semester | semester}}</div> -->
-  </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {};
-  }
-};
+    export default {
+        data() {
+            return {};
+        },
+        methods: {
+            exit() {
+                this.$store.commit("clear");
+                this.$router.push({name: 'login'});
+            }
+        }
+    };
 </script>
 
 <style lang='scss' scoped>
-#userInfo {
-  width: 299px;
-  height: fit-content;
-  background: #1d2b36;
-  color: white;
-  padding: 20px;
-  box-sizing: border-box;
-  border-bottom: 2px solid #121f28;
-  .name {
-    background-color: #6C6FC0;
-    width: 150px;
-    height: 150px;
-    border-radius: 150px;
-    line-height: 120px;
-    text-align: center;
-    margin: 0 auto;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    // border: 5px solid white;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.8);
-  }
-  .role {
-    text-align: center;
-    position: relative;
-    top: -80px;
-    span {
-      text-align: center;
-      font-size: 14px;
-      display: inline;
-      padding: 3px 10px;
-      border-radius: 10px;
-      font-weight: bold;
+    #userInfo {
+        width: 299px;
+        height: fit-content;
+        background: #1d2b36;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        border-bottom: 2px solid #121f28;
+
+        .name {
+            background-color: #6C6FC0;
+            width: 150px;
+            height: 150px;
+            border-radius: 150px;
+            line-height: 120px;
+            text-align: center;
+            margin: 0 auto;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            // border: 5px solid white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .role {
+            text-align: center;
+            position: relative;
+            top: -80px;
+
+            span {
+                text-align: center;
+                font-size: 14px;
+                display: inline;
+                padding: 3px 10px;
+                border-radius: 10px;
+                font-weight: bold;
+            }
+        }
+
+        .account {
+            color: rgba(211, 211, 211, 0.664);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
     }
-  }
-  .account {
-    color: rgba(211, 211, 211, 0.664);
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-}
 </style>
