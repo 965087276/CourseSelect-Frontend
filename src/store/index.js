@@ -19,6 +19,9 @@ export default new Vuex.Store({
                 this.state[key] = ''
             }
         },
+        updateCanSelect(state, canSelect) {
+            state.canSelect = canSelect
+        },
         updateToken(state, authToken) {
             state.authToken = authToken;
         },

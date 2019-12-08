@@ -81,7 +81,7 @@
             getCourseSelectStatus() {
                 pubAPI.getCourseSelectStatus()
                     .then(status => {
-                        this.$store.state.canSelect = status;
+                        this.$store.commit('updateCanSelect', status);
                     })
             }
         },
