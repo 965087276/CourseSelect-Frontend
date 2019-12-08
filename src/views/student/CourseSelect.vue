@@ -1,25 +1,28 @@
 <template>
-    <el-container>
-        <el-main>
-            <w-course-search
-                    :courseTime="courseTimeParams"
-                    v-on:query-course="queryCourse"
-                    v-on:export-data="exportData">
-            </w-course-search>
-            <w-course-list
-                    unSelectedText="选课"
-                    selectedText="已选课"
-                    :courseListRes="courseListRes"
-                    v-on:add-course="selectCourse">
-            </w-course-list>
+    <div id="app" v-loading="$store.state.canSelect === false" element-loading-text="选课尚未开放">
+        <el-container>
+            <el-main>
+                <w-course-search
+                        :courseTime="courseTimeParams"
+                        v-on:query-course="queryCourse"
+                        v-on:export-data="exportData">
+                </w-course-search>
+                <w-course-list
+                        unSelectedText="选课"
+                        selectedText="已选课"
+                        :courseListRes="courseListRes"
+                        v-on:add-course="selectCourse">
+                </w-course-list>
 
-        </el-main>
+            </el-main>
 
-    </el-container>
+        </el-container>
+    </div>
 </template>
 
 <script>
     import * as studentAPI from '@/api/student/api-student.js'
+    import * as pubAPI from '@/api/pub/api-pub.js'
     import wCourseList from '@/components/student/wCourseListTable.vue'
     import wCourseSearch from '@/components/student/wCourseSearch.vue'
 
@@ -75,11 +78,18 @@
                             })
                     })
             },
-            fetchData() {
-                alert(this.$route.params.day)
+            getCourseSelectStatus() {
+                pubAPI.getCourseSelectStatus()
+                    .then(status => {
+                        this.$store.state.canSelect = status;
+                    })
             }
         },
+        created() {
+
+        },
         mounted() {
+            this.getCourseSelectStatus();
             // 如果是从我的课程里跳转过来
             if (this.$route.params.isCourseTable == true) {
                 this.courseTimeParams = this.$route.params;
