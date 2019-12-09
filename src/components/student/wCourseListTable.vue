@@ -8,6 +8,7 @@
                 :header-cell-style="{background: '#e6e6e6'}"
                 style="width: 100%">
             <el-table-column
+                    v-if="$store.state.role !='teacher'"
                     prop="college"
                     label="开课学院">
             </el-table-column>
@@ -23,10 +24,6 @@
                     prop="courseType"
                     label="课程属性">
             </el-table-column>
-<!--            <el-table-column-->
-<!--                    prop="major"-->
-<!--                    label="所属学科/专业">-->
-<!--            </el-table-column>-->
             <el-table-column
                     prop="credit"
                     label="课时/学分">
@@ -55,6 +52,7 @@
                     label="教室">
             </el-table-column>
             <el-table-column
+                    v-if="$store.state.role !='teacher'"
                     prop="courseTeacher"
                     label="主讲教师">
             </el-table-column>
