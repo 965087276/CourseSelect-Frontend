@@ -56,7 +56,7 @@
                     prop="courseTeacher"
                     label="主讲教师">
             </el-table-column>
-            <el-table-column label="操作" width="150px">
+            <el-table-column label="操作" width="200px">
                 <template slot-scope="scope">
                     <el-button
                             v-if="$store.state.role=='student'"
@@ -67,7 +67,7 @@
                         {{ scope.row.isSelected ? selectedText : unSelectedText }}
                     </el-button>
                     <el-button
-                            v-if="$store.state.role=='admin'"
+                            v-if="$store.state.role=='admin' ||$store.state.role=='teacher'"
                             type="primary"
                             size="small"
                             @click="$emit('edit-course', scope.$index, scope.row)">
