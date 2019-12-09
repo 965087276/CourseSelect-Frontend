@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>{{this.courseName}}({{this.courseCode}})选课花名册</h1>
-        <el-button type="primary" size="medium" @click="save()">提交</el-button>
+        <el-button type="primary" size="medium" @click="save()">批量导入成绩</el-button>
         <el-table
             :data="tableData"
-            style="width: 90%">
+            style="width: 70%">
                 <el-table-column
                     prop="studentUsername"
                     label="学号"
@@ -20,17 +20,22 @@
                     label="学院"
                     width="300">
                 </el-table-column>
-                <el-table-column
+            <el-table-column
                     prop="grade"
                     label="成绩"
                     width="300">
-                    <template scope="scope">
-                        <el-input size="small" 
-                            v-model="scope.row.grade" 
-                            placeholder="请输入内容">
-                        </el-input> 
-                    </template>
-                </el-table-column>
+                {{ "未录入" }}
+            </el-table-column>
+            <el-table-column label="操作" width="400">
+                <template slot-scope="scope">
+                    <el-button
+                            size="medium"
+                            type="primary"
+                            @click="handleEdit(scope.$index, scope.row)">
+                        录入成绩
+                    </el-button>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
