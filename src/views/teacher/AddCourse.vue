@@ -143,7 +143,7 @@
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('courseForm')">提交</el-button>
                     <el-button @click="addCourseSchedule">新增课程时间</el-button>
-                    <el-button @click="resetForm('courseForm')">重置</el-button>
+                    <el-button @click="cancel">取消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -187,15 +187,6 @@
                     endWeek: [
                         { required: true, message: "请选择课程结束周", trigger: ["blur", "change"] }
                     ],
-                    // day: [
-                    //     { required: true, message: '请选择上课时间', trigger: ['blur', 'change'] }
-                    // ],
-                    // time: [
-                    //     { required: true, message: "请选择上课节次", trigger: ["blur", "change"] }
-                    // ],
-                    // classroom: [
-                    //     { required: true, message: "请选择上课教室", trigger: ["blur", "change"] }
-                    // ],
                 },
                 weeks: [],
                 weekdays: [],
@@ -236,6 +227,9 @@
                     classroom: ''
                 })
             },
+            cancel() {
+                this.$router.push('/teacher/teacherCourseList')
+            },
             submitForm(courseForm) {
                 this.$refs.courseForm.validate(valid => {
                     if (valid) {
@@ -248,6 +242,7 @@
                         teacherAPI.addCourse(body)
                             .then(body => {
                                 this.$message("添加成功");
+                                this.$router.push('/teacher/teacherCourseList')
                             })
                     }
                 })
