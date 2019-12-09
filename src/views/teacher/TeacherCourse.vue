@@ -25,6 +25,10 @@
                         <div class="class_inner" v-else-if="item.length == 1">
                             <div class="course">{{item[0].courseName}}</div>
                             <div class="class_info">
+                                <div class="student">
+                                    <i class="el-icon-time"></i>
+                                    {{ '第' + item[0].startWeek + '-' + item[0].endWeek + '周'}}
+                                </div>
                                 <div class="classroom">
                                     <i class="el-icon-location"></i>
                                     {{item[0].classroom}}
@@ -34,6 +38,10 @@
                         <div class="class_inner" style="background-color: rgb(39, 247, 133); cursor: pointer" v-else @click="getNextCourse(index, item.length)">
                             <div class="course">{{ item[dataPos[index]].courseName }}</div>
                             <div class="class_info">
+                                <div class="student">
+                                    <i class="el-icon-time"></i>
+                                    {{ '第' + item[dataPos[index]].startWeek + '-' + item[dataPos[index]].endWeek + '周'}}
+                                </div>
                                 <div class="classroom">
                                     <i class="el-icon-location"></i>
                                     {{ item[dataPos[index]].classroom }}
