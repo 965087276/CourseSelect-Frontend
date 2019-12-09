@@ -114,6 +114,16 @@
                     college: '',
                     day: ''
                 },
+                colSpan: {
+                   'teacher': {
+                       'min': 7,
+                       'max': 8
+                   },
+                    'student': {
+                       'min': 8,
+                       'max': 10
+                    }
+                },
                 colleges: [{
                     value: '计算机科学与技术学院',
                     label: '计算机科学与技术学院'
@@ -197,7 +207,8 @@
                 this.courseList = courseList_;
             },
             objectSpanMethod({row, column, rowIndex, columnIndex}) {
-                if (columnIndex < 8 || columnIndex > 10) {
+                let role = this.$store.state.role;
+                if (columnIndex < this.colSpan[role]['min'] || columnIndex > this.colSpan[role]['max']) {
                     return {
                         rowspan: this.spanArr[rowIndex],
                         colspan: this.spanArr[rowIndex] > 0 ? 1 : 0
