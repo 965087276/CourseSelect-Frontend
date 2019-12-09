@@ -24,19 +24,41 @@
                     prop="grade"
                     label="成绩"
                     width="300">
-                {{ "未录入" }}
+                <template slot-scope="scope">
+                    {{ scope.row.finished ? scope.row.grade : '未录入' }}
+                </template>
             </el-table-column>
             <el-table-column label="操作" width="400">
                 <template slot-scope="scope">
                     <el-button
                             size="medium"
-                            type="primary"
-                            @click="handleEdit(scope.$index, scope.row)">
-                        录入成绩
+                            :type="scope.row.finished ? 'danger' : 'primary'"
+                            @click="editGrade(scope.$index, scope.row)">
+                        {{ scope.row.finished ? '修改成绩' : '录入成绩' }}
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-dialog title="编辑成绩" :visible.sync="dialogFormVisible">
+            <el-form :model="gradeForm">
+                <el-form-item label="学生学号" :label-width="formLabelWidth">
+                    <el-input v-model="gradeForm.username" autocomplete="off" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="学生姓名" :label-width="formLabelWidth">
+                    <el-input v-model="gradeForm.realName" autocomplete="off" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="成绩" :label-width="formLabelWidth">
+                    <el-input v-model="gradeForm.grade" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmEditGrade">确 定</el-button>
+            </div>
+        </el-dialog>
+
+
     </div>
 </template>
 
@@ -48,9 +70,34 @@
                 tableData: [],
                 courseCode:'',
                 courseName:'',
+                dialogFormVisible: false,
+                formLabelWidth: '120px',
+                gradeForm: {
+                    'username': '',
+                    'courseCode': '',
+                    'grade': '',
+                    'realName': '',
+                    'index': 0
                 }
+            }
+
         },
         methods: {
+            editGrade(index, row) {
+                this.gradeForm.username = row.studentUsername
+                this.gradeForm.courseCode = this.courseCode
+                this.gradeForm.realName = row.studentRealName
+                this.gradeForm.grade = ''
+                this.gradeForm.index = index
+                this.dialogFormVisible = true
+            },
+            confirmEditGrade() {
+                this.dialogFormVisible = false
+                let index = parseInt(this.gradeForm.index)
+                this.tableData[index].grade = this.gradeForm.grade
+                this.tableData[index].finished = true
+                this.tableData.push()
+            },
             getParams(){
                 this.courseCode=this.$route.query.courseCode;
                 this.courseName=this.$route.query.courseName;
