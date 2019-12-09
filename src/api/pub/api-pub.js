@@ -7,3 +7,11 @@ export const getCourseSelectStatus = () => {
         url: '/pub/course_select_status'
     })
 }
+
+// 获取所有教室
+export const getClassrooms = () => {
+    return request({
+        method: 'get',
+        url: '/pub/classrooms'
+    })
+}
