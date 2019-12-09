@@ -1,397 +1,263 @@
 <template>
-    <el-container>
-        <el-main>
-           <h1>添加课程</h1>
-           <el-form :inline="true" :model="formInline" :ref="formInline" :rules='rules' label-width="100px" class="demo-dynamic">
-           <el-row>
-                <el-col :span="12">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item label="课程学时" prop="courseHours">
-                            <el-input v-model.number="formInline.courseHours" placeholder="请输入" clearable>
-                            </el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item label="课程名称" prop="courseName">
-                            <el-input v-model="formInline.courseName" placeholder="请输入" clearable></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                <div class="grid-content bg-purple-light">
-                    <el-form-item label="课程属性">
-                        <el-select v-model="formInline.courseTypes" filterable placeholder="请选择">
-                            <el-option v-for="item in courseTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item label="学分" prop="credit">
-                            <el-input v-model.number="formInline.credit" placeholder="请输入" clearable></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                <div class="grid-content bg-purple-light">
-                    <el-form-item label="限选人数" prop="limitNum">
-                        <el-input v-model.number="formInline.limitNum" placeholder="请输入(0代表无限制)" clearable></el-input>
-                    </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item label="课程开始周">
-                            <el-select v-model="formInline.startWeek" filterable placeholder="请选择">
-                                <el-option v-for="item in weekMap" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                         </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                <div class="grid-content bg-purple-light">
-                    <el-form-item label="课程结束周">
-                        <el-select v-model="formInline.endWeek" filterable placeholder="请选择">
-                            <el-option v-for="item in weekMap" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    </div>
-                </el-col>
-                 <el-col :span="12">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item
-                            v-for="(courseTime, index) in formInline.courseTimes"
-                            :label="index+'节次'"
-                            :key="courseTime.key"
-                            :prop="'courseTimes.' + index + '.value'"
-                            >
-                            <el-select v-model="formInline.courseTimes[index]" filterable placeholder="请选择">
-                                <el-option v-for="item in coursetimes" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                            <el-button @click.prevent="removeCourseTime(courseTime)">删除</el-button>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button @click="addCourseTime">新增节次</el-button>
-                        </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                <div class="grid-content bg-purple-light">
-                    <el-form-item
-                        v-for="(classroom, index) in formInline.classrooms"
-                        :label="index+'教室'"
-                        :key="classroom.key"
-                        :prop="'classrooms.' + index + '.value'"
-                        :rules="[{
-                            required: true, 
-                            message: '教室不能为空！', 
-                            trigger: 'blur' 
-                        }]">
-                        <el-input v-model="classroom.value" clearable></el-input>
-                    </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="8">
-                    <div class="grid-content bg-purple-light">
-                        <el-form-item
-                            v-for="(week, index) in formInline.weeks"
-                            :label="index+'星期'"
-                            :key="week.key"
-                            :prop="'weeks.' + index + '.value'"
-                            >
-                            <el-select v-model="formInline.weeks[index]" filterable placeholder="请选择">
-                                <el-option v-for="item in weekTime" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    <div id="course-add">
+        <el-dialog
+                title="添加课程"
+                :visible.sync="dialogTableVisible"
+                width="40%"
+                :close-on-click-modal="false"
+                :close-on-press-escape="false"
+                :show-close="false"
+        >
+            <el-form
+                    :model="courseForm"
+                    status-icon
+                    :rules="rules"
+                    label-width="100px"
+                    :label-position="'left'"
+                    ref="courseForm"
+            >
+                <el-form-item label="课程名称" prop="courseName" style="width: 40%">
+                    <el-input v-model="courseForm.courseName" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="课程类型" prop="courseType">
+                    <el-select v-model="courseForm.courseType" placeholder="请选择课程类型">
+                        <el-option label="专业核心课" value="专业核心课"></el-option>
+                        <el-option label="专业研讨课" value="专业研讨课"></el-option>
+                        <el-option label="专业普及课" value="专业普及课"></el-option>
+                        <el-option label="公共必修课" value="公共必修课"></el-option>
+                        <el-option label="公共选修课" value="公共选修课"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="课时" prop="courseHour">
+                    <el-select v-model="courseForm.courseHour" placeholder="请选择课时">
+                        <el-option label="20" value="20"></el-option>
+                        <el-option label="30" value="30"></el-option>
+                        <el-option label="40" value="40"></el-option>
+                        <el-option label="50" value="50"></el-option>
+                        <el-option label="60" value="60"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="学分" prop="credit" >
+                    <el-select v-model="courseForm.credit" placeholder="请选择课程学分">
+                        <el-option label="0.5" value="0.5"></el-option>
+                        <el-option label="1" value="1"></el-option>
+                        <el-option label="1.5" value="1.5"></el-option>
+                        <el-option label="2" value="2"></el-option>
+                        <el-option label="3" value="3"></el-option>
+                        <el-option label="4" value="4"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="限选人数" prop="limitNum" style="width: 40%">
+                    <el-input v-model.number="courseForm.limitNum" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="起止周" required>
+                    <el-col :span="11">
+                        <el-form-item prop="startWeek">
+                            <el-select v-model="courseForm.startWeek" placeholder="请选择课程起始周">
+                                <el-option
+                                        v-for="item in weeks"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                >
+                                </el-option>
                             </el-select>
                         </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
-        </el-form>
-        </el-main>
-        <el-footer>
-            <div style="
-                width: 100%;
-                height: 100px;
-                text-align:center;"
+                    </el-col>
+                    <el-col class="line" :span="2">至</el-col>
+                    <el-col :span="11">
+                        <el-form-item prop="endWeek">
+                            <el-select v-model="courseForm.endWeek" placeholder="请选择课程结束周">
+                                <el-option
+                                        v-for="item in weeks"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-form-item>
+
+                <el-form-item
+                    v-for="(schedule, index) in courseForm.schedules"
+                    :label="'课程安排' + (index+1)"
                 >
-                <el-button type="success" round size="medium" @click="addCourseClick(formInline)">确认添加</el-button>
-            </div>
-        </el-footer>
-    </el-container>
+                    <el-col :span="6">
+                       <el-form-item
+                               :prop="'schedules.' + index + '.day'"
+                               :key="index"
+                               :rules="[{ required: true, message: '请选择上课时间', trigger: ['blur', 'change'] }]"
+                       >
+                           <el-select v-model="courseForm.schedules[index].day" placeholder="请选择上课时间">
+                               <el-option
+                                       v-for="item in weekdays"
+                                       :key="item.value"
+                                       :label="item.label"
+                                       :value="item.value"
+                               >
+                               </el-option>
+                           </el-select>
+                       </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item
+                                :prop="'schedules.' + index + '.time'"
+                                :rules="[{ required: true, message: '请选择上课节次', trigger: ['blur', 'change'] }]"
+                        >
+                            <el-select v-model="courseForm.schedules[index].time" placeholder="请选择上课节次">
+                                <el-option
+                                        v-for="item in times"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item
+                                :prop="'schedules.' + index + '.classroom'"
+                                :rules="[{ required: true, message: '请选择教室', trigger: ['blur', 'change'] }]"
+                        >
+                            <el-select v-model="courseForm.schedules[index].classroom" placeholder="请选择上课教室">
+                                <el-option
+                                        v-for="item in classrooms"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('courseForm')">提交</el-button>
+                    <el-button @click="addCourseSchedule">新增课程时间</el-button>
+                    <el-button @click="resetForm('courseForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+    </div>
 </template>
+
 
 <script>
     import * as teacherAPI from '@/api/teacher/api-teacher.js'
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         data() {
             return {
-                rules:{
-                    courseHours:[
-                        {required: true, message: '课程学时不能为空！', trigger: 'blur' },
-                        {type:'number',message:'课程学时只能为数字'}
-                    ],
-                    courseName:[{required: true, message: '课程名称不能为空！', trigger: 'blur' }],
-                    credit:[
-                        {required: true, message: '学分不能为空！', trigger: 'blur' },
-                        {type:'number',message:'学分只能为数字'}
-                        ],
-                    limitNum:[
-                        {required: true, message: '限选人数不能为空！', trigger: 'blur' },
-                        {type:'number',message:'限选人数只能为数字'}
-                        ]
-                },
-                colleges: [{
-                    value: '计算机科学与技术学院',
-                    label: '计算机科学与技术学院'
-                }, {
-                    value: '网络空间安全学院',
-                    label: '网络空间安全学院'
-                }, {
-                    value: '人工智能技术学院',
-                    label: '人工智能技术学院'
-                }, {
-                    value: '软件学院',
-                    label: '软件学院'
-                }, {
-                    value: '马克思主义学院',
-                    label: '马克思主义学院'
-                }],
-                courseTypes: [{
-                    value: '专业核心课',
-                    label: '专业核心课'
-                }, {
-                    value: '普及课',
-                    label: '普及课'
-                }, {
-                    value: '研讨课',
-                    label: '研讨课'
-                }, {
-                    value: '公共选修课',
-                    label: '公共选修课'
-                }, {
-                    value: '公共必修课',
-                    label: '公共必修课'
-                }],
-                weekMap:[{
-                    value: 1,
-                    label: '第1周'
-                }, {
-                    value: 2,
-                    label: '第2周'
-                }, {
-                    value: 3,
-                    label: '第3周'
-                }, {
-                    value: 4,
-                    label: '第4周'
-                }, {
-                    value: 5,
-                    label: '第5周'
-                }, {
-                    value: 6,
-                    label: '第6周'
-                }, {
-                    value: 7,
-                    label: '第7周'
-                }, {
-                    value: 8,
-                    label: '第8周'
-                }, {
-                    value: 9,
-                    label: '第9周'
-                }, {
-                    value: 10,
-                    label: '第10周'
-                },{
-                    value: 11,
-                    label: '第11周'
-                }, {
-                    value: 12,
-                    label: '第12周'
-                }, {
-                    value: 13,
-                    label: '第13周'
-                }, {
-                    value:  14,
-                    label: '第14周'
-                }, {
-                    value: 15,
-                    label: '第15周'
-                },{
-                    value: 16,
-                    label: '第16周'
-                }, {
-                    value: 17,
-                    label: '第17周'
-                }, {
-                    value: 18,
-                    label: '第18周'
-                }, {
-                    value: 19,
-                    label: '第19周'
-                }, {
-                    value: 20,
-                    label: '第20周'
-                }],
-                weekTime:[{
-                    value: 1,
-                    label:'星期一'
-                },{
-                    value:2,
-                    label:'星期二'
-                },{
-                    value:3,
-                    label:'星期三'
-                },{
-                    value:4,
-                    label:'星期四'
-                },{
-                    value:5,
-                    label:'星期五'
-                },{
-                    value:6,
-                    label:'星期六'
-                },{
-                    value:7,
-                    label:'星期日'
-                }],
-                formInline: {
-                    courseHours:'',
+                dialogTableVisible: true,
+                courseForm: {
                     courseName: '',
-                    courseTypes:'',
-                    credit:'',
-                    limitNum:'',
-                    startWeek:'',
-                    endWeek:'',
-                    weeks:[{
-                        value:''
-                    }],
-                    courseTimes:[{
-                        value:''
-                    }],
-                    classrooms:[{
-                        value:''
-                    }],
+                    courseType: '',
+                    courseHour: '',
+                    credit: '',
+                    limitNum: '',
+                    startWeek: '',
+                    endWeek: '',
+                    schedules: [{
+                        day: '',
+                        time: '',
+                        classroom: ''
+                    }]
                 },
-                courseList: [],
-                coursetimes:[{
-                    value:1,
-                    label:'第1节'
-                },{
-                    value:2,
-                    label:'第2节'
-                },{
-                    value:3,
-                    label:'第3节'
-                },{
-                    value:'4',
-                    label:'第4节'
-                },{
-                    value:5,
-                    label:'第5节'
-                }]
+                rules: {
+                    courseName: [{ required: true, message: "请输入课程名称", trigger: "blur" }],
+                    courseHour: [{ required: true, message: "请选择课时", trigger: ["blur", "change"] }],
+                    credit: [{ required: true, message: "请选择课程学分", trigger: ["blur", "change"] }],
+                    courseType: [{ required: true, message: "请选择课程类型", trigger: ["blur", "change"] }],
+                    limitNum: [
+                        { required: true, message: "请输入限选人数", trigger: "blur" },
+                        { type: 'number', message: '人数必须为数字值'}
+                    ],
+                    startWeek: [
+                        { required: true, message: "请选择课程起始周", trigger: ["blur", "change"] }
+                    ],
+                    endWeek: [
+                        { required: true, message: "请选择课程结束周", trigger: ["blur", "change"] }
+                    ],
+                    // day: [
+                    //     { required: true, message: '请选择上课时间', trigger: ['blur', 'change'] }
+                    // ],
+                    // time: [
+                    //     { required: true, message: "请选择上课节次", trigger: ["blur", "change"] }
+                    // ],
+                    // classroom: [
+                    //     { required: true, message: "请选择上课教室", trigger: ["blur", "change"] }
+                    // ],
+                },
+                weeks: [],
+                weekdays: [],
+                times: [],
+                classrooms: []
+
             }
         },
         methods: {
-            importCourse(){
-
-            },
-            removeCourseTime(item) {
-                var index = this.formInline.courseTimes.indexOf(item);
-                if (index !== -1) {
-                this.formInline.courseTimes.splice(index, 1);
-                this.formInline.classrooms.splice(index, 1);
-                this.formInline.weeks.splice(index,1);
+            init() {
+                let chNum = ['一', '二', '三', '四', '五', '六', '日'];
+                for (let i = 0; i < 18; i++) {
+                    this.weeks[i] = {label: '第' + (i+1) + '周', value: i+1}
                 }
+                for (let i = 0; i < 7; i++) {
+                    this.weekdays[i] = {label: '周' + chNum[i], value: i+1}
+                }
+                for (let i = 0; i < 5; i++) {
+                    this.times[i] = {label: '第' + (i+1) + '节', value: i+1}
+                }
+                pubAPI.getClassrooms()
+                    .then(rooms => {
+                        rooms.forEach(room => {
+                            this.classrooms.push({
+                                label: room,
+                                value: room
+                            })
+                        })
+                    })
+                this.weeks.push();
+                this.weekdays.push();
+                this.times.push();
             },
-            addCourseTime() {
-                this.formInline.courseTimes.push({
-                value:'',
-                key: Date.now()
-                });
-                this.formInline.classrooms.push({
-                value:'',
-                key: Date.now()
-                });
-                this.formInline.weeks.push({
-                value:'',
-                key: Date.now()
-                });
-            },
-            addCourseClick(formName){
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                            this.$confirm("是否确认添加该课程？","添加确认",{
-                                type:"info"})
-                                .then(()=>{
-                                    let body={
-                                            teacherId:this.$store.state.username,
-                                            courseTeacher:this.$store.state.realName,
-                                            courseName:this.formInline.courseName,
-                                            courseType:this.formInline.courseTypes,
-                                            courseHours:this.formInline.courseHours,
-                                            credit:this.formInline.credit,
-                                            limitNum:this.formInline.limitNum,
-                                            college:this.$store.state.college,
-                                            schedules:[]
-                                        }
-                                        for(let i=0;i<this.formInline.courseTimes.length;i++)
-                                        {
-                                            body.schedules[i]={
-                                                startWeek:parseInt(this.formInline.startWeek),
-                                                endWeek:parseInt(this.formInline.endWeek),
-                                                day:parseInt(this.formInline.weeks[i]),
-                                                time:parseInt(this.formInline.courseTimes[i]),
-                                                classroom:this.formInline.classrooms[i].value
-                                            }
-                                        }
-                                    teacherAPI.addCourse(body)
-                                    .then(()=>{
-                                        this.$message({
-                                        message:"添加课程成功！！",
-                                        type:'success',
-                                    });
-                                    })
-                                })/*.catch(()=>{
-                                    this.$message({
-                                        type: 'info',
-                                        message: '已取消添加'
-                                    });
-                                })*/
-                        }
+            addCourseSchedule() {
+                this.courseForm.schedules.push({
+                    startWeek: '',
+                    endWeek: '',
+                    classroom: ''
                 })
+            },
+            submitForm(courseForm) {
+                this.$refs.courseForm.validate(valid => {
+                    if (valid) {
+                        let body = this.courseForm;
+                        body.teacherId = this.$store.state.username;
+                        body.schedules.forEach(schedule => {
+                            schedule.startWeek = body.startWeek;
+                            schedule.endWeek = body.endWeek;
+                        })
+                        teacherAPI.addCourse(body)
+                            .then(body => {
+                                this.$message("添加成功");
+                            })
+                    }
+                })
+            },
+            resetForm(formName) {
+                this.$ref[formName].resetFields();
             }
         },
-        mounted(){
-        },
-        created(){
-            this.formInline.startWeek=1
-            this.formInline.endWeek=20
-            this.formInline.weeks=[1]
-            this.formInline.courseTimes=[1]
-            this.formInline.courseTypes='专业核心课'
+        mounted() {
+            this.init();
         }
     }
 </script>
-
-
-<style lang="scss" scoped>
-    .el-main {
-        margin-left: 0px
-    }
-    .el-pagination {
-        width: 100%;
-        margin: 0 auto
-    }
-</style>
