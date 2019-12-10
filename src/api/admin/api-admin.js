@@ -50,3 +50,11 @@ export const updateUserInfo = (username, bodyData) => {
         data: bodyData
     })
 }
+
+// 删除用户
+export const deleteUser = (username) => {
+    return request({
+        method: 'delete',
+        url: `/admin/users/${username}`
+    })
+}

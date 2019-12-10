@@ -65,9 +65,10 @@
                             修改
                         </el-button>
                         <el-button
+                                :disabled="$store.state.canSelect"
                                 type="danger"
                                 size="small"
-                                @click="$emit('remove-user', scope.$index, scope.row)">
+                                @click="removeUser(scope.$index, scope.row)">
                             删除
                         </el-button>
                     </template>
@@ -162,6 +163,22 @@
                 this.teacherForm.index = index
                 this.dialogEditUserVisible = true;
             },
+            removeUser(index, row) {
+                this.$confirm('您要删除的为教师为' + row.realName, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'danger'
+                }).then(() => {
+                    adminAPI.deleteUser(row.username)
+                        .then(body => {
+                            this.$message({
+                                message: '成功删除教师：' + row.username,
+                                type: 'success'
+                            });
+                            this.tableData.splice(index, 1);
+                        })
+                })
+            },
             confirmEditUser() {
                 this.dialogEditUserVisible = false
                 adminAPI.updateUserInfo(this.teacherForm.username, this.teacherForm)
@@ -201,6 +218,7 @@
                         this.tableData = body.content;
                         this.totalElements = body.totalElements;
                     })
+                this.$store.commit('updateCanSelect')
             },
             getColleges() {
                 pubAPI.getColleges()
