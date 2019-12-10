@@ -32,3 +32,12 @@ export const addCourse=(bodyDate)=>{
         data:bodyDate
     })
 }
+
+// 获取所有教师
+export const getTeachers = (parmData) => {
+    return request({
+        method: 'get',
+        url: '/admin/teachers',
+        params: parmData
+    })
+}

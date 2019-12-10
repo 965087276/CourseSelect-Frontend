@@ -15,14 +15,14 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名">
-                    <el-input v-model="formInline.courseName" placeholder="请输入"></el-input>
+                    <el-input v-model="formInline.realName" placeholder="请输入"></el-input>
                 </el-form-item>
                 <el-form-item label="教工号">
-                    <el-input v-model="formInline.courseName" placeholder="请输入"></el-input>
+                    <el-input v-model="formInline.username" placeholder="请输入"></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search"  @click="$emit('query-course', formInline)">查询</el-button>
+                    <el-button type="primary" icon="el-icon-search"  @click="queryTeachers">查询</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="success" icon="el-icon-plus"  @click="$emit('export-data')">新增教师</el-button>
@@ -77,8 +77,13 @@
                 <el-pagination
                         class="pagination"
                         background
+                        @prev-click="handlePrevChange"
+                        @next-click="handleNextChange"
+                        @current-change="handleCurrentChange"
+                        :page-size.sync="paramData.pageSize"
+                        :current-page.sync="paramData.currentPage"
                         layout="prev, pager, next"
-                        :total="1000">
+                        :total="totalElements">
                 </el-pagination>
             </div>
 
@@ -88,13 +93,55 @@
 </template>
 
 <script>
+    import * as adminAPI from '@/api/admin/api-admin.js'
     export default {
         name: "TeacherManage",
         data() {
             return {
-                formInline: {},
-                tableData: []
+                formInline: {
+                    username: '',
+                    realName: '',
+                    college: ''
+                },
+                tableData: [],
+                totalElements: 10,
+                paramData: {
+                    curPage: 1,
+                    pageSize: 10,
+                    username: '',
+                    realName: '',
+                    college: ''
+                }
             }
+        },
+        methods: {
+            handlePrevChange(currentPage) {
+                this.getTableData()
+            },
+            handlePrevChange(currentPage) {
+                this.getTableData()
+            },
+            handleCurrentChange(currentPage) {
+                this.getTableData()
+            },
+            queryTeachers() {
+                this.paramData.username = this.formInline.username
+                this.paramData.realName = this.formInline.realName
+                this.paramData.college = this.formInline.college
+                this.paramData.curPage = 1
+                this.paramData.pageSize = 10
+                this.getTableData()
+            },
+            getTableData() {
+                adminAPI.getTeachers(this.paramData)
+                    .then(body => {
+                        this.tableData = body.content;
+                        this.totalElements = body.totalElements;
+                    })
+            }
+        },
+        mounted() {
+            this.getTableData();
         }
     }
 </script>
