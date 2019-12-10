@@ -15,3 +15,11 @@ export const getClassrooms = () => {
         url: '/pub/classrooms'
     })
 }
+
+// 获取所有学院
+export const getColleges = () => {
+    return request({
+        method: 'get',
+        url: '/pub/colleges'
+    })
+}

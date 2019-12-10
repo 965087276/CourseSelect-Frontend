@@ -81,7 +81,7 @@
                         @next-click="handleNextChange"
                         @current-change="handleCurrentChange"
                         :page-size.sync="paramData.pageSize"
-                        :current-page.sync="paramData.currentPage"
+                        :current-page.sync="paramData.curPage"
                         layout="prev, pager, next"
                         :total="totalElements">
                 </el-pagination>
@@ -94,6 +94,7 @@
 
 <script>
     import * as adminAPI from '@/api/admin/api-admin.js'
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         name: "TeacherManage",
         data() {
@@ -103,6 +104,7 @@
                     realName: '',
                     college: ''
                 },
+                colleges: [],
                 tableData: [],
                 totalElements: 10,
                 paramData: {
@@ -118,7 +120,7 @@
             handlePrevChange(currentPage) {
                 this.getTableData()
             },
-            handlePrevChange(currentPage) {
+            handleNextChange(currentPage) {
                 this.getTableData()
             },
             handleCurrentChange(currentPage) {
@@ -138,10 +140,19 @@
                         this.tableData = body.content;
                         this.totalElements = body.totalElements;
                     })
+            },
+            getColleges() {
+                pubAPI.getColleges()
+                    .then(arr => {
+                        arr.colleges.forEach(item => {
+                            this.colleges.push({ label: item, value: item })
+                        })
+                    })
             }
         },
         mounted() {
             this.getTableData();
+            this.getColleges();
         }
     }
 </script>
