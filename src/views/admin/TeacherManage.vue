@@ -25,7 +25,7 @@
                     <el-button type="primary" icon="el-icon-search"  @click="queryTeachers">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="success" icon="el-icon-plus"  @click="$emit('export-data')">新增教师</el-button>
+                    <el-button type="success" icon="el-icon-plus"  @click="dialogNewUserVisible = true">新增教师</el-button>
                 </el-form-item>
             </el-form>
 
@@ -114,6 +114,24 @@
                 </div>
             </el-dialog>
 
+            <el-dialog title="新增教师" :visible.sync="dialogNewUserVisible" width="30%">
+                <el-form :model="teacherForm" inline>
+
+                    <el-form-item>
+                        <el-button type="primary" icon="el-icon-plus"  @click="queryTeachers">手动录入</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" icon="el-icon-plus"  @click="$emit('export-data')">excel录入</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" icon="el-icon-download"  @click="$emit('export-data')">excel模板下载</el-button>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogEditUserVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="confirmEditUser">确 定</el-button>
+                </div>
+            </el-dialog>
         </el-main>
 
     </el-container>
@@ -127,6 +145,7 @@
         data() {
             return {
                 dialogEditUserVisible: false,
+                dialogNewUserVisible: false,
                 formLabelWidth: '120px',
                 formInline: {
                     username: '',
