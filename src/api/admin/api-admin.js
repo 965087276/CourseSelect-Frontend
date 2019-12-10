@@ -41,3 +41,12 @@ export const getTeachers = (parmData) => {
         params: parmData
     })
 }
+
+// 更新用户信息
+export const updateUserInfo = (username, bodyData) => {
+    return request({
+        method: 'patch',
+        url: `/admin/users/${username}`,
+        data: bodyData
+    })
+}

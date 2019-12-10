@@ -61,7 +61,7 @@
                         <el-button
                                 type="primary"
                                 size="small"
-                                @click="$emit('edit-user', scope.$index, scope.row)">
+                                @click="editUser(scope.$index, scope.row)">
                             修改
                         </el-button>
                         <el-button
@@ -87,6 +87,32 @@
                 </el-pagination>
             </div>
 
+            <el-dialog title="编辑教师" :visible.sync="dialogEditUserVisible">
+                <el-form :model="teacherForm">
+                    <el-form-item label="教工号" :label-width="formLabelWidth">
+                        <el-input v-model="teacherForm.username" autocomplete="off" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item label="姓名" :label-width="formLabelWidth">
+                        <el-input v-model="teacherForm.realName" autocomplete="off" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item label="所在学院" :label-width="formLabelWidth">
+                        <el-select v-model="teacherForm.college" filterable placeholder="请选择">
+                            <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="邮箱" :label-width="formLabelWidth">
+                        <el-input v-model="teacherForm.email" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系方式" :label-width="formLabelWidth">
+                        <el-input v-model="teacherForm.phoneNumber" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogEditUserVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="confirmEditUser">确 定</el-button>
+                </div>
+            </el-dialog>
+
         </el-main>
 
     </el-container>
@@ -99,6 +125,8 @@
         name: "TeacherManage",
         data() {
             return {
+                dialogEditUserVisible: false,
+                formLabelWidth: '120px',
                 formInline: {
                     username: '',
                     realName: '',
@@ -113,10 +141,43 @@
                     username: '',
                     realName: '',
                     college: ''
+                },
+                teacherForm: {
+                    'username': '',
+                    'realName': '',
+                    'college': '',
+                    'email': '',
+                    'phoneNumber': '',
+                    'index': 0
                 }
             }
         },
         methods: {
+            editUser(index, row) {
+                this.teacherForm.username = row.username
+                this.teacherForm.realName = row.realName
+                this.teacherForm.college = row.college
+                this.teacherForm.email = row.email
+                this.teacherForm.phoneNumber = row.phoneNumber
+                this.teacherForm.index = index
+                this.dialogEditUserVisible = true;
+            },
+            confirmEditUser() {
+                this.dialogEditUserVisible = false
+                adminAPI.updateUserInfo(this.teacherForm.username, this.teacherForm)
+                    .then(body => {
+                        this.$message({
+                            message: '修改成功',
+                            type: 'success'
+                        });
+                        let index = parseInt(this.teacherForm.index)
+                        this.tableData[index].realName = this.teacherForm.realName
+                        this.tableData[index].college = this.teacherForm.college
+                        this.tableData[index].email = this.teacherForm.email
+                        this.tableData[index].phoneNumber = this.teacherForm.phoneNumber
+                        this.tableData.push()
+                    })
+            },
             handlePrevChange(currentPage) {
                 this.getTableData()
             },
