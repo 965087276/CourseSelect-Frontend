@@ -4,7 +4,7 @@
         <el-button type="primary" size="medium" @click="save()">批量导入成绩</el-button>
         <el-table
             :data="tableData"
-            style="width: 70%">
+            style="width: 100%">
                 <el-table-column
                     prop="studentUsername"
                     label="学号"
