@@ -11,6 +11,14 @@
                     active-text-color="#ffd04b"
                     @select="selectMenu"
                 >
+                    <el-submenu index="user-manage">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            <span>用户管理</span>
+                        </template>
+                        <el-menu-item index="user-manege/teacher">教师管理</el-menu-item>
+                        <el-menu-item index="user-manege/student">学生管理</el-menu-item>
+                    </el-submenu>
                     <el-submenu index="course-manager">
                         <template slot="title">
                             <i class="el-icon-location"></i>

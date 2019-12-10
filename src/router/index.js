@@ -117,6 +117,16 @@ const routes = [
             {
                 path:'/admin/ableToSelectTime',
                 component: () => import('../views/admin/AbleToSelectTime.vue')
+            },
+            {
+                path: '/admin/user-manege/teacher',
+                name: 'teacher-manage',
+                component: () => import('../views/admin/TeacherManage.vue')
+            },
+            {
+                path: '/admin/user-manege/student',
+                name: 'student-manage',
+                component: () => import('../views/admin/StudentManage.vue')
             }
         ]
     }
