@@ -118,7 +118,7 @@
                 <el-form :model="teacherForm" inline>
 
                     <el-form-item>
-                        <el-button type="primary" icon="el-icon-plus"  @click="queryTeachers">手动录入</el-button>
+                        <el-button type="primary" icon="el-icon-plus"  @click="queryTeachers">手动添加</el-button>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-plus"  @click="$emit('export-data')">excel录入</el-button>
@@ -128,8 +128,8 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogEditUserVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="confirmEditUser">确 定</el-button>
+                    <el-button @click="dialogNewUserVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogNewUserVisible = false">确 定</el-button>
                 </div>
             </el-dialog>
         </el-main>
