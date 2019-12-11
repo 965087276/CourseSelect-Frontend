@@ -249,14 +249,14 @@
                 })
             },
             addNewCourseDialog() {
-                for (let key in this.courseForm) {
-                    this.courseForm[key] = ''
-                }
-                this.courseForm['schedules'] = [{
+                this.courseForm.schedules = [{
                     day: '',
                     time: '',
                     classroom: ''
                 }]
+                if (this.$refs.courseForm) {
+                    this.$refs.courseForm.resetFields();
+                }
 
                 this.dialogNewCourseVisible = true;
             },
