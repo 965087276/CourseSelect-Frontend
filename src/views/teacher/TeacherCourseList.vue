@@ -281,6 +281,7 @@
                                     type: "success"
                                 });
                                 this.dialogNewCourseVisible = false;
+                                this.getCourseList();
                             })
                     }
                 })
