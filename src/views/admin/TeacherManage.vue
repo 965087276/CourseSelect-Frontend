@@ -120,7 +120,17 @@
                         <el-button type="primary" icon="el-icon-plus"  @click="dialogNewUserFormVisible = !(dialogNewUserVisible = false)">手动添加</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" icon="el-icon-plus"  @click="$emit('export-data')">excel录入</el-button>
+                        <el-upload
+                            class="upload-demo"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                            :http-request="uploadFile"
+                            :before-remove="beforeRemove"
+                            :limit="1"
+                            :on-exceed="handleExceed"
+                            :file-list="fileList">
+                            <el-button type="primary" icon="el-icon-plus">excel录入</el-button>
+                        </el-upload>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="success" icon="el-icon-download"  @click="downloadExcel">excel模板下载</el-button>
@@ -207,6 +217,7 @@
                     phoneNumber: '',
                     role: 'teacher'
                 },
+                fileList: [],
                 formLabelWidth: '120px',
                 formInline: {
                     username: '',
@@ -351,6 +362,32 @@
             },
             formatJson(filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]))
+            },
+            uploadFile(item){
+                this.$confirm("是否确认上传？","确认上传",
+                {type:'info'})
+                .then(()=>{
+                    console.log(this.registerForm.role);
+                    const form=new FormData();
+                    form.append('file',item.file)
+                    adminAPI.usersImport(this.registerForm.role,form)
+                    .then(()=>{
+                        this.$message({
+                                message:"文件已上传！！",
+                                type:'success',
+                            });
+                        this.getTableData()
+                    })
+                    
+                })
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                this.fileList=fileList;
+                console.log(this.fileList);
+                return this.$confirm(`确定移除 ${ file.name }？`);
             },
         },
         mounted() {
