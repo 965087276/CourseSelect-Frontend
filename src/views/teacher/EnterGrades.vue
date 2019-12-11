@@ -1,47 +1,50 @@
 <template>
     <div>
         <h1>{{this.courseName}}({{this.courseCode}})选课花名册</h1>
-        <el-button type="success" size="small" @click="download">下载excel模板</el-button>
-        <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-            :http-request="uploadFile"
-            :on-preview="handlePreview"
-            :before-update="beforeUploadExcel"
-            :before-remove="beforeRemove"
-            :limit="1"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary">批量上传成绩</el-button>
-        </el-upload>
+        <el-form inline>
+            <el-form-item>
+                <el-upload
+                        class="upload-demo"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                        :http-request="uploadFile"
+                        :on-preview="handlePreview"
+                        :before-update="beforeUploadExcel"
+                        :before-remove="beforeRemove"
+                        :limit="1"
+                        :on-exceed="handleExceed"
+                        :file-list="fileList">
+                    <el-button size="small" type="primary">批量上传成绩</el-button>
+                </el-upload>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="success" size="small" @click="download">下载excel模板</el-button>
+            </el-form-item>
+        </el-form>
+
         <el-table
             :data="tableData"
             style="width: 80%">
                 <el-table-column
                     prop="studentUsername"
-                    label="学号"
-                    width="300">
+                    label="学号">
                 </el-table-column>
                 <el-table-column
                     prop="studentRealName"
-                    label="姓名"
-                    width="300">
+                    label="姓名">
                 </el-table-column>
                 <el-table-column
                     prop="college"
-                    label="学院"
-                    width="300">
+                    label="学院">
                 </el-table-column>
             <el-table-column
                     prop="grade"
-                    label="成绩"
-                    width="300">
+                    label="成绩">
                 <template slot-scope="scope">
                     {{ scope.row.finished ? scope.row.grade : '未录入' }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="300">
+            <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button
                             size="medium"
@@ -182,8 +185,8 @@
             },
             compare(attr) {
                 return function(a,b){
-                    var val1 = a[attr];
-                    var val2 = b[attr];
+                    let val1 = a[attr];
+                    let val2 = b[attr];
                     return val1 - val2;
                 }
             },
