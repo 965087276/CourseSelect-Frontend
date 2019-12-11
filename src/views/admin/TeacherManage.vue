@@ -123,7 +123,7 @@
                         <el-button type="primary" icon="el-icon-plus"  @click="$emit('export-data')">excel录入</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="success" icon="el-icon-download"  @click="$emit('export-data')">excel模板下载</el-button>
+                        <el-button type="success" icon="el-icon-download"  @click="downloadExcel">excel模板下载</el-button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -336,7 +336,22 @@
                             this.colleges.push({ label: item, value: item })
                         })
                     })
-            }
+            },
+            downloadExcel(){
+                console.log('test!!!');
+                require.ensure([], () => {
+                    const { export_json_to_excel } = require('@/excel/Export2Excel.js');
+                    const tHeader = ['所在学院', '教师编号', '教师姓名', '邮箱','联系方式'];
+                    const filterVal = [];
+                    const list = [];  //把data里的tableData存到list
+                    const data = this.formatJson(filterVal, list);
+                    export_json_to_excel(tHeader, data, '新增教师列表(模板)');
+                }),
+                this.dialogNewUserVisible=false;
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]))
+            },
         },
         mounted() {
             this.getTableData();

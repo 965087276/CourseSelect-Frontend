@@ -114,7 +114,7 @@
                     college: '',
                     day: ''
                 },
-                colSpan: {
+            colSpan: {
                    'teacher': {
                        'min': 7,
                        'max': 8
@@ -122,6 +122,10 @@
                     'student': {
                        'min': 8,
                        'max': 10
+                    },
+                    'admin':{
+                        'min':8,
+                        'max':10
                     }
                 },
                 colleges: [{
