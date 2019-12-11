@@ -104,10 +104,22 @@
             },
             confirmEditGrade() {
                 this.dialogFormVisible = false
-                let index = parseInt(this.gradeForm.index)
-                this.tableData[index].grade = this.gradeForm.grade
-                this.tableData[index].finished = true
-                this.tableData.push()
+                let body={
+                    courseCode:this.courseCode,
+                    studentId:this.gradeForm.username,
+                    grade:this.gradeForm.grade
+                }
+                teacherAPI.inputGrade(body)
+                .then(()=>{
+                    let index = parseInt(this.gradeForm.index)
+                    this.$message({
+                        message:(this.tableData[index].finished)?"成绩修改成功！！":"成绩录入成功！！",
+                        type:'success',
+                    }); 
+                    this.tableData[index].grade = this.gradeForm.grade
+                    this.tableData[index].finished= true
+                    this.tableData.push();
+                })
             },
             getParams(){
                 this.courseCode=this.$route.query.courseCode;
@@ -161,36 +173,6 @@
                 this.fileList=fileList;
                 console.log(this.fileList);
                 return this.$confirm(`确定移除 ${ file.name }？`);
-            },
-            save(){
-                this.$confirm("是否确认录入？","确认录入",
-                {type:'info'})
-                .then(()=>{
-                    let body={
-                        content:[]
-                    }
-                    for(let i=0;i<this.tableData.length;i++)
-                    {
-                        body.content[i]={
-                            courseCode:this.courseCode,
-                            studentUsername:this.tableData[i].studentUsername,
-                            grade:this.tableData[i].grade,
-                        }
-                    }
-                    teacherAPI.inputGrades(body)
-                    .then(()=>{
-                        this.$message({
-                            message:"成绩已提交！！",
-                            type:'success',
-                        });
-                    })
-                }).catch(()=>{
-                    this.$message({
-                        type: 'info',
-                        message: '已取消提交'
-                    });
-                })
-                
             },
             getStudentsInfo(){
                 teacherAPI.getStudents(this.courseCode)
