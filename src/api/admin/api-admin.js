@@ -67,3 +67,14 @@ export const addUser = (bodyData) => {
         data: bodyData
     })
 }
+//批量导入用户
+export const usersImport=(role,form)=>{
+    return request({
+        method:'post',
+        url:`/admin/usersExcel/${role}`,
+        data:form,
+        headers:{
+            'Content-Type':'application/x-www-form-urlencoded'/*'multipart/form-data'*/
+        }
+    })
+}

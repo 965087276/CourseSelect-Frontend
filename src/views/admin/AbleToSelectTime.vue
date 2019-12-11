@@ -1,5 +1,5 @@
 <template>
-  <div class="block">
+  <div class="time">
     <h1>当前时间：{{timestampToTime(date)}}</h1>
     <span class="demonstration">设置选课开放时间</span>
     <el-date-picker
@@ -109,5 +109,8 @@
   };
 </script>
 <style lang="scss" scoped>
-
+.time{
+  right:200px;
+  bottom:200px;
+}
 </style>

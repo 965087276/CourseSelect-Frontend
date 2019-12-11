@@ -37,9 +37,9 @@ export const getStudents=(courseCode)=>{
 }
 
 //输入成绩
-export const inputGrades=(bodyDate) =>{
+export const inputGrade=(bodyDate) =>{
     return request({
-        method:'patch',
+        method:'post',
         url:'/teacher/grades',
         data:bodyDate
     })
