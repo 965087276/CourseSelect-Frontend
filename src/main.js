@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import global from './Common.vue'
 import axios from 'axios'
+import Blob from './excel/Blob.js'
+import Export2Excel from './excel/Export2Excel.js'
 
 // 饿了么UI
 import ElementUI from 'element-ui';
