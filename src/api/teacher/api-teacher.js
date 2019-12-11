@@ -44,3 +44,14 @@ export const inputGrades=(bodyDate) =>{
         data:bodyDate
     })
 }
+
+export const uploadExcel=(courseCode,form)=>{
+    return request({
+        method:'post',
+        url:'/teacher/gradesExcel/${courseCode}',
+        data:form,
+        headers:{
+            'Content-Type':'application/x-www-form-urlencoded'/*'multipart/form-data'*/
+        }
+    })
+}
