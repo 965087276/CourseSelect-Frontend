@@ -1,10 +1,23 @@
 <template>
     <div>
         <h1>{{this.courseName}}({{this.courseCode}})选课花名册</h1>
-        <el-button type="primary" size="medium" @click="save()">批量导入成绩</el-button>
+        <el-button type="success" size="small" @click="download">下载excel模板</el-button>
+        <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+            :http-request="uploadFile"
+            :on-preview="handlePreview"
+            :before-update="beforeUploadExcel"
+            :before-remove="beforeRemove"
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">批量上传成绩</el-button>
+        </el-upload>
         <el-table
             :data="tableData"
-            style="width: 100%">
+            style="width: 80%">
                 <el-table-column
                     prop="studentUsername"
                     label="学号"
@@ -28,7 +41,7 @@
                     {{ scope.row.finished ? scope.row.grade : '未录入' }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="400">
+            <el-table-column label="操作" width="300">
                 <template slot-scope="scope">
                     <el-button
                             size="medium"
@@ -39,7 +52,6 @@
                 </template>
             </el-table-column>
         </el-table>
-
         <el-dialog title="编辑成绩" :visible.sync="dialogFormVisible">
             <el-form :model="gradeForm">
                 <el-form-item label="学生学号" :label-width="formLabelWidth">
@@ -57,8 +69,6 @@
                 <el-button type="primary" @click="confirmEditGrade">确 定</el-button>
             </div>
         </el-dialog>
-
-
     </div>
 </template>
 
@@ -78,7 +88,8 @@
                     'grade': '',
                     'realName': '',
                     'index': 0
-                }
+                },
+                fileList: [],
             }
 
         },
@@ -102,8 +113,57 @@
                 this.courseCode=this.$route.query.courseCode;
                 this.courseName=this.$route.query.courseName;
             },
+            beforeUploadExcel(file){
+                console.log(file.name);
+            },
+
+            download(){
+                require.ensure([], () => {
+                    const { export_json_to_excel } = require('@/excel/Export2Excel.js');
+                    const tHeader = ['学号', '姓名', '学院', '成绩'];
+                    const filterVal = ['studentUsername', 'studentRealName', 'college'];
+                   
+                    const list = this.tableData;  //把data里的tableData存到list
+                    const data = this.formatJson(filterVal, list);
+                    export_json_to_excel(tHeader, data, this.courseName+'成绩表');
+                })
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]))
+            },
+            uploadFile(item){
+                this.$confirm("是否确认录入？","确认录入",
+                {type:'info'})
+                .then(()=>{
+                    const form=new FormData();
+                    form.append('file',item.file)
+                    teacherAPI.uploadExcel(this.courseCode,form)
+                    .then(()=>{
+                        this.$message({
+                                message:"文件已上传！！",
+                                type:'success',
+                            });
+                        this.getStudentsInfo()
+                    })
+                    
+                })
+            },
+            handleRemove(file, fileList) {
+                console.log(file.name, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                this.fileList=fileList;
+                console.log(this.fileList);
+                return this.$confirm(`确定移除 ${ file.name }？`);
+            },
             save(){
-                this.$confirm("是否确认提交？","确认提交",
+                this.$confirm("是否确认录入？","确认录入",
                 {type:'info'})
                 .then(()=>{
                     let body={
