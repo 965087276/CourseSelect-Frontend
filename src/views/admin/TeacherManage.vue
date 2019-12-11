@@ -115,10 +115,9 @@
             </el-dialog>
 
             <el-dialog title="新增教师" :visible.sync="dialogNewUserVisible" width="30%">
-                <el-form :model="teacherForm" inline>
-
+                <el-form inline>
                     <el-form-item>
-                        <el-button type="primary" icon="el-icon-plus"  @click="queryTeachers">手动添加</el-button>
+                        <el-button type="primary" icon="el-icon-plus"  @click="dialogNewUserFormVisible = !(dialogNewUserVisible = false)">手动添加</el-button>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-plus"  @click="$emit('export-data')">excel录入</el-button>
@@ -131,6 +130,58 @@
                     <el-button @click="dialogNewUserVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogNewUserVisible = false">确 定</el-button>
                 </div>
+            </el-dialog>
+
+            <el-dialog
+                    title="新增教师"
+                    :visible.sync="dialogNewUserFormVisible"
+                    width="40%"
+                    :close-on-click-modal="false"
+                    :close-on-press-escape="false"
+                    :show-close="false"
+            >
+                <el-form
+                        :model="registerForm"
+                        status-icon
+                        :rules="rules"
+                        label-width="100px"
+                        :label-position="'left'"
+                        ref="registerForm"
+                >
+                    <el-form-item label="教工号" prop="username">
+                        <el-input v-model="registerForm.username"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="姓名" prop="realName">
+                        <el-input v-model="registerForm.realName" auto-complete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="学院" prop="college">
+                        <el-select v-model="registerForm.college" placeholder="请选择学院">
+                            <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+<!--                    <el-form-item label="专业" prop="major">-->
+<!--                        <el-select v-model="registerForm.major" placeholder="请选择专业">-->
+<!--                            <el-option label="计算机应用技术" value="计算机应用技术"></el-option>-->
+<!--                            <el-option label="计算机体系结构" value="计算机体系结构"></el-option>-->
+<!--                        </el-select>-->
+<!--                    </el-form-item>-->
+
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input v-model="registerForm.email"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="联系方式" prop="phoneNumber">
+                        <el-input v-model="registerForm.phoneNumber"></el-input>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button type="primary" @click="addUser('registerForm')">提交</el-button>
+                        <el-button @click="dialogNewUserFormVisible = false">取 消</el-button>
+                    </el-form-item>
+                </el-form>
             </el-dialog>
         </el-main>
 
@@ -146,6 +197,16 @@
             return {
                 dialogEditUserVisible: false,
                 dialogNewUserVisible: false,
+                dialogNewUserFormVisible: false,
+                registerForm: {
+                    username: '',
+                    realName: '',
+                    email: '',
+                    college: '',
+                    // major: '',
+                    phoneNumber: '',
+                    role: 'teacher'
+                },
                 formLabelWidth: '120px',
                 formInline: {
                     username: '',
@@ -169,10 +230,39 @@
                     'email': '',
                     'phoneNumber': '',
                     'index': 0
+                },
+                rules: {
+                    username: [{ required: true, message: "请输入教工号", trigger: "blur" }],
+                    realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+                    email: [
+                        { required: true, message: "请输入邮箱", trigger: "blur" },
+                        { type: 'email',  message: "请输入正确的邮箱地址", trigger: "blur"}
+                    ],
+                    college: [
+                        { required: true, message: "请选择学院", trigger: ["blur", "change"] }
+                    ],
+                    // major: [
+                    //     { required: true, message: "请选择专业", trigger: ["blur", "change"] }
+                    // ],
                 }
             }
         },
         methods: {
+            addUser(registerForm) {
+                this.$refs.registerForm.validate(valid => {
+                    if (valid) {
+                        let body = registerForm
+                        adminAPI.addUser(body)
+                            .then(body => {
+                                this.$message({
+                                    message: '添加成功',
+                                    type: 'success'
+                                });
+                                this.dialogNewUserFormVisible = false;
+                            })
+                    }
+                })
+            },
             editUser(index, row) {
                 this.teacherForm.username = row.username
                 this.teacherForm.realName = row.realName

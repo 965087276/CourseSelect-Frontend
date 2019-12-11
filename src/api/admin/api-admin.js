@@ -58,3 +58,12 @@ export const deleteUser = (username) => {
         url: `/admin/users/${username}`
     })
 }
+
+// 手动录入用户
+export const addUser = (bodyData) => {
+    return request({
+        method: 'post',
+        url: '/admin/users',
+        data: bodyData
+    })
+}
