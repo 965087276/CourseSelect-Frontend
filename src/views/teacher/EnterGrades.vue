@@ -195,7 +195,7 @@
             getStudentsInfo(){
                 teacherAPI.getStudents(this.courseCode)
                 .then(body=>{
-                    this.tableData=body.students.sort(this.compare('studentUsername'));
+                    this.tableData=body.sort(this.compare('studentUsername'));
                 })
             },
             compare(attr) {
