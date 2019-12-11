@@ -235,6 +235,8 @@
                     if (valid) {
                         let body = this.courseForm;
                         body.teacherId = this.$store.state.username;
+                        body.college = this.$store.state.college;
+                        body.courseTeacher = this.$store.state.realName;
                         body.schedules.forEach(schedule => {
                             schedule.startWeek = body.startWeek;
                             schedule.endWeek = body.endWeek;
