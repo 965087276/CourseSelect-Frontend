@@ -1,12 +1,14 @@
 <template>
-    <div id="login">
+    <div id="login" class="middle" :style="backgroundPic">
+        <img src='@/images/testPic2.jpg' style="width: 2048px; height: 1003px;" fullscreen="true">
         <el-dialog
                 title="用户登录"
                 :visible.sync="dialogTableVisible"
-                width="40%"
+                width="35%"
                 :close-on-click-modal="false"
                 :close-on-press-escape="false"
                 :show-close="false"
+                :modal="false"
         >
             <el-form
                     ref="loginForm"
@@ -36,6 +38,9 @@
     export default {
         data() {
             return {
+                backgroundPic:{
+                    backgroundImage: 'url(' + require('@/images/testPic2.jpg') + ')'
+                },
                 dialogTableVisible: true,
                 loginForm: {
                     username: '',
@@ -97,6 +102,6 @@
         
 </script>
 
-<style lang = "scss" scoped>
+<style lang = "scss">
 
 </style>
