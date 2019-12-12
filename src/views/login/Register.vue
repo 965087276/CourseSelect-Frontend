@@ -44,26 +44,12 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="专业" prop="major">
-                    <el-select v-model="registerForm.major" placeholder="请选择专业">
-                        <el-option label="计算机应用技术" value="计算机应用技术"></el-option>
-                        <el-option label="计算机体系结构" value="计算机体系结构"></el-option>
-                    </el-select>
-                </el-form-item>
-
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="registerForm.email"></el-input>
                 </el-form-item>
 
                 <el-form-item label="联系方式" prop="phoneNumber">
                     <el-input v-model="registerForm.phoneNumber"></el-input>
-                </el-form-item>
-
-                <el-form-item label="身份">
-                    <el-radio-group v-model="registerForm.role" size="medium">
-                        <el-radio border label="学生"></el-radio>
-                        <el-radio border label="老师"></el-radio>
-                    </el-radio-group>
                 </el-form-item>
 
                 <el-form-item>
@@ -113,9 +99,7 @@ export default {
                 password2: '',
                 email: '',
                 college: '',
-                major: '',
-                phoneNumber: '',
-                role: ''
+                phoneNumber: ''
             },
             backgroundPic:{
                     backgroundImage: 'url(' + require('@/images/testPic2.jpg') + ')'
@@ -157,9 +141,7 @@ export default {
                         password: this.password,
                         email:  this.email,
                         college:  this.college,
-                        major:    this.major,
-                        phoneNumber: this.phoneNumber,
-                        role: this.role
+                        phoneNumber: this.phoneNumber
                     };
                     loginAPI.register(body)
                             .then(({data : body}) => {

@@ -269,14 +269,14 @@
                 this.courseForm.schedules.splice(index, 1);
             },
             openNewCourseDialog() {
+                if (this.$refs.courseForm) {
+                    this.$refs.courseForm.resetFields();
+                }
                 this.courseForm.schedules = [{
                     day: '',
                     time: '',
                     classroom: ''
                 }]
-                if (this.$refs.courseForm) {
-                    this.$refs.courseForm.resetFields();
-                }
                 this.dialogNewCourseFormVisible = true;
             },
         },

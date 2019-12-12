@@ -64,7 +64,6 @@
         },
         methods: {
             selectMenu(index) {
-                alert(index)
                 this.$router.push("/student/" + index);
             },
             exit() {
