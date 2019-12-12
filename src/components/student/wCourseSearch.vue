@@ -32,10 +32,10 @@
             <el-button type="primary" icon="el-icon-search"  @click="$emit('query-course', formInline)">查询</el-button>
         </el-form-item>
 <!--        <el-form-item>-->
-<!--            <el-button type="primary" icon="el-icon-download"  @click="$emit('export-data')">导出</el-button>--
+<!--            <el-button type="primary" icon="el-icon-download"  @click="$emit('export-data')">导出</el-button>-->
 <!--        </el-form-item>-->
-        <el-form-item v-if="$store.state.role = 'admin'">
-            <el-button type="success" icon="el-icon-plus"  @click="$emit('new-course', formInline)">添加新课程</el-button>
+        <el-form-item v-if="$store.state.role == 'admin'">
+            <el-button type="success" icon="el-icon-plus"  @click="$emit('new-course')">添加新课程</el-button>
         </el-form-item>
     </el-form>
 
