@@ -75,6 +75,7 @@
 </template>
 
 <script>
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         data() {
             var validateOldPassword = (rule, value, callback) => {
@@ -162,8 +163,15 @@
             submitForm(userForm) {
                 this.$refs.userForm.validate(valid => {
                     if (valid) {
-                        this.$message("修改成功")
-                        this.dialog = false;
+                        pubAPI.updateUsers(userForm)
+                            .then(body => {
+                                this.$message({
+                                    type: "success",
+                                    message: "修改成功"
+                                });
+                                this.$store.commit("updateUserInfo")
+                                this.dialog = false;
+                            })
                     }
                 })
             },
@@ -180,7 +188,6 @@
             initUserForm() {
                 for (let key in this.userForm) {
                     if (this.$store.state[key] != null) {
-                        console.log(this.$store.state[key])
                         this.userForm[key] = this.$store.state[key];
                     }
                 }

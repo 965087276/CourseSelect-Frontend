@@ -23,3 +23,12 @@ export const getColleges = () => {
         url: '/pub/colleges'
     })
 }
+
+// 修改用户信息
+export const updateUsers = (bodyData) => {
+    return request({
+        method: 'put',
+        url: '/pub/users',
+        data: bodyData
+    })
+}
