@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {getCourseSelectStatus} from '@/api/pub/api-pub.js'
+import {getUserInfo} from '@/api/login/api-login.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -20,6 +21,13 @@ export default new Vuex.Store({
             for (let key in this.state) {
                 this.state[key] = ''
             }
+        },
+        updateUserInfo() {
+            getUserInfo().then(body => {
+                for (let key in body) {
+                    this.state[key] = body[key];
+                }
+            })
         },
         updateCanSelect() {
             getCourseSelectStatus().then(status => this.state.canSelect = status)
