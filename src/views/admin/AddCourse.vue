@@ -334,6 +334,16 @@
             }
         },
         methods: {
+            init() {
+                this.colleges = []
+                pubAPI.getColleges()
+                    .then(collegeArr => {
+                        collegeArr.forEach(college => {
+                            this.colleges.push({ label: college, value: college })
+                        })
+                    })
+                this.colleges.push()
+            },
             importCourse(){
 
             },
@@ -404,6 +414,7 @@
             }
         },
         mounted(){
+            this.init();
         },
         created(){
             this.formInline.startWeek=1

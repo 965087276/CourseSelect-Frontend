@@ -342,7 +342,7 @@
             getColleges() {
                 pubAPI.getColleges()
                     .then(arr => {
-                        arr.colleges.forEach(item => {
+                        arr.forEach(item => {
                             this.colleges.push({ label: item, value: item })
                         })
                     })

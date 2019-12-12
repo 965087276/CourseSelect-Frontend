@@ -41,6 +41,7 @@
 
 </template>
 <script>
+    import * as pubAPI from '@/api/pub/api-pub.js'
     export default {
         name: "wCourseSearch",
         components: {},
@@ -58,22 +59,7 @@
                     college: '',
                     day: ''
                 },
-                colleges: [{
-                    value: '计算机科学与技术学院',
-                    label: '计算机科学与技术学院'
-                }, {
-                    value: '人工智能学院',
-                    label: '人工智能学院'
-                }, {
-                    value: '网络空间安全学院',
-                    label: '网络空间安全学院'
-                }, {
-                    value: '马克思学院',
-                    label: '马克思学院'
-                }, {
-                    value: '人文学院',
-                    label: '人文学院'
-                }],
+                colleges: [],
                 courseTypes: [{
                     value: '专业核心课',
                     label: '专业核心课'
@@ -139,7 +125,21 @@
                 }
             }
         },
-        methods: {},
+        methods: {
+            init() {
+                this.colleges = []
+                pubAPI.getColleges()
+                    .then(collegeArr => {
+                        collegeArr.forEach(college => {
+                            this.colleges.push({ label: college, value: college })
+                        })
+                    })
+                this.colleges.push()
+            }
+        },
+        mounted() {
+            this.init();
+        },
         watch: {
             courseTime: function (newTime) {
                 let i = parseInt(newTime.day) - 1
