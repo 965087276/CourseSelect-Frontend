@@ -40,15 +40,14 @@
         },
         methods: {
             handleEdit(row) {
-                
                 this.$router.push({
-                    path:'/teacher/course-maneger/grades/enter',
+                    path:'/teacher/course-manage/grades/enter',
                     query:{
                         courseCode:row.courseCode,
                         courseName:row.courseName,
                     }
                     })
-                //console.log(row.courseCode+' '+row.courseName);
+                
             },
             getTeacherCourses(teacherId){
                 teacherAPI.getTeacherCourse(teacherId)

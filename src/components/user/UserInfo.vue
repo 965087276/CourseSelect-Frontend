@@ -11,7 +11,7 @@
             <el-button type="danger" round @click="exit">退出登录</el-button>
         </div>
         <!-- <div class="account semester" v-if="$store.state.semester != ''">学期：{{$store.state.semester | semester}}</div> -->
-        <el-dialog title="修改个人信息" :visible.sync="dialog" width="30%">
+        <el-dialog title="修改个人信息" :visible.sync="dialog" width="30%" :modal-append-to-body='false'>
             <el-form
                     :model="userForm"
                     status-icon

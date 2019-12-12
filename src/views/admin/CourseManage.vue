@@ -85,7 +85,7 @@
             downloadExcel(){
                 require.ensure([], () => {
                     const { export_json_to_excel } = require('@/excel/Export2Excel.js');
-                    const tHeader = ['开课学院', '课程编码', '课程名称', '课程属性','课时','学分','限选','起始周','结束周','星期','节次','主讲教师','教工号'];
+                    const tHeader = ['开课学院', '课程编码', '课程名称', '课程属性','课时','学分','限选','起始周','结束周','星期','节次','教室','主讲教师','教工号'];
                     const filterVal = [];
                     const list = [];  //把data里的tableData存到list
                     const data = this.formatJson(filterVal, list);

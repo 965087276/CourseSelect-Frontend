@@ -367,7 +367,6 @@
                 this.$confirm("是否确认上传？","确认上传",
                 {type:'info'})
                 .then(()=>{
-                    console.log(this.registerForm.role);
                     const form=new FormData();
                     form.append('file',item.file)
                     adminAPI.usersImport(this.registerForm.role,form)
