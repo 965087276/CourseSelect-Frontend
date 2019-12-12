@@ -63,21 +63,21 @@
                             :type="scope.row.isSelected ? 'danger' : 'primary'"
                             size="small"
                             :disabled="scope.row.isSelected"
-                            @click="$emit('add-course', scope.$index, scope.row)">
+                            @click="$emit('add-course', scope.row.pos, scope.row)">
                         {{ scope.row.isSelected ? selectedText : unSelectedText }}
                     </el-button>
                     <el-button
                             v-if="$store.state.role=='admin' ||$store.state.role=='teacher'"
                             type="primary"
                             size="small"
-                            @click="$emit('edit-course', scope.$index, scope.row)">
+                            @click="$emit('edit-course', scope.row.pos, scope.row)">
                         修改
                     </el-button>
                     <el-button
                             v-if="$store.state.role=='admin'||$store.state.role=='teacher'"
                             type="danger"
                             size="small"
-                            @click="$emit('remove-course', scope.$index, scope.row)">
+                            @click="$emit('remove-course', scope.row.pos, scope.row)">
                         删除
                     </el-button>
                 </template>
@@ -196,9 +196,11 @@
         methods: {
             flatCourses(coursesResponse) {
                 let courseList_ = []
-                coursesResponse.forEach(item => {
+                for (let i = 0; i < coursesResponse.length; i++) {
+                    let item = coursesResponse[i]
                     let course = {}
                     Object.assign(course, item)
+                    course.pos = i
                     let schedules = course.courseSchedule
                     delete course.courseSchedule
                     schedules.forEach(schedule => {
@@ -207,7 +209,7 @@
                         Object.assign(course_, schedule)
                         courseList_.push(course_)
                     })
-                })
+                }
                 this.courseList = courseList_;
             },
             objectSpanMethod({row, column, rowIndex, columnIndex}) {
