@@ -40,19 +40,19 @@ const routes = [
             //     component: () => import('../views/teacher/AddCourse.vue'),
             // },
             {
-                path:'/teacher/course-maneger/grades',
+                path:'/teacher/course-manage/grades',
                 component:()=>import('../views/teacher/SelectForGrades.vue')
             },
             {
-                path:'/teacher/course-maneger/grades/enter',
+                path:'/teacher/course-manage/grades/enter',
                 component:()=>import('../views/teacher/EnterGrades.vue')
             },
             {
-                path:'/teacher/course-maneger/schedules',
+                path:'/teacher/course-manage/schedules',
                 component:()=>import('../views/teacher/TeacherCourse.vue')
             },
             {
-                path:'/teacher/course-maneger/courses',
+                path:'/teacher/course-manage/courses',
                 component:()=>import('../views/teacher/TeacherCourseList.vue')
             }
         ]

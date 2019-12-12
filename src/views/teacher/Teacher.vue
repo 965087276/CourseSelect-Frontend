@@ -18,8 +18,8 @@
                         </template>
                         <!--                        <el-menu-item index="course-maneger/add">增添课程</el-menu-item>-->
                         <el-menu-item index="course-manage/courses">课程列表</el-menu-item>
-                        <el-menu-item index="course-maneger/grades">成绩管理</el-menu-item>
-                        <el-menu-item index="course-maneger/schedules">上课课表</el-menu-item>
+                        <el-menu-item index="course-manage/grades">成绩管理</el-menu-item>
+                        <el-menu-item index="course-manage/schedules">上课课表</el-menu-item>
                     </el-submenu>
                     <!--                    <el-menu-item index="teacherCourseTable">-->
                     <!--                    <template slot="title">-->
