@@ -1,5 +1,6 @@
 <template>
-    <div id="register">
+    <div id="register" :style="backgroundPic">
+         <img src='@/images/testPic2.jpg' style="width: 2048px; height: 1003px;" fullscreen="true">
 <!--        <div class="title">用户注册</div>-->
 <!--        <hr>-->
         <el-dialog
@@ -9,6 +10,7 @@
                 :close-on-click-modal="false"
                 :close-on-press-escape="false"
                 :show-close="false"
+                :modal="false"
         >
             <el-form
                     :model="registerForm"
@@ -17,6 +19,7 @@
                     label-width="100px"
                     :label-position="'left'"
                     ref="registerForm"
+
             >
                 <el-form-item label="账号" prop="username">
                     <el-input v-model="registerForm.username"></el-input>
@@ -66,6 +69,7 @@
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
                     <el-button @click="resetForm('registerForm')">重置</el-button>
+                    <el-button type="primary" @click="backToLogin">返回</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -112,6 +116,9 @@ export default {
                 major: '',
                 phoneNumber: '',
                 role: ''
+            },
+            backgroundPic:{
+                    backgroundImage: 'url(' + require('@/images/testPic2.jpg') + ')'
             },
             rules: {
                 username: [{ required: true, message: "请输入账号", trigger: "blur" }],
@@ -161,6 +168,9 @@ export default {
                             })
                 }
             })
+        },
+        backToLogin(){
+            this.$router.push('/');
         },
         resetForm(formName) {
             this.$ref[formName].resetFields();
