@@ -78,3 +78,15 @@ export const usersImport=(role,form)=>{
         }
     })
 }
+
+//批量导入课程
+export const coursesImport=(form)=>{
+    return request({
+        method:'post',
+        url:'/admin/coursesExcel',
+        data:form,
+        headers:{
+            'Content-Type':'application/x-www-form-urlencoded'/*'multipart/form-data'*/
+        }
+    })
+}
