@@ -104,6 +104,7 @@
                     <el-form-item
                             v-for="(schedule, index) in courseForm.schedules"
                             :label="'课程安排' + (index+1)"
+                            :key="index"
                     >
                         <el-col :span="6">
                             <el-form-item
@@ -154,11 +155,20 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="6">
+                            <el-button
+                                    type="info"
+                                    @click="deleteNewCourseSchedule(index)"
+                                    v-if="courseForm.schedules.length > 1"
+                            >
+                                删除
+                            </el-button>
+                        </el-col>
                     </el-form-item>
 
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('courseForm')">提交</el-button>
-                        <el-button @click="addCourseSchedule">新增课程时间</el-button>
+                        <el-button type="success" @click="addCourseSchedule">新增课程时间</el-button>
                         <el-button @click="cancel">取消</el-button>
                     </el-form-item>
                 </el-form>
@@ -247,6 +257,9 @@
                     endWeek: '',
                     classroom: ''
                 })
+            },
+            deleteNewCourseSchedule(index) {
+                this.courseForm.schedules.splice(index, 1);
             },
             addNewCourseDialog() {
                 this.courseForm.schedules = [{
