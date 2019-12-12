@@ -35,10 +35,10 @@ const routes = [
             role: 'teacher'
         },
         children: [
-            {
-                path: '/teacher/course-maneger/add',
-                component: () => import('../views/teacher/AddCourse.vue'),
-            },
+            // {
+            //     path: '/teacher/course-maneger/add',
+            //     component: () => import('../views/teacher/AddCourse.vue'),
+            // },
             {
                 path:'/teacher/course-maneger/grades',
                 component:()=>import('../views/teacher/SelectForGrades.vue')
@@ -48,11 +48,11 @@ const routes = [
                 component:()=>import('../views/teacher/EnterGrades.vue')
             },
             {
-                path:'/teacher/teacherCourseTable',
+                path:'/teacher/course-maneger/schedules',
                 component:()=>import('../views/teacher/TeacherCourse.vue')
             },
             {
-                path:'/teacher/teacherCourseList',
+                path:'/teacher/course-maneger/courses',
                 component:()=>import('../views/teacher/TeacherCourseList.vue')
             }
         ]
