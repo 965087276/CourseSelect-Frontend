@@ -20,17 +20,17 @@
                         <el-button type="primary" icon="el-icon-plus"  @click="dialogNewCourseFormVisible = !(dialogNewCourseVisible = false)">手动添加</el-button>
                     </el-form-item>
                     <el-form-item>
-<!--                        <el-upload-->
-<!--                                class="upload-demo"-->
-<!--                                action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"-->
-<!--                                :http-request="uploadFile"-->
-<!--                                :before-remove="beforeRemove"-->
-<!--                                :limit="1"-->
-<!--                                :on-exceed="handleExceed"-->
-<!--                                :file-list="fileList">-->
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                                :http-request="uploadFile"
+                                :before-remove="beforeRemove"
+                                :limit="1"
+                                :on-exceed="handleExceed"
+                                :file-list="fileList">
                             <el-button type="primary" icon="el-icon-plus">excel录入</el-button>
-<!--                        </el-upload>-->
+                        </el-upload>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="success" icon="el-icon-download"  @click="downloadExcel">excel模板下载</el-button>
@@ -67,6 +67,7 @@
                 courseListRes: [], //表格
                 dialogNewCourseVisible: false,
                 dialogNewCourseFormVisible: false,
+                fileList:[],
             }
         },
         methods: {
@@ -81,8 +82,44 @@
                 Object.assign(this.formInline, childFormInline);
                 this.getCourseList();
             },
-            downloadExcel() {
-
+            downloadExcel(){
+                require.ensure([], () => {
+                    const { export_json_to_excel } = require('@/excel/Export2Excel.js');
+                    const tHeader = ['开课学院', '课程编码', '课程名称', '课程属性','课时','学分','限选','起始周','结束周','星期','节次','主讲教师','教工号'];
+                    const filterVal = [];
+                    const list = [];  //把data里的tableData存到list
+                    const data = this.formatJson(filterVal, list);
+                    export_json_to_excel(tHeader, data, '新增课程表（模板）');
+                })
+                 this.dialogNewCourseVisible=false;
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]))
+            },
+            uploadFile(item){
+                this.$confirm("是否确认上传？","确认上传",
+                {type:'info'})
+                .then(()=>{
+                    const form=new FormData();
+                    form.append('file',item.file)
+                    adminAPI.coursesImport(form)
+                    .then(()=>{
+                        this.$message({
+                                message:"文件已上传！！",
+                                type:'success',
+                            });
+                        this.getCourseList()
+                    })
+                    
+                })
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                this.fileList=fileList;
+                console.log(this.fileList);
+                return this.$confirm(`确定移除 ${ file.name }？`);
             },
             editCourse(){
 
