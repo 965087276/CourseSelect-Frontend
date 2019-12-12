@@ -43,8 +43,8 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <div class="title">学生选课系统</div>
-                <el-button class="exit_btn" type="danger" @click="exit">退出</el-button>
+<!--                <div class="title">学生选课系统</div>-->
+<!--                <el-button class="exit_btn" type="danger" @click="exit">退出</el-button>-->
                 <transition>
                     <router-view class="router"></router-view>
                 </transition>
