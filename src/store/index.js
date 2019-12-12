@@ -11,6 +11,8 @@ export default new Vuex.Store({
         role: '',
         college: '',
         authToken: '',
+        email: '',
+        phoneNumber: '',
         canSelect: false
     },
     mutations: {
