@@ -112,7 +112,7 @@ const routes = [
             },
             {
                 path:'/admin/course-maneger/delete',
-                component: () => import('../views/admin/DeleteCourse.vue')
+                component: () => import('../views/admin/CourseManage.vue')
             },
             {
                 path:'/admin/ableToSelectTime',

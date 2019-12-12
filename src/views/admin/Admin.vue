@@ -24,8 +24,8 @@
                             <i class="el-icon-location"></i>
                             <span>课程管理</span>
                         </template>
-                        <el-menu-item index="course-maneger/add">增添课程</el-menu-item>
-                        <el-menu-item index="course-maneger/delete">删除课程</el-menu-item>
+<!--                        <el-menu-item index="course-maneger/add">增添课程</el-menu-item>-->
+                        <el-menu-item index="course-maneger/delete">课程列表</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="ableToSelectTime">
                     <template slot="title">
