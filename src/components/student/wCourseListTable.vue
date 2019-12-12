@@ -121,11 +121,11 @@
                    },
                     'student': {
                        'min': 8,
-                       'max': 10
+                       'max': 9
                     },
                     'admin':{
                         'min':8,
-                        'max':10
+                        'max':9
                     }
                 },
                 colleges: [{
