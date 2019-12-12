@@ -165,12 +165,13 @@
     export default {
         name: "wNewCourseFormDialog.vue",
         props: {
-            dialogNewCourseFormVisible: {
+            dialogNewCourseFormVisibleControl: {
                 type: Boolean
             }
         },
         data() {
             return {
+                dialogNewCourseFormVisible: false,
                 courseForm: {
                     courseName: '',
                     courseType: '',
@@ -233,7 +234,7 @@
                 this.times.push();
             },
             cancel() {
-                this.dialogNewCourseFormVisible = false;
+                this.$emit('update:dialogNewCourseFormVisibleControl', false)
             },
             submitForm(courseForm) {
                 this.$refs.courseForm.validate(valid => {
@@ -267,7 +268,7 @@
             deleteNewCourseSchedule(index) {
                 this.courseForm.schedules.splice(index, 1);
             },
-            addNewCourseDialog() {
+            openNewCourseDialog() {
                 this.courseForm.schedules = [{
                     day: '',
                     time: '',
@@ -281,6 +282,16 @@
         },
         mounted() {
             this.init();
+        },
+        watch: {
+            dialogNewCourseFormVisibleControl: function(newValue) {
+                if (newValue == true) {
+                    this.openNewCourseDialog();
+                }
+                else {
+                    this.dialogNewCourseFormVisible = false;
+                }
+            }
         }
     }
 </script>

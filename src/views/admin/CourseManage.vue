@@ -43,8 +43,9 @@
             </el-dialog>
 
             <w-new-course-form-dialog
-                :dialog-new-course-form-visible="dialogNewCourseFormVisible"
+                v-bind:dialog-new-course-form-visible-control.sync="dialogNewCourseFormVisible"
                 v-on:submit-form="submitNewCourseForm"
+
             >
             </w-new-course-form-dialog>
 
