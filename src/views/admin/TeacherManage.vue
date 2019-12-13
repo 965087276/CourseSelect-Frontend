@@ -230,6 +230,7 @@
                 paramData: {
                     curPage: 1,
                     pageSize: 10,
+                    role: 'teacher',
                     username: '',
                     realName: '',
                     college: ''

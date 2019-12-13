@@ -229,6 +229,7 @@
                 paramData: {
                     curPage: 1,
                     pageSize: 10,
+                    role: 'student',
                     username: '',
                     realName: '',
                     college: ''
