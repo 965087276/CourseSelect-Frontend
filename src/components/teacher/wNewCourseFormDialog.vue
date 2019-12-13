@@ -11,7 +11,7 @@
                 :model="courseForm"
                 status-icon
                 :rules="rules"
-                label-width="100px"
+                :label-width="$store.state.role == 'admin' ? '150px' : '100px'"
                 :label-position="'left'"
                 ref="courseForm"
         >
@@ -52,6 +52,14 @@
 
             <el-form-item label="限选人数" prop="limitNum" style="width: 40%">
                 <el-input v-model.number="courseForm.limitNum" autocomplete="off"></el-input>
+            </el-form-item>
+
+            <el-form-item v-if="$store.state.role == 'admin'" label="授课教师" prop="courseTeacher" style="width: 40%">
+                <el-input v-model="courseForm.courseTeacher" autocomplete="off"></el-input>
+            </el-form-item>
+
+            <el-form-item v-if="$store.state.role == 'admin'" label="授课教师教工号" prop="teacherId" style="width: 40%">
+                <el-input v-model="courseForm.teacherId" autocomplete="off"></el-input>
             </el-form-item>
 
             <el-form-item label="起止周" required>
@@ -173,6 +181,8 @@
             return {
                 dialogNewCourseFormVisible: false,
                 courseForm: {
+                    teacherId: '',
+                    courseTeacher: '',
                     courseName: '',
                     courseType: '',
                     courseHour: '',
@@ -187,6 +197,8 @@
                     }]
                 },
                 rules: {
+                    teacherId: [{required: true, message: "请输入授课教师教工号", trigger: "blur"}],
+                    courseTeacher: [{required: true, message: "请输入授课教师名称", trigger: ["blur", "change"]}],
                     courseName: [{required: true, message: "请输入课程名称", trigger: "blur"}],
                     courseHour: [{required: true, message: "请选择课时", trigger: ["blur", "change"]}],
                     credit: [{required: true, message: "请选择课程学分", trigger: ["blur", "change"]}],
@@ -240,9 +252,11 @@
                 this.$refs.courseForm.validate(valid => {
                     if (valid) {
                         let body = this.courseForm;
-                        body.teacherId = this.$store.state.username;
                         body.college = this.$store.state.college;
-                        body.courseTeacher = this.$store.state.realName;
+                        if (this.$store.state.role == 'teacher') {
+                            body.teacherId = this.$store.state.username;
+                            body.courseTeacher = this.$store.state.realName;
+                        }
                         body.schedules.forEach(schedule => {
                             schedule.startWeek = body.startWeek;
                             schedule.endWeek = body.endWeek;
