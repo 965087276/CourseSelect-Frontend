@@ -178,6 +178,21 @@
             }
         },
         data() {
+            let validateWeek = (rule, value, callback) => {
+                if (this.courseForm.startWeek != '' && this.courseForm.endWeek != '') {
+                    let startWeek = parseInt(this.courseForm.startWeek);
+                    let endWeek = parseInt(this.courseForm.endWeek);
+                    if (startWeek >= endWeek) {
+                        callback(new Error('课程结束周必须大于起始周'));
+                    }
+                    else {
+                        callback();
+                    }
+                }
+                else {
+                    callback();
+                }
+            };
             return {
                 dialogNewCourseFormVisible: false,
                 courseForm: {
@@ -208,10 +223,12 @@
                         {type: 'number', message: '人数必须为数字值'}
                     ],
                     startWeek: [
-                        {required: true, message: "请选择课程起始周", trigger: ["blur", "change"]}
+                        {required: true, message: "请选择课程起始周", trigger: ["blur", "change"]},
+                        { validator: validateWeek, trigger: ["blur", "change"]}
                     ],
                     endWeek: [
-                        {required: true, message: "请选择课程结束周", trigger: ["blur", "change"]}
+                        {required: true, message: "请选择课程结束周", trigger: ["blur", "change"]},
+                        { validator: validateWeek, trigger: ["blur", "change"]}
                     ],
                 },
                 weeks: [],
@@ -248,8 +265,20 @@
             cancel() {
                 this.$emit('update:dialogNewCourseFormVisibleControl', false)
             },
+            judgeSchedules(schedules) {
+                for (let i = 0; i < schedules.length; i++) for (let j = i+1; j < schedules.length; j++) {
+                    if (schedules[i].day == schedules[j].day && schedules[i].time == schedules[j].time) {
+                        this.$message.error('时间安排重复，请重新填写')
+                        return false;
+                    }
+                }
+                return true;
+            },
             submitForm(courseForm) {
                 this.$refs.courseForm.validate(valid => {
+                    if (!this.judgeSchedules(this.courseForm.schedules)) {
+                        return false;
+                    }
                     if (valid) {
                         let body = this.courseForm;
                         body.college = this.$store.state.college;
