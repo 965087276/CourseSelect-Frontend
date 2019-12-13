@@ -223,6 +223,7 @@
                     realName: '',
                     college: ''
                 },
+                fileList:[],
                 colleges: [],
                 tableData: [],
                 totalElements: 10,
