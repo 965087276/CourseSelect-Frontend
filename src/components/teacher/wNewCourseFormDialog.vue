@@ -2,7 +2,7 @@
     <el-dialog
             title="添加课程"
             :visible.sync="dialogNewCourseFormVisible"
-            width="40%"
+            width="45%"
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             :show-close="false"
@@ -15,6 +15,13 @@
                 :label-position="'left'"
                 ref="courseForm"
         >
+            <el-form-item label="开课学院" prop="college" v-if="$store.state.role == 'admin'">
+                <el-select v-model="courseForm.college" filterable placeholder="请选择">
+                    <el-option v-for="item in colleges" :key="item.value" :label="item.label"
+                               :value="item.value"></el-option>
+                </el-select>
+            </el-form-item>
+
             <el-form-item label="课程名称" prop="courseName" style="width: 40%">
                 <el-input v-model="courseForm.courseName" autocomplete="off"></el-input>
             </el-form-item>
@@ -170,6 +177,7 @@
 <script>
     import * as pubAPI from '@/api/pub/api-pub.js'
     import * as teacherAPI from '@/api/teacher/api-teacher.js'
+
     export default {
         name: "wNewCourseFormDialog.vue",
         props: {
@@ -184,17 +192,16 @@
                     let endWeek = parseInt(this.courseForm.endWeek);
                     if (startWeek >= endWeek) {
                         callback(new Error('课程结束周必须大于起始周'));
-                    }
-                    else {
+                    } else {
                         callback();
                     }
-                }
-                else {
+                } else {
                     callback();
                 }
             };
             return {
                 dialogNewCourseFormVisible: false,
+                colleges: [],
                 courseForm: {
                     teacherId: '',
                     courseTeacher: '',
@@ -205,6 +212,7 @@
                     limitNum: '',
                     startWeek: '',
                     endWeek: '',
+                    college: '',
                     schedules: [{
                         day: '',
                         time: '',
@@ -212,6 +220,7 @@
                     }]
                 },
                 rules: {
+                    college: [{required: true, message: "请选择课时", trigger: ["blur", "change"]}],
                     teacherId: [{required: true, message: "请输入授课教师教工号", trigger: "blur"}],
                     courseTeacher: [{required: true, message: "请输入授课教师名称", trigger: ["blur", "change"]}],
                     courseName: [{required: true, message: "请输入课程名称", trigger: "blur"}],
@@ -224,11 +233,11 @@
                     ],
                     startWeek: [
                         {required: true, message: "请选择课程起始周", trigger: ["blur", "change"]},
-                        { validator: validateWeek, trigger: ["blur", "change"]}
+                        {validator: validateWeek, trigger: ["blur", "change"]}
                     ],
                     endWeek: [
                         {required: true, message: "请选择课程结束周", trigger: ["blur", "change"]},
-                        { validator: validateWeek, trigger: ["blur", "change"]}
+                        {validator: validateWeek, trigger: ["blur", "change"]}
                     ],
                 },
                 weeks: [],
@@ -249,6 +258,16 @@
                 for (let i = 0; i < 5; i++) {
                     this.times[i] = {label: '第' + (i + 1) + '节', value: i + 1}
                 }
+
+                this.colleges = []
+                pubAPI.getColleges()
+                    .then(collegeArr => {
+                        collegeArr.forEach(college => {
+                            this.colleges.push({label: college, value: college})
+                        })
+                    })
+                this.colleges.push()
+
                 pubAPI.getClassrooms()
                     .then(rooms => {
                         rooms.forEach(room => {
@@ -266,7 +285,7 @@
                 this.$emit('update:dialogNewCourseFormVisibleControl', false)
             },
             judgeSchedules(schedules) {
-                for (let i = 0; i < schedules.length; i++) for (let j = i+1; j < schedules.length; j++) {
+                for (let i = 0; i < schedules.length; i++) for (let j = i + 1; j < schedules.length; j++) {
                     if (schedules[i].day == schedules[j].day && schedules[i].time == schedules[j].time) {
                         this.$message.error('时间安排重复，请重新填写')
                         return false;
@@ -281,8 +300,9 @@
                     }
                     if (valid) {
                         let body = this.courseForm;
-                        body.college = this.$store.state.college;
+
                         if (this.$store.state.role == 'teacher') {
+                            body.college = this.$store.state.college;
                             body.teacherId = this.$store.state.username;
                             body.courseTeacher = this.$store.state.realName;
                         }
@@ -327,11 +347,10 @@
             this.init();
         },
         watch: {
-            dialogNewCourseFormVisibleControl: function(newValue) {
+            dialogNewCourseFormVisibleControl: function (newValue) {
                 if (newValue == true) {
                     this.openNewCourseDialog();
-                }
-                else {
+                } else {
                     this.dialogNewCourseFormVisible = false;
                 }
             }
