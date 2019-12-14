@@ -89,8 +89,8 @@
                 </el-pagination>
             </div>
 
-            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible" :rules="rules" ref="studentForm">
-                <el-form :model="studentForm">
+            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible" :rules="rules">
+                <el-form :model="studentForm"  ref="studentForm">
                     <el-form-item label="学工号" :label-width="formLabelWidth" prop="username">
                         <el-input v-model="studentForm.username" autocomplete="off" disabled></el-input>
                     </el-form-item>
@@ -276,6 +276,7 @@
                                     message: '添加成功',
                                     type: 'success'
                                 });
+                                this.getTableData();
                                 this.dialogNewUserFormVisible = false;
                             })
                     }
