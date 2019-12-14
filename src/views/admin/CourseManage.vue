@@ -148,6 +148,7 @@
                     .then(body => {
                         this.courseListRes = body;
                     })
+                this.$store.commit('updateCanSelect')
             },
 
         },
