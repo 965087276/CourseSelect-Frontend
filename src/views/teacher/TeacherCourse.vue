@@ -84,6 +84,7 @@
                 return finalData;
             },
             getTeacherCourse() {
+                this.$store.commit('updateCanSelect')
                 teacherAPI.getTeacherCourseTable(this.$store.state.username)
                     .then(body => {
                         this.data = this.parseData(body);
