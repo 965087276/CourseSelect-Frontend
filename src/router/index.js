@@ -68,6 +68,7 @@ const routes = [
         children: [
             {
                 path: '/student/course-list',
+                name: 'course-list',
                 component: () => import('../views/student/CourseList.vue')
             },
             {

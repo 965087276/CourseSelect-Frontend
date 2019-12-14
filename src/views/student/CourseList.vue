@@ -2,6 +2,7 @@
     <el-container>
         <el-main>
             <w-course-search
+                    :courseTime="courseTimeParams"
                     v-on:query-course="queryCourse"
                     v-on:export-data="exportData">
             </w-course-search>
@@ -26,6 +27,7 @@
             return {
                 formInline: {},
                 courseListRes: [], //表格
+                courseTimeParams: {}
             }
         },
         methods: {
@@ -73,6 +75,11 @@
 
         },
         mounted() {
+            // 如果是从我的预选课课程里跳转过来
+            if (this.$route.params.isCourseTable == true) {
+                this.courseTimeParams = this.$route.params;
+                this.formInline = this.$route.params;
+            }
             this.getCourseList();
         }
     }
