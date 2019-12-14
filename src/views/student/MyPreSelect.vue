@@ -276,7 +276,7 @@
                                 && myList[i].day == preList[j].day
                                 && myList[i].time == preList[j].time) {
                                 let message = "当前课程与" + this.courseList[p].courseName + "冲突"
-                                this.$alert(message, '添加失败', {
+                                this.$alert(message, row.courseName + '课程添加失败', {
                                     confirmButtonText: '确定'
                                 });
                                 return false;
