@@ -68,7 +68,7 @@
                     </el-button>
                     <el-button
                             v-if="$store.state.role=='admin' ||$store.state.role=='teacher'"
-                            :disabled="!$store.state.canSelect"
+                            :disabled="$store.state.canSelect"
                             type="primary"
                             size="small"
                             @click="$emit('edit-course', scope.row.pos, scope.row)">
@@ -76,7 +76,7 @@
                     </el-button>
                     <el-button
                             v-if="$store.state.role=='admin'||$store.state.role=='teacher'"
-                            :disabled="!$store.state.canSelect"
+                            :disabled="$store.state.canSelect"
                             type="danger"
                             size="small"
                             @click="$emit('remove-course', scope.row.pos, scope.row)">
