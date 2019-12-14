@@ -11,7 +11,8 @@
                     class="demo-form-inline">
                 <el-form-item label="所在学院">
                     <el-select v-model="formInline.college" filterable placeholder="请选择">
-                        <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        <el-option v-for="item in colleges" :key="item.value" :label="item.label"
+                                   :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名">
@@ -22,10 +23,10 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search"  @click="queryTeachers">查询</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="queryTeachers">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="success" icon="el-icon-plus"  @click="dialogNewUserVisible = true">新增学生</el-button>
+                    <el-button type="success" icon="el-icon-plus" @click="dialogNewUserVisible = true">新增学生</el-button>
                 </el-form-item>
             </el-form>
 
@@ -88,23 +89,24 @@
                 </el-pagination>
             </div>
 
-            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible">
+            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible" :rules="rules" ref="teacherForm">
                 <el-form :model="studentForm">
-                    <el-form-item label="学工号" :label-width="formLabelWidth">
+                    <el-form-item label="学工号" :label-width="formLabelWidth" prop="username">
                         <el-input v-model="studentForm.username" autocomplete="off" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="姓名" :label-width="formLabelWidth">
+                    <el-form-item label="姓名" :label-width="formLabelWidth" prop="realName">
                         <el-input v-model="studentForm.realName" autocomplete="off" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="所在学院" :label-width="formLabelWidth">
+                    <el-form-item label="所在学院" :label-width="formLabelWidth" prop="college">
                         <el-select v-model="studentForm.college" filterable placeholder="请选择">
-                            <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <el-option v-for="item in colleges" :key="item.value" :label="item.label"
+                                       :value="item.value"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="邮箱" :label-width="formLabelWidth">
+                    <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
                         <el-input v-model="studentForm.email" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系方式" :label-width="formLabelWidth">
+                    <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phoneNumber">
                         <el-input v-model="studentForm.phoneNumber" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
@@ -117,23 +119,25 @@
             <el-dialog title="新增学生" :visible.sync="dialogNewUserVisible" width="30%">
                 <el-form inline>
                     <el-form-item>
-                        <el-button type="primary" icon="el-icon-plus"  @click="dialogNewUserFormVisible = !(dialogNewUserVisible = false)">手动添加</el-button>
+                        <el-button type="primary" icon="el-icon-plus"
+                                   @click="dialogNewUserFormVisible = !(dialogNewUserVisible = false)">手动添加
+                        </el-button>
                     </el-form-item>
                     <el-form-item>
-                    <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                            :http-request="uploadFile"
-                            :before-remove="beforeRemove"
-                            :limit="1"
-                            :on-exceed="handleExceed"
-                            :file-list="fileList">
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                                :http-request="uploadFile"
+                                :before-remove="beforeRemove"
+                                :limit="1"
+                                :on-exceed="handleExceed"
+                                :file-list="fileList">
                             <el-button type="primary" icon="el-icon-plus">excel录入</el-button>
-                    </el-upload>
+                        </el-upload>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="success" icon="el-icon-download"  @click="downloadExcel">excel模板下载</el-button>
+                        <el-button type="success" icon="el-icon-download" @click="downloadExcel">excel模板下载</el-button>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -168,7 +172,8 @@
 
                     <el-form-item label="学院" prop="college">
                         <el-select v-model="registerForm.college" placeholder="请选择学院">
-                            <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <el-option v-for="item in colleges" :key="item.value" :label="item.label"
+                                       :value="item.value"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -201,6 +206,7 @@
 <script>
     import * as adminAPI from '@/api/admin/api-admin.js'
     import * as pubAPI from '@/api/pub/api-pub.js'
+
     export default {
         name: "StudentManage",
         data() {
@@ -223,7 +229,7 @@
                     realName: '',
                     college: ''
                 },
-                fileList:[],
+                fileList: [],
                 colleges: [],
                 tableData: [],
                 totalElements: 10,
@@ -244,14 +250,14 @@
                     'index': 0
                 },
                 rules: {
-                    username: [{ required: true, message: "请输入学工号", trigger: "blur" }],
-                    realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+                    username: [{required: true, message: "请输入学工号", trigger: "blur"}],
+                    realName: [{required: true, message: "请输入姓名", trigger: "blur"}],
                     email: [
-                        { required: true, message: "请输入邮箱", trigger: "blur" },
-                        { type: 'email',  message: "请输入正确的邮箱地址", trigger: "blur"}
+                        {required: true, message: "请输入邮箱", trigger: "blur"},
+                        {type: 'email', message: "请输入正确的邮箱地址", trigger: "blur"}
                     ],
                     college: [
-                        { required: true, message: "请选择学院", trigger: ["blur", "change"] }
+                        {required: true, message: "请选择学院", trigger: ["blur", "change"]}
                     ],
                     // major: [
                     //     { required: true, message: "请选择专业", trigger: ["blur", "change"] }
@@ -301,20 +307,24 @@
                 })
             },
             confirmEditUser() {
-                this.dialogEditUserVisible = false
-                adminAPI.updateUserInfo(this.studentForm.username, this.studentForm)
-                    .then(body => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        let index = parseInt(this.studentForm.index)
-                        this.tableData[index].realName = this.studentForm.realName
-                        this.tableData[index].college = this.studentForm.college
-                        this.tableData[index].email = this.studentForm.email
-                        this.tableData[index].phoneNumber = this.studentForm.phoneNumber
-                        this.tableData.push()
-                    })
+                this.$refs.studentForm.validate(valid => {
+                    if (valid) {
+                        adminAPI.updateUserInfo(this.studentForm.username, this.studentForm)
+                            .then(body => {
+                                this.$message({
+                                    message: '修改成功',
+                                    type: 'success'
+                                });
+                                let index = parseInt(this.studentForm.index)
+                                this.tableData[index].realName = this.studentForm.realName
+                                this.tableData[index].college = this.studentForm.college
+                                this.tableData[index].email = this.studentForm.email
+                                this.tableData[index].phoneNumber = this.studentForm.phoneNumber
+                                this.tableData.push()
+                            })
+                        this.dialogEditUserVisible = false
+                    }
+                })
             },
             handlePrevChange(currentPage) {
                 this.getTableData()
@@ -345,49 +355,49 @@
                 pubAPI.getColleges()
                     .then(arr => {
                         arr.forEach(item => {
-                            this.colleges.push({ label: item, value: item })
+                            this.colleges.push({label: item, value: item})
                         })
                     })
             },
-            downloadExcel(){
+            downloadExcel() {
                 console.log('test!!!');
                 require.ensure([], () => {
-                    const { export_json_to_excel } = require('@/excel/Export2Excel.js');
-                    const tHeader = ['所在学院', '学工号', '学生姓名', '邮箱','联系方式'];
+                    const {export_json_to_excel} = require('@/excel/Export2Excel.js');
+                    const tHeader = ['所在学院', '学工号', '学生姓名', '邮箱', '联系方式'];
                     const filterVal = [];
                     const list = [];  //把data里的tableData存到list
                     const data = this.formatJson(filterVal, list);
                     export_json_to_excel(tHeader, data, '新增学生列表(模板)');
                 }),
-                this.dialogNewUserVisible=false;
+                    this.dialogNewUserVisible = false;
             },
             formatJson(filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]))
             },
-            uploadFile(item){
-                this.$confirm("是否确认上传？","确认上传",
-                {type:'info'})
-                .then(()=>{
-                    const form=new FormData();
-                    form.append('file',item.file)
-                    adminAPI.usersImport(this.registerForm.role,form)
-                    .then(()=>{
-                        this.$message({
-                                message:"文件已上传！！",
-                                type:'success',
-                            });
-                        this.getTableData()
+            uploadFile(item) {
+                this.$confirm("是否确认上传？", "确认上传",
+                    {type: 'info'})
+                    .then(() => {
+                        const form = new FormData();
+                        form.append('file', item.file)
+                        adminAPI.usersImport(this.registerForm.role, form)
+                            .then(() => {
+                                this.$message({
+                                    message: "文件已上传！！",
+                                    type: 'success',
+                                });
+                                this.getTableData()
+                            })
+
                     })
-                    
-                })
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             beforeRemove(file, fileList) {
-                this.fileList=fileList;
+                this.fileList = fileList;
                 console.log(this.fileList);
-                return this.$confirm(`确定移除 ${ file.name }？`);
+                return this.$confirm(`确定移除 ${file.name}？`);
             },
         },
         mounted() {
@@ -401,9 +411,11 @@
     .el-main {
         margin-left: 0px;
     }
+
     .pagination-box {
         text-align: center;
     }
+
     .pagination {
         padding: 30px 5px;
     }
