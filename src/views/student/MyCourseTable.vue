@@ -27,7 +27,7 @@
                             <div class="class_info">
                                 <div class="student">
                                     <i class="el-icon-info"></i>
-                                    {{item[0].courseTeacher}}
+                                    {{ '第' + item[0].startWeek + '-' + item[0].endWeek + '周'}}
                                 </div>
                                 <div class="classroom">
                                     <i class="el-icon-location"></i>
@@ -40,7 +40,7 @@
                             <div class="class_info">
                                 <div class="student">
                                     <i class="el-icon-info"></i>
-                                    {{ item[dataPos[index]].courseTeacher }}
+                                    {{ '第' + item[dataPos[index]].startWeek + '-' + item[dataPos[index]].endWeek + '周'}}
                                 </div>
                                 <div class="classroom">
                                     <i class="el-icon-location"></i>

@@ -89,7 +89,7 @@
                 </el-pagination>
             </div>
 
-            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible" :rules="rules" ref="teacherForm">
+            <el-dialog title="编辑学生" :visible.sync="dialogEditUserVisible" :rules="rules" ref="studentForm">
                 <el-form :model="studentForm">
                     <el-form-item label="学工号" :label-width="formLabelWidth" prop="username">
                         <el-input v-model="studentForm.username" autocomplete="off" disabled></el-input>

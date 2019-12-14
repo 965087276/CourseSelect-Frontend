@@ -144,11 +144,12 @@
                     })
             },
             getCourseList() {
+                this.$store.commit('updateCanSelect')
                 studentAPI.getCourseList(this.formInline)
                     .then(body => {
                         this.courseListRes = body;
+                        this.courseListRes.push()
                     })
-                this.$store.commit('updateCanSelect')
             },
 
         },

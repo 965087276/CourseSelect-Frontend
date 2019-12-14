@@ -29,9 +29,8 @@
                 </el-form-item>
 
                 <el-form-item label="学院" prop="college">
-                    <el-select v-model="userForm.college" placeholder="请选择学院">
-                        <el-option label="计算机学院" value="计算机学院"></el-option>
-                        <el-option label="人工智能学院" value="人工智能学院"></el-option>
+                    <el-select v-model="userForm.college" filterable placeholder="请选择">
+                        <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -62,7 +61,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('userForm')">提交</el-button>
+                    <el-button type="primary" @click="submitForm(userForm)">提交</el-button>
                     <el-button @click="cancel">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -134,6 +133,7 @@
                     phoneNumber: '',
                     role: ''
                 },
+                colleges: [],
                 rules: {
                     username: [{ required: true, message: "请输入账号", trigger: "blur" }],
                     realName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
@@ -160,6 +160,16 @@
             };
         },
         methods: {
+            init() {
+                this.colleges = []
+                pubAPI.getColleges()
+                    .then(collegeArr => {
+                        collegeArr.forEach(college => {
+                            this.colleges.push({ label: college, value: college })
+                        })
+                    })
+                this.colleges.push()
+            },
             submitForm(userForm) {
                 this.$refs.userForm.validate(valid => {
                     if (valid) {
@@ -196,6 +206,9 @@
                 this.$store.commit("clear");
                 this.$router.push({name: 'login'});
             }
+        },
+        mounted() {
+            this.init();
         }
     };
 </script>

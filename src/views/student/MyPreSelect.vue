@@ -90,13 +90,13 @@
                     </div>
                     <div class="table_content">
                         <div class="class" v-for="(item,index) in data" :key="index">
-                            <div class="no_class" v-if="item.length == 0">无课</div>
+                            <div class="no_class" v-if="item.length == 0" @click="routeTo(index)">无课</div>
                             <div class="class_inner" v-else-if="item.length == 1">
                                 <div class="course">{{item[0].courseName}}</div>
                                 <div class="class_info">
                                     <div class="student">
                                         <i class="el-icon-info"></i>
-                                        {{item[0].courseTeacher}}
+                                        {{ '第' + item[0].startWeek + '-' + item[0].endWeek + '周'}}
                                     </div>
                                     <div class="classroom">
                                         <i class="el-icon-location"></i>
@@ -109,7 +109,7 @@
                                 <div class="class_info">
                                     <div class="student">
                                         <i class="el-icon-info"></i>
-                                        {{ item[dataPos[index]].courseTeacher }}
+                                        {{ '第' + item[dataPos[index]].startWeek + '-' + item[dataPos[index]].endWeek + '周'}}
                                     </div>
                                     <div class="classroom">
                                         <i class="el-icon-location"></i>
@@ -138,6 +138,12 @@
             }
         },
         methods: {
+            routeTo(index) {
+                let day = parseInt(index / 5) + 1
+                let time = index % 5 + 1
+                let isCourseTable = true
+                this.$router.push({name: 'course-list', params: {day, time, isCourseTable} })
+            },
             getNextCourse(index, itemLength) {
                 let v = (this.dataPos[index] + 1) % parseInt(itemLength);
                 this.$set(this.dataPos, index, v);

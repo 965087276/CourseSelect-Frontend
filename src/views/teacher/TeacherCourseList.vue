@@ -72,9 +72,11 @@
                 })
             },
             getCourseList() {
+                this.$store.commit('updateCanSelect')
                 teacherAPI.getTeacherCourseList(this.$store.state.username)
                     .then(body => {
                         this.courseListRes = body;
+                        this.courseListRes.push()
                     })
             }
         },
