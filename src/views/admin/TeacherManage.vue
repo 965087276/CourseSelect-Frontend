@@ -89,22 +89,22 @@
             </div>
 
             <el-dialog title="编辑教师" :visible.sync="dialogEditUserVisible">
-                <el-form :model="teacherForm">
-                    <el-form-item label="教工号" :label-width="formLabelWidth">
+                <el-form :model="teacherForm" :rules="rules" ref="teacherForm">
+                    <el-form-item label="教工号" :label-width="formLabelWidth" prop="username">
                         <el-input v-model="teacherForm.username" autocomplete="off" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="姓名" :label-width="formLabelWidth">
+                    <el-form-item label="姓名" :label-width="formLabelWidth" prop="realName">
                         <el-input v-model="teacherForm.realName" autocomplete="off" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="所在学院" :label-width="formLabelWidth">
+                    <el-form-item label="所在学院" :label-width="formLabelWidth" prop="college">
                         <el-select v-model="teacherForm.college" filterable placeholder="请选择">
                             <el-option v-for="item in colleges" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="邮箱" :label-width="formLabelWidth">
+                    <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
                         <el-input v-model="teacherForm.email" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系方式" :label-width="formLabelWidth">
+                    <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phoneNumber">
                         <el-input v-model="teacherForm.phoneNumber" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
@@ -301,20 +301,24 @@
                 })
             },
             confirmEditUser() {
-                this.dialogEditUserVisible = false
-                adminAPI.updateUserInfo(this.teacherForm.username, this.teacherForm)
-                    .then(body => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        let index = parseInt(this.teacherForm.index)
-                        this.tableData[index].realName = this.teacherForm.realName
-                        this.tableData[index].college = this.teacherForm.college
-                        this.tableData[index].email = this.teacherForm.email
-                        this.tableData[index].phoneNumber = this.teacherForm.phoneNumber
-                        this.tableData.push()
-                    })
+                this.$refs.teacherForm.validate(valid => {
+                    if (valid) {
+                        adminAPI.updateUserInfo(this.teacherForm.username, this.teacherForm)
+                            .then(body => {
+                                this.$message({
+                                    message: '修改成功',
+                                    type: 'success'
+                                });
+                                let index = parseInt(this.teacherForm.index)
+                                this.tableData[index].realName = this.teacherForm.realName
+                                this.tableData[index].college = this.teacherForm.college
+                                this.tableData[index].email = this.teacherForm.email
+                                this.tableData[index].phoneNumber = this.teacherForm.phoneNumber
+                                this.tableData.push()
+                            })
+                        this.dialogEditUserVisible = false
+                    }
+                })
             },
             handlePrevChange(currentPage) {
                 this.getTableData()
