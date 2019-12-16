@@ -5,7 +5,7 @@
                 <user-info class="user_info"></user-info>
                 <el-menu
                     class="nav_bar"
-                    default-active="admin"
+                    default-active="course-maneger/courses"
                     background-color="#1d2b36"
                     text-color="#fff"
                     active-text-color="#ffd04b"
@@ -25,7 +25,7 @@
                             <span>课程管理</span>
                         </template>
 <!--                        <el-menu-item index="course-maneger/add">增添课程</el-menu-item>-->
-                        <el-menu-item index="course-maneger/delete">课程列表</el-menu-item>
+                        <el-menu-item index="course-maneger/courses">课程列表</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="ableToSelectTime">
                     <template slot="title">

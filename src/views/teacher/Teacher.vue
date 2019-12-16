@@ -5,7 +5,7 @@
                 <user-info class="user_info"></user-info>
                 <el-menu
                         class="nav_bar"
-                        default-active="teacher"
+                        default-active="course-manage/courses"
                         background-color="#1d2b36"
                         text-color="#fff"
                         active-text-color="#ffd04b"

@@ -29,6 +29,7 @@ const routes = [
     {
         path: '/teacher',
         name: 'teacher',
+        redirect: '/teacher/course-manage/courses',
         component: () => import('../views/teacher/Teacher.vue'),
         meta: {
             requiresAuth: true,
@@ -61,6 +62,7 @@ const routes = [
         path: '/student',
         name: 'student',
         component: () => import('../views/student/Student.vue'),
+        redirect: '/student/course-list',
         meta: {
             requiresAuth: true,
             role: 'student'
@@ -101,6 +103,7 @@ const routes = [
     {
         path: '/admin',
         name: 'admin',
+        redirect: '/admin/course-maneger/courses',
         component: () => import('../views/admin/Admin.vue'),
         meta: {
             requiresAuth: true,
@@ -112,7 +115,7 @@ const routes = [
                 component: () => import('../views/admin/AddCourse.vue')
             },
             {
-                path:'/admin/course-maneger/delete',
+                path:'/admin/course-maneger/courses',
                 component: () => import('../views/admin/CourseManage.vue')
             },
             {
@@ -139,6 +142,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    // 若要进入的页面需要权限
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // token具备 并且 要进入的页面的权限角色跟当前用户的角色一致
         if (localStorage.getItem('authToken') && to.matched.some(record => record.meta.role  == store.state.role)) {
