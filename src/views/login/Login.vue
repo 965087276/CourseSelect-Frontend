@@ -1,6 +1,6 @@
 <template>
     <div id="login" class="middle" :style="backgroundPic">
-        <img src='@/images/testPic2.jpg' style="width: 2048px; height: 1003px;" fullscreen="true">
+        <img src='@/images/testPic2.jpg' style="width: 100%; height: 100%;" fullscreen="true">
         <el-dialog
                 title="用户登录"
                 :visible.sync="dialogTableVisible"

@@ -1,6 +1,6 @@
 <template>
     <div id="register" :style="backgroundPic">
-         <img src='@/images/testPic2.jpg' style="width: 2048px; height: 1003px;" fullscreen="true">
+         <img src='@/images/testPic2.jpg' style="width: 100%; height: 100%;" fullscreen="true">
 <!--        <div class="title">用户注册</div>-->
 <!--        <hr>-->
         <el-dialog
